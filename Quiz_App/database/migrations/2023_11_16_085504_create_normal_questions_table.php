@@ -11,19 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('normal_question', function (Blueprint $table) {
+        Schema::create('normal_questions', function (Blueprint $table) {
             $table->id();
             $table->string('subcategory_name');
             $table->string('category_name');
             $table->text('question');
             $table->text('solution_description');
-            $table->enum('difficulty', ['easy','medium','hard']);
+            $table->enum('difficulty', ['easy', 'medium', 'hard']);
             $table->timestamps();
-      
-            //these are the foreign  keys
-            $table->foreign('subcategory_name')->references('name')->on('sub_category')->onDelete('cascade');
-            $table->foreign('category_name')->references('name')->on('category')->onDelete('cascade');
 
+            //these are the foreign  keys
+            $table->foreign('subcategory_name')->references('name')->on('sub_categorys')->onDelete('cascade');
+            $table->foreign('category_name')->references('name')->on('categorys')->onDelete('cascade');
         });
     }
 

@@ -9,7 +9,8 @@ class score extends Model
 {
     protected $fillable = ['broadcast_score', 'points'];
 
-    public function student() {
+    public function student()
+    {
         return $this->belongsTo(student::class);
     }
     use HasFactory;

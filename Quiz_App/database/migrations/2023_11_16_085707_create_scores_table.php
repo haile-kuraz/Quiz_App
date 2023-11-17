@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('admin', function (Blueprint $table) {
+        Schema::create('scores', function (Blueprint $table) {
             $table->id();
-            $table->string('Name', 45);
-            $table->string('Email', 100);
-            $table-> string('password');
-            $table->string('phone_number', 13);
-            $table-> string('Image_url');
+            $table->unsignedBigInteger('student_id');
+            $table->double('broadcast_score', 4, 2);
+            $table->double('points', 4, 2);
             $table->timestamps();
+            //this is definng the foreigne key
+            $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('admin');
+        Schema::dropIfExists('score');
     }
 };

@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::create('options', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('Question_id');
-            $table->char('code',1);
+            $table->char('code', 1);
             $table->string('Option_value');
             $table->boolean('Is_correct')->default(0);
             $table->timestamps();
             //the bellow is for forigne key
-            $table->foreign('Question_id')->references('id')->on('normal_question')->onDelete('cascade');
+            $table->foreign('Question_id')->references('id')->on('normal_questions')->onDelete('cascade');
         });
     }
 

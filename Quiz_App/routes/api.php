@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\Admin_controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('admins', [Admin_controller::class, 'index']);
+Route::get('admins/Showall', [Admin_controller::class, 'Showall']);
