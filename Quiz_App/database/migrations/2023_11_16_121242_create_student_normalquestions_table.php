@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('student_normalquestions', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('Question_id');
             $table->foreign('student_id')->references('id')->on('student')->onDelete('cascade');
             $table->foreign('Question_id')->references('id')->on('normal_question')->onDelete('cascade');
             $table->timestamps();

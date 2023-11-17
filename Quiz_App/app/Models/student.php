@@ -15,5 +15,11 @@ class student extends Model
     public function score() {
         return $this->hasOne(score::class);
     }
+    public function normal_questions() {
+        return $this->belongsToMany(normal_question::class);
+    }
+    public function broadcast_questions() {
+        return $this->belongsToMany(broadcast_questions::class);
+    }
     use HasFactory;
 }

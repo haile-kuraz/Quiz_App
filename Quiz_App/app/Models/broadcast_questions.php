@@ -11,5 +11,8 @@ class broadcast_questions extends Model
     public function students() {
         return $this->belongsToMany(student::class);
     }
+    public function broadcast_options() {
+        return $this->hasMany(broadcast_options::class);
+    } 
     use HasFactory;
 }

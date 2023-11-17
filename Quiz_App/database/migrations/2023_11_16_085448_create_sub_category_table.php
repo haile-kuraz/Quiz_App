@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('sub_category', function (Blueprint $table) {
             $table->string('name')->primary();
             $table->string('category_name');
-            $title->string('Image_url');
+            $table->string('Image_url');
             $table->timestamps();
             //the following is forigne key
-            $table->foreign('category_name')->references('name')->on('category')->onDelete('cascade');
+            // $table->foreign('category_name')->references('name')->on('category')->onDelete('cascade');
         });
     }
 
