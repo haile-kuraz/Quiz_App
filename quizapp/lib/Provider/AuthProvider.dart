@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:provider/provider.dart';
 
 enum Status {
   uninitialized,
@@ -11,5 +9,7 @@ enum Status {
 }
 
 class AuthProvider extends ChangeNotifier {
-  Status _status = Status.uninitialized;
+  AuthProvider();
+
+  final Status _status = Status.uninitialized;
 }

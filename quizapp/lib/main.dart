@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'Pages/OnbordingScreen.dart';
+import 'Pages/SplashScreen.dart';
+import 'Pages/signIn_Page.dart';
+import 'Pages/signUp_page.dart';
 import 'Provider/AuthProvider.dart';
 import 'Util/Color.dart';
+import 'Util/Theme._date.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,11 +39,21 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<AuthProvider>(
-            create: (context) => AuthProvider())
+            create: (context) => AuthProvider()),
       ],
-      child: const MaterialApp(
+      child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Home(),
+        theme: lightTheme,
+        initialRoute: "/ ",
+        routes: {
+          "/": (context) => const SplashScreen(),
+          "/SignIn": (context) => const SignIn(),
+          "/onbording": (context) => OnbordingPage(),
+          "/home": (context) => const Home(),
+          "/SignUp": (context) => const SignUp(),
+        },
+
+        // home: Home(),
       ),
     );
   }
