@@ -2,31 +2,29 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\admin;
+use App\Models\student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-
-
-class Admin_controller extends Controller
+class Student_controller extends Controller
 {
     //
     public function index()
     {
-        return "hellow it is Admin Api Bro";
+        return "hellow it is Student Api Bro";
     }
     public function Showall()
     {
 
-        $admins = admin::all();
+        $admins = student::all();
 
         if ($admins->count() > 0) {
             return response()->json([
                 'status' => 200,
-                'admins' => $admins
+                'students' => $admins
             ], 200);
         } else {
             return response()->json([
@@ -43,37 +41,38 @@ class Admin_controller extends Controller
             'Name' => 'required|string|max:45',
             'Email' => 'required|email|max:100',
             'password' => 'required|min:8', // Assuming you want a minimum of 8 characters for the password
-            'phone_number' => 'nullable', // Assuming phone_number is optional, use 'nullable'
+            'phone_number' => 'required|numeric|digits:10', // Assuming phone_number is optional, use 'nullable'
             'Image_url' => 'nullable',
         ]);
         $hashedPassword = Hash::make($request->password);
+
         if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
                 'errors' => $validator->messages(),
             ], 422);
         } else {
-            $existingAdmin = admin::where('Email', $request->Email)->first();
+            $existingStudent = student::where('Email', $request->Email)->first();
 
-            if ($existingAdmin) {
+            if ($existingStudent) {
                 // Admin with the given email already exists
                 return response()->json([
                     'status' => 409,
-                    'message' => 'Admin already Exists',
+                    'message' => 'Student already Exists',
                 ], 409);
             } else {
-                $Admin = admin::create([
+                $Student = student::create([
                     'Name' => $request->Name,
                     'Email' => $request->Email,
                     'password' => $hashedPassword,
                     'phone_number' => $request->phone_number,
                     'Image_url' => $request->Image_url,
                 ]);
-                if ($Admin) {
+                if ($Student) {
 
                     return response()->json([
                         'status' => 200,
-                        'message' => 'Admin has been created Successfully'
+                        'message' => 'Student has been created Successfully'
                     ], 200);
                 } else {
                     return response()->json([
@@ -88,29 +87,29 @@ class Admin_controller extends Controller
 
     public function Showone($id)
     {
-        $Admin = admin::find($id);
-        if ($Admin) {
+        $Student = student::find($id);
+        if ($Student) {
             return response()->json([
                 'status' => 200,
-                'admin' => $Admin
+                'student' => $Student
             ], 200);
         } else {
             return response()->json([
                 'status' => 404,
-                'message' => "No such admin is found"
+                'message' => "No such Student is found"
             ], 404);
         }
     }
 
     public function Update($id, Request $request)
     {
-        $Admin = admin::find($id);
-        if ($Admin) {
+        $Student = student::find($id);
+        if ($Student) {
             $validator = Validator::make($request->all(), [
                 'Name' => 'required|string|max:45',
                 'Email' => 'required|email|max:100',
                 'password' => 'required|min:8', // Assuming you want a minimum of 8 characters for the password
-                'phone_number' => 'nullable', // Assuming phone_number is optional, use 'nullable'
+                'phone_number' => 'required|numeric|digits:10',
                 'Image_url' => 'nullable',
             ]);
             $hashedPassword = Hash::make($request->password);
@@ -120,62 +119,62 @@ class Admin_controller extends Controller
                     'errors' => $validator->messages(),
                 ], 422);
             } else {
-                $Admin->update([
+                $Student->update([
                     'Name' => $request->Name,
                     'Email' => $request->Email,
-                    'password' => $hashedPassword,
+                    'password' =>  $hashedPassword,
                     'phone_number' => $request->phone_number,
                     'Image_url' => $request->Image_url,
                 ]);
                 return response()->json([
                     'status' => 200,
-                    'message' => 'Admin has been Updated Successfully'
+                    'message' => 'Student has been Updated Successfully'
                 ], 200);
             }
         } else {
             return response()->json([
                 'status' => 404,
-                'message' =>  'No such Admin Found',
+                'message' =>  'No such Student Found',
             ], 404);
         }
     }
 
     public function Delete($id)
     {
-        $Admin = admin::find($id);
+        $Student = student::find($id);
 
-        if ($Admin) {
-            $Admin->delete();
+        if ($Student) {
+            $Student->delete();
             return response()->json([
                 'status' => 200,
-                "message" => "It has been delated successfully"
+                "message" => "Student has been delated successfully"
             ], 200);
         } else {
             return response()->json([
                 'status' => 404,
-                "message" => "No such Admin found"
+                "message" => "No such Student found"
             ], 404);
         }
     }
     public function deleteAll()
     {
-        $admins = Admin::all();
+        $Student = student::all();
 
-        if ($admins->isEmpty()) {
+        if ($Student->isEmpty()) {
             return response()->json([
                 'status' => 404,
-                'message' => 'No records found',
+                'message' => 'No Students found',
             ], 404);
         }
 
-        foreach ($admins as $admin) {
-            $admin->delete();
+        foreach ($Student as $student) {
+            $student->delete();
         }
         // Reset auto-incremented ID for the table (MySQL example)
-        DB::statement('ALTER TABLE admins AUTO_INCREMENT = 1');
+        DB::statement('ALTER TABLE students AUTO_INCREMENT = 1');
         return response()->json([
             'status' => 200,
-            'message' => 'All admins deleted successfully',
+            'message' => 'All Students deleted successfully',
         ], 200);
     }
 }
