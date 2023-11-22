@@ -8,7 +8,7 @@ class SignInPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // Layer 1
 
-    Paint paint_fill_0 = Paint()
+    Paint paintFill0 = Paint()
       ..color = Theme.of(context).colorScheme.primary
       ..style = PaintingStyle.fill
       ..strokeWidth = size.width * 0.00
@@ -33,7 +33,7 @@ class SignInPainter extends CustomPainter {
     path_0.lineTo(size.width * 0.0013889, 0);
     path_0.close();
 
-    canvas.drawPath(path_0, paint_fill_0);
+    canvas.drawPath(path_0, paintFill0);
 
     // Layer 1
 

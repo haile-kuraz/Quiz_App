@@ -1,5 +1,5 @@
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import '../../Util/Paiter.dart';
 import '../Widgets/DefaultTextformFild.dart';
@@ -38,77 +38,86 @@ class _SignInState extends State<SignIn> {
                 SizedBox(
                   height: size.height * 0.05,
                 ),
-                Form(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 20.0, vertical: 10),
-                    child: Column(
-                      children: [
-                        // This is the Text form fild of Login page
-                        DefaultTextformWidget(
-                          inputType: TextInputType.emailAddress,
-                          lableText: "Emaill",
-                          prefixIcon: const Icon(Icons.mail),
-                          size: size,
-                          textController: _emailController,
-                        ),
-                        PasswordTextField(
-                          isvisible: isvisible,
-                          passwordController: _passwordController,
-                          size: size,
-                        ),
-
-                        // This is the checkBox Area for Keeping Loged in login page
-                        Row(
-                          children: [
-                            Checkbox(
-                              activeColor:
-                                  Theme.of(context).colorScheme.tertiary,
-                              value: isRemember,
-                              onChanged: (value) {
-                                setState(() {
-                                  isRemember = value;
-                                });
-                              },
-                            ),
-                            Text(
-                              "Keep me Logedin",
-                              style: Theme.of(context).textTheme.bodySmall,
-                            )
-                          ],
-                        ),
-
-                        // this is the text Button of login
-
-                        largeButtonWidget(lable: "Signin", size: size),
-
-                        // This is the forgotpassword Button
-                        TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            "Forgot your Password?",
-                            style: Theme.of(context).textTheme.bodySmall,
+                Animate(
+                  effects: const [
+                    FadeEffect(),
+                    MoveEffect(
+                      begin: Offset(0, 50),
+                      duration: Duration(seconds: 1),
+                    )
+                  ],
+                  child: Form(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10),
+                      child: Column(
+                        children: [
+                          // This is the Text form fild of Login page
+                          DefaultTextformWidget(
+                            inputType: TextInputType.emailAddress,
+                            lableText: "Emaill",
+                            prefixIcon: const Icon(Icons.mail),
+                            size: size,
+                            textController: _emailController,
                           ),
-                        ),
+                          PasswordTextField(
+                            isvisible: isvisible,
+                            passwordController: _passwordController,
+                            size: size,
+                          ),
 
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              "Don't have an account yet?",
+                          // This is the checkBox Area for Keeping Loged in login page
+                          Row(
+                            children: [
+                              Checkbox(
+                                activeColor:
+                                    Theme.of(context).colorScheme.tertiary,
+                                value: isRemember,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isRemember = value;
+                                  });
+                                },
+                              ),
+                              Text(
+                                "Keep me Logedin",
+                                style: Theme.of(context).textTheme.bodySmall,
+                              )
+                            ],
+                          ),
+
+                          // this is the text Button of login
+
+                          largeButtonWidget(lable: "Signin", size: size),
+
+                          // This is the forgotpassword Button
+                          TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              "Forgot your Password?",
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, "/SignUp");
-                              },
-                              child: const Text(
-                                "Register",
+                          ),
+
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Don't have an account yet?",
+                                style: Theme.of(context).textTheme.bodySmall,
                               ),
-                            ),
-                          ],
-                        )
-                      ],
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, "/SignUp");
+                                },
+                                child: const Text(
+                                  "Register",
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),
