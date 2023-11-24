@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'Pages/MainPages/home_page.dart';
 import 'Pages/OnbordingScreen.dart';
 import 'Pages/SplashScreen.dart';
 import 'Pages/signIn_Page.dart';
@@ -43,33 +44,17 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: lightTheme,
-        initialRoute: "/ ",
+        theme: darkTheme,
+        initialRoute: "/home",
         routes: {
-          "/": (context) => const SplashScreen(),
+          // "/": (context) => const SplashScreen(),
           "/SignIn": (context) => const SignIn(),
           "/onbording": (context) => OnbordingPage(),
-          "/home": (context) => const Home(),
           "/SignUp": (context) => const SignUp(),
+          "/home": (context) => const Home(),
         },
 
         // home: Home(),
-      ),
-    );
-  }
-}
-
-class Home extends StatelessWidget {
-  const Home({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text("haha")),
-      body: const SafeArea(
-        child: Center(
-          child: Text("This is the Home Page"),
-        ),
       ),
     );
   }

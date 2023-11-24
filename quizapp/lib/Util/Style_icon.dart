@@ -61,7 +61,7 @@ const TextStyle titleMedium = TextStyle(
 const TextStyle titleSmall = TextStyle(
     fontFamily: "Poppins",
     fontWeight: FontWeight.w500,
-    height: 20,
+    height: 1.42,
     fontSize: 14,
     letterSpacing: 0.1,
     decoration: TextDecoration.none);
