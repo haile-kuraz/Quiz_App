@@ -107,3 +107,13 @@ const TextStyle bodySmall = TextStyle(
     fontSize: 12,
     letterSpacing: 0.4,
     decoration: TextDecoration.none);
+
+// __________________________Ref styles-_______________________________
+
+const TextStyle bodyLarge_800 = TextStyle(
+    fontFamily: "Poppins",
+    fontWeight: FontWeight.w800,
+    height: 1.5,
+    fontSize: 16,
+    letterSpacing: 0.5,
+    decoration: TextDecoration.none);

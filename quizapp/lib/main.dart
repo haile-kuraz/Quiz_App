@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: darkTheme,
+        theme: lightTheme,
         initialRoute: "/home",
         routes: {
           // "/": (context) => const SplashScreen(),

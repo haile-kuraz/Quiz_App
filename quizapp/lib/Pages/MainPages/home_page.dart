@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
       body: _screens[_currentIndex],
       bottomNavigationBar: GNav(
         iconSize: 30,
-        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 15.0),
+        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
         backgroundColor: Theme.of(context).colorScheme.background,
         color: Theme.of(context).colorScheme.tertiary.withOpacity(0.7),
         activeColor: Theme.of(context).colorScheme.primary,
@@ -51,7 +51,7 @@ class _HomeState extends State<Home> {
           ),
           GButton(
             icon: Icons.person,
-            text: "Home",
+            text: "Brodcast",
             onPressed: () {
               setState(() {
                 _currentIndex = 1;
