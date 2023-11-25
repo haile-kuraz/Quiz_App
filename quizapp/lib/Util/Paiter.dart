@@ -51,3 +51,37 @@ class SignInPainter extends CustomPainter {
     return true;
   }
 }
+
+class LeaderBoard_shape extends CustomPainter {
+  BuildContext context;
+  LeaderBoard_shape({required this.context});
+  @override
+  void paint(Canvas canvas, Size size) {
+    // Layer 1
+
+    Paint paint_fill_0 = Paint()
+      ..color = Colors.white
+      ..style = PaintingStyle.fill
+      ..strokeWidth = size.width * 0.00
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.miter;
+
+    Path path_0 = Path();
+    path_0.moveTo(0, size.height * 0.3737500);
+    path_0.lineTo(0, size.height * 0.0006250);
+    path_0.lineTo(size.width * 0.9985714, size.height * 0.0012500);
+    path_0.lineTo(size.width * 0.9985714, size.height * 0.3750000);
+    path_0.quadraticBezierTo(size.width * 0.8203571, size.height * 0.2918750,
+        size.width * 0.5014286, size.height * 0.2912500);
+    path_0.quadraticBezierTo(size.width * 0.1735714, size.height * 0.2889062, 0,
+        size.height * 0.3737500);
+    path_0.close();
+
+    canvas.drawPath(path_0, paint_fill_0);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}

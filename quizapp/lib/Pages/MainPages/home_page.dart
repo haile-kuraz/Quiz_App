@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'brodcast_page.dart';
 import 'leaderboard_page.dart';
@@ -34,14 +35,15 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: _screens[_currentIndex],
       bottomNavigationBar: GNav(
-        iconSize: 30,
+        gap: 5,
+        // iconSize: 30,
         padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
         backgroundColor: Theme.of(context).colorScheme.background,
         color: Theme.of(context).colorScheme.tertiary.withOpacity(0.7),
         activeColor: Theme.of(context).colorScheme.primary,
         tabs: [
           GButton(
-            icon: Icons.home,
+            icon: FontAwesomeIcons.house,
             text: "Home",
             onPressed: () {
               setState(() {
@@ -50,8 +52,8 @@ class _HomeState extends State<Home> {
             },
           ),
           GButton(
-            icon: Icons.person,
-            text: "Brodcast",
+            icon: FontAwesomeIcons.medal,
+            text: "Match",
             onPressed: () {
               setState(() {
                 _currentIndex = 1;
@@ -59,8 +61,8 @@ class _HomeState extends State<Home> {
             },
           ),
           GButton(
-            icon: Icons.person,
-            text: "Home",
+            icon: FontAwesomeIcons.rankingStar,
+            text: "Leaders",
             onPressed: () {
               setState(() {
                 _currentIndex = 2;
@@ -68,8 +70,8 @@ class _HomeState extends State<Home> {
             },
           ),
           GButton(
-            icon: Icons.person,
-            text: "Home",
+            icon: FontAwesomeIcons.bookOpenReader,
+            text: "Liberary",
             onPressed: () {
               setState(() {
                 _currentIndex = 3;
@@ -77,8 +79,8 @@ class _HomeState extends State<Home> {
             },
           ),
           GButton(
-            icon: Icons.person,
-            text: "Home",
+            icon: FontAwesomeIcons.userGear,
+            text: "Profile",
             onPressed: () {
               setState(() {
                 _currentIndex = 4;

@@ -232,7 +232,7 @@ class _MainCategoryState extends State<MainCategory>
                         Container(
                           color: Theme.of(context).colorScheme.background,
                           width: size.width,
-                          height: size.height * 0.53,
+                          height: size.height * 0.55,
                           child: TabBarView(
                             controller: _tabController,
                             children: const [
