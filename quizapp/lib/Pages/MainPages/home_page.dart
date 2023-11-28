@@ -21,8 +21,8 @@ class _HomeState extends State<Home> {
     MainCategory(),
     const Brodcast(),
     const LeaderBoard(),
-    const Profile(),
     const Liberary(),
+    const Profile(),
   ];
   @override
   void initState() {

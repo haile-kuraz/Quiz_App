@@ -33,7 +33,7 @@ class largeButtonWidget extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .labelLarge
-              ?.copyWith(color: Theme.of(context).colorScheme.tertiary),
+              ?.copyWith(color: Theme.of(context).colorScheme.secondary),
         ),
       ),
     );

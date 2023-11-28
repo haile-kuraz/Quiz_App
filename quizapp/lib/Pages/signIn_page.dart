@@ -92,7 +92,9 @@ class _SignInState extends State<SignIn> {
 
                           // This is the forgotpassword Button
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pushNamed("/home");
+                            },
                             child: Text(
                               "Forgot your Password?",
                               style: Theme.of(context).textTheme.bodySmall,
