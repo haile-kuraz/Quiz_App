@@ -192,8 +192,8 @@ class Student_controller extends Controller
 
             ], 401);
         } else {
-            // $token = $student->createToken('apiToken')->plainTextToken;
-            return response(["status" => 201, "student" => $student, "message" => "you have Loged"], 201);
+            $token = $student->createToken('apiToken')->plainTextToken;
+            return response(["status" => 201, "student" => $student, "token" => $token, "message" => "you have Loged"], 201);
         }
     }
 }
