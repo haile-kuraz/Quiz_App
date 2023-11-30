@@ -12,15 +12,20 @@ class AuthController extends Controller
 
     public function signin(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $loginData = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-        if (Auth::guard('student')->attempt($credentials)) {
-            $student = Auth::guard('student')->user();
-            // Student authentication successful
-            return response()->json(['message' => 'Sign-in successful', 'student' => $student]);
+        if (!Auth::guard('student')->attempt($loginData)) { // Use the 'web' guard
+            return response()->json(['message' => 'Invalid email or password'], 401);
         }
 
+        $student = Auth::guard('student')->user(); // Use the 'web' guard
+        // $token = $student->createToken('authToken')->accessToken;
+
+        return response(['student' => $student]);
         // Invalid credentials
-        return response()->json(['message' => 'Invalid email or password'], 401);
+
     }
 }

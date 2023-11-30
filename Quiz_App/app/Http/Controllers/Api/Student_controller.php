@@ -177,4 +177,23 @@ class Student_controller extends Controller
             'message' => 'All Students deleted successfully',
         ], 200);
     }
+
+    public function login(Request $request)
+    {
+        $loginData = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+        $student = student::where('Email', $loginData['email'])->first();
+        if (!$student || !Hash::check($loginData['password'], $student->password)) {
+            return response([
+                "status" => 401,
+                "message" => "incorrect username or password"
+
+            ], 401);
+        } else {
+            // $token = $student->createToken('apiToken')->plainTextToken;
+            return response(["status" => 201, "student" => $student, "message" => "you have Loged"], 201);
+        }
+    }
 }

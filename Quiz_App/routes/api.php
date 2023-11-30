@@ -21,7 +21,8 @@ use App\Http\Controllers\Api\Student_controller;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/signin', [AuthController::class, 'signin'])->middleware('auth:student');
+// Route::post('/login', [AuthController::class, 'signin'])->middleware('auth:student');
+// Route::get('/login', 'AuthController@signin')->name('login');
 // ------------------------Admin Apis--------------
 Route::get('admins', [Admin_controller::class, 'index']);
 Route::get('admins/Showall', [Admin_controller::class, 'Showall']);
@@ -38,3 +39,4 @@ Route::get('students/{id}', [Student_controller::class, 'Showone']);
 Route::put('students/{id}/Update', [Student_controller::class, 'Update']);
 Route::delete('students/{id}/Delete', [Student_controller::class, 'Delete']);
 Route::delete('students/DeleteAll', [Student_controller::class, 'DeleteAll']);
+Route::post('students/login', [Student_controller::class, 'login']);
