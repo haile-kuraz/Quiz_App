@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-// import 'package:audioplayers/audioplayers.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:provider/provider.dart';
+
+// import '../Provider/AuthProvider.dart';
+import '../Provider/PeriferanceProvider.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -12,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   // final player = AudioPlayer();
-  @override
+
   @override
   void initState() {
     AssetsAudioPlayer.newPlayer().open(
@@ -20,21 +23,28 @@ class _SplashScreenState extends State<SplashScreen> {
       autoStart: true,
     );
     Future.delayed(const Duration(seconds: 5), () {
-      Navigator.pushReplacementNamed(context, "/onbording");
-      /*  CheckSignedIn(); */
+      CheckSignedIn();
     });
     super.initState();
   }
 
-  // void CheckSignedIn() async {
-  //   var AuthState = Provider.of<AuthProvider>(context, listen: false);
-  //   bool isLoggedIn = await AuthState.isLoogedIn();
-  //   if (isLoggedIn) {
-  //     Navigator.pushNamed(context, "/home");
-  //   } else {
-  //     Navigator.pushNamed(context, "/loginPage");
-  //   }
-  // }
+  void CheckSignedIn() async {
+    var PeriferanceState = Provider.of<Periferance>(context, listen: false);
+    if (PeriferanceState.getIsOnboardingShowing() == true) {
+      Navigator.pushReplacementNamed(context, "/onbording");
+    } else {
+      Navigator.pushReplacementNamed(context, "/SignIn");
+      print("it is loged");
+      /*   var AuthState = Provider.of<AuthProvider>(context, listen: false);
+      bool isLoggedIn = await AuthState.isLoogedIn();
+      if (isLoggedIn) {
+        Navigator.pushNamed(context, "/home");
+      } else {
+        Navigator.pushNamed(context, "/loginPage");
+      } */
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

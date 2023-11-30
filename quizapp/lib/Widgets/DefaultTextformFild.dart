@@ -8,21 +8,21 @@ class DefaultTextformWidget extends StatelessWidget {
     required this.lableText,
     required this.prefixIcon,
     required this.inputType,
-    required this.Expression,
+    required this.expression,
   });
   final Size size;
   final TextEditingController textController;
   final String lableText;
   final Icon prefixIcon;
   final TextInputType inputType;
-  final RegExp Expression;
+  final RegExp expression;
 
   @override
   Widget build(BuildContext context) {
     String? validateFunction(String? value) {
       if (value!.isEmpty) {
         return 'Please enter $lableText';
-      } else if (!Expression.hasMatch(value)) {
+      } else if (!expression.hasMatch(value)) {
         return 'Please enter a valid $lableText';
       }
       // Return null if the input is valid

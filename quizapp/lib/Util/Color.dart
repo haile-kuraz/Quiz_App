@@ -1,22 +1,24 @@
-import 'dart:convert';
+// ignore_for_file: constant_identifier_names
+
+// import 'dart:convert';
 
 import 'package:flutter/services.dart';
 
-class colors {
-  static Future<Map<String, dynamic>> readJson(String name) async {
-    final String response = await rootBundle.loadString('Assets/tokens/$name');
-    final Map<String, dynamic> data = await json.decode(response);
-    return data["md"];
-  }
+// class colors {
+//   static Future<Map<String, dynamic>> readJson(String name) async {
+//     final String response = await rootBundle.loadString('Assets/tokens/$name');
+//     final Map<String, dynamic> data = await json.decode(response);
+//     return data["md"];
+//   }
 
-  static Future<Map<String, dynamic>> getLightData() async {
-    return await readJson('LightTheme.json');
-  }
+//   static Future<Map<String, dynamic>> getLightData() async {
+//     return await readJson('LightTheme.json');
+//   }
 
-  static Future<Map<String, dynamic>> getDarkData() async {
-    return await readJson('DarkTheme.json');
-  }
-}
+//   static Future<Map<String, dynamic>> getDarkData() async {
+//     return await readJson('DarkTheme.json');
+//   }
+// }
 // ___________________________________Light_sys_Colors_____________________________
 
 const Color primary_Light = Color(0xffB7A355);

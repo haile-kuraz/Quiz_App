@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:provider/provider.dart';
 
 import '../../Util/Paiter.dart';
+import '../Provider/PeriferanceProvider.dart';
 import '../Widgets/DefaultTextformFild.dart';
 import '../Widgets/LargeButtonOfSignIn.dart';
 import '../Widgets/passwordTextformfild.dart';
@@ -20,6 +22,8 @@ class _SignInState extends State<SignIn> {
   bool isvisible = false;
   bool? isPassword = true;
   bool isProcessing = false;
+  var PeriferianceState;
+  var PeriferianceUpdate;
 
   late Size size;
   final TextEditingController _emailController = TextEditingController();
@@ -28,6 +32,8 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    PeriferianceState = Provider.of<Periferance>(context);
+    PeriferianceUpdate = Provider.of<Periferance>(context, listen: false);
     size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -75,7 +81,7 @@ class _SignInState extends State<SignIn> {
                               prefixIcon: const Icon(Icons.mail),
                               size: size,
                               textController: _emailController,
-                              Expression: RegExp(
+                              expression: RegExp(
                                   r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$'),
                             ),
                             ConstrainedBox(
@@ -131,6 +137,8 @@ class _SignInState extends State<SignIn> {
                                 setState(() {
                                   isProcessing = false;
                                 });
+                                await PeriferianceUpdate.setOnboardingStatus(
+                                    false);
                               },
                             ),
 

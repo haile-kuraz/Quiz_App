@@ -108,7 +108,7 @@ class _SignUpState extends State<SignUp> {
                                 size: size,
                                 textController: _nameController,
                                 inputType: TextInputType.name,
-                                Expression: RegExp(r'^[a-zA-Z]{1,45}$'),
+                                expression: RegExp(r'^[a-zA-Z]{1,45}$'),
                               ),
                               DefaultTextformWidget(
                                 lableText: "Emaill",
@@ -116,7 +116,7 @@ class _SignUpState extends State<SignUp> {
                                 size: size,
                                 textController: _emailController,
                                 inputType: TextInputType.emailAddress,
-                                Expression: RegExp(
+                                expression: RegExp(
                                     r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$'),
                               ),
                               DefaultTextformWidget(
@@ -125,7 +125,7 @@ class _SignUpState extends State<SignUp> {
                                 size: size,
                                 textController: _phoneController,
                                 inputType: TextInputType.phone,
-                                Expression: RegExp(r'^\d{10}$'),
+                                expression: RegExp(r'^\d{10}$'),
                               ),
                               ConstrainedBox(
                                 constraints: BoxConstraints(

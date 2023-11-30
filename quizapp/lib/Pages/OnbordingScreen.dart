@@ -4,24 +4,16 @@ import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
 // import '../providers/PeriferanceProvider.dart';
 
 class OnbordingPage extends StatelessWidget {
-  OnbordingPage({super.key});
+  const OnbordingPage({super.key});
 
-  var PeriferianceState;
-  var PeriferianceUpdate;
   @override
   Widget build(BuildContext context) {
-    // PeriferianceState = Provider.of<PeriferanceDataProvider>(context);
-    // PeriferianceUpdate =
-    //     Provider.of<PeriferanceDataProvider>(context, listen: false);
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         body: OnBoardingSlider(
             onFinish: () async {
-              // await PeriferianceUpdate.OnBordingSetter();
-
-              // await PeriferianceUpdate.updateIsOnboardingShowing(false);
               Navigator.pushReplacementNamed(context, '/SignIn');
             },
             skipTextButton: const Text("Skip"),
