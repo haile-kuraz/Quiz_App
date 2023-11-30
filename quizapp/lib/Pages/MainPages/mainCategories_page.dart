@@ -6,7 +6,7 @@ import 'tabviewpages/general_tabview.dart';
 import 'tabviewpages/missions_tabview.dart';
 
 class MainCategory extends StatefulWidget {
-  MainCategory({super.key});
+  const MainCategory({super.key});
 
   @override
   State<MainCategory> createState() => _MainCategoryState();
@@ -17,7 +17,7 @@ class _MainCategoryState extends State<MainCategory>
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    TabController _tabController = TabController(length: 3, vsync: this);
+    TabController tabController = TabController(length: 3, vsync: this);
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Container(
@@ -189,7 +189,7 @@ class _MainCategoryState extends State<MainCategory>
 //
                 Expanded(
                   child: SingleChildScrollView(
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     child: Column(
                       children: [
                         Container(
@@ -199,7 +199,7 @@ class _MainCategoryState extends State<MainCategory>
                                 .colorScheme
                                 .primary
                                 .withOpacity(0.5),
-                            controller: _tabController,
+                            controller: tabController,
                             labelStyle: Theme.of(context).textTheme.labelMedium,
                             indicator: UnderlineTabIndicator(
                               insets: const EdgeInsets.symmetric(
@@ -234,7 +234,7 @@ class _MainCategoryState extends State<MainCategory>
                           width: size.width,
                           height: size.height * 0.55,
                           child: TabBarView(
-                            controller: _tabController,
+                            controller: tabController,
                             children: const [
                               AcadamicTabview(),
                               GeneralTabview(),

@@ -3,7 +3,6 @@ import 'package:provider/provider.dart';
 
 import 'Pages/MainPages/home_page.dart';
 import 'Pages/OnbordingScreen.dart';
-import 'Pages/SplashScreen.dart';
 import 'Pages/signIn_Page.dart';
 import 'Pages/signUp_page.dart';
 import 'Provider/AuthProvider.dart';
@@ -14,6 +13,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Map<String, dynamic> lightData = await colors.getLightData();
   Map<String, dynamic> darkData = await colors.getDarkData();
+
   runApp(MyApp(
     lightData: lightData,
     darkData: darkData,
@@ -45,9 +45,9 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
-        initialRoute: "/",
+        initialRoute: "/SignIn",
         routes: {
-          "/": (context) => const SplashScreen(),
+          // "/": (context) => const SplashScreen(),
           "/SignIn": (context) => const SignIn(),
           "/onbording": (context) => OnbordingPage(),
           "/SignUp": (context) => const SignUp(),

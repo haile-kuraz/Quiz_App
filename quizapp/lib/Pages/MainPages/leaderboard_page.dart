@@ -35,7 +35,7 @@ class LeaderBoard extends StatelessWidget {
                 child: CustomPaint(
                   size: size,
                   painter: LeaderBoard_shape(context: context),
-                  child: Container(
+                  child: SizedBox(
                     width: size.width,
                     height: size.height,
                   ),
@@ -50,7 +50,7 @@ class LeaderBoard extends StatelessWidget {
                               Theme.of(context).colorScheme.onPrimaryContainer,
                         ),
                   ),
-                  Container(
+                  SizedBox(
                     width: size.width,
                     height: size.height * 0.3,
                     child: Row(
@@ -58,7 +58,7 @@ class LeaderBoard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Stack(
-                          alignment: FractionalOffset(0.5, -0.5),
+                          alignment: const FractionalOffset(0.5, -0.5),
                           children: [
                             Container(
                                 width: size.width * 0.3,
@@ -68,7 +68,7 @@ class LeaderBoard extends StatelessWidget {
                                       .colorScheme
                                       .background
                                       .withOpacity(0.2),
-                                  borderRadius: BorderRadius.all(
+                                  borderRadius: const BorderRadius.all(
                                     Radius.circular(10),
                                   ),
                                 ),
@@ -82,7 +82,7 @@ class LeaderBoard extends StatelessWidget {
                                             .textTheme
                                             .bodySmall,
                                       ),
-                                      Text("95"),
+                                      const Text("95"),
                                     ],
                                   ),
                                 )),
@@ -94,7 +94,7 @@ class LeaderBoard extends StatelessWidget {
                           ],
                         ),
                         Stack(
-                          alignment: FractionalOffset(0.5, -0.4),
+                          alignment: const FractionalOffset(0.5, -0.4),
                           children: [
                             Container(
                               width: size.width * 0.3,
@@ -104,7 +104,7 @@ class LeaderBoard extends StatelessWidget {
                                     .colorScheme
                                     .background
                                     .withOpacity(0.3),
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(10),
                                 ),
                               ),
@@ -117,7 +117,7 @@ class LeaderBoard extends StatelessWidget {
                                       style:
                                           Theme.of(context).textTheme.bodySmall,
                                     ),
-                                    Text("95"),
+                                    const Text("95"),
                                   ],
                                 ),
                               ),
@@ -130,7 +130,7 @@ class LeaderBoard extends StatelessWidget {
                           ],
                         ),
                         Stack(
-                          alignment: FractionalOffset(0.5, -0.6),
+                          alignment: const FractionalOffset(0.5, -0.6),
                           children: [
                             Container(
                               width: size.width * 0.3,
@@ -140,7 +140,7 @@ class LeaderBoard extends StatelessWidget {
                                     .colorScheme
                                     .background
                                     .withOpacity(0.1),
-                                borderRadius: BorderRadius.all(
+                                borderRadius: const BorderRadius.all(
                                   Radius.circular(15),
                                 ),
                               ),
@@ -153,7 +153,7 @@ class LeaderBoard extends StatelessWidget {
                                       style:
                                           Theme.of(context).textTheme.bodySmall,
                                     ),
-                                    Text("95"),
+                                    const Text("95"),
                                   ],
                                 ),
                               ),
@@ -175,13 +175,13 @@ class LeaderBoard extends StatelessWidget {
                       child: ListView.builder(
                         itemBuilder: (context, index) {
                           return Container(
-                            margin: EdgeInsets.only(bottom: 10),
+                            margin: const EdgeInsets.only(bottom: 10),
                             decoration: BoxDecoration(
                               color: Theme.of(context).colorScheme.background,
                               boxShadow: [
                                 BoxShadow(
                                   color: Theme.of(context).canvasColor,
-                                  offset: Offset(2, 3),
+                                  offset: const Offset(2, 3),
                                 ),
                               ],
                             ),

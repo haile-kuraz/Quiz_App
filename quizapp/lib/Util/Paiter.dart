@@ -59,7 +59,7 @@ class LeaderBoard_shape extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     // Layer 1
 
-    Paint paint_fill_0 = Paint()
+    Paint paintFill0 = Paint()
       ..color = Colors.white
       ..style = PaintingStyle.fill
       ..strokeWidth = size.width * 0.00
@@ -77,7 +77,7 @@ class LeaderBoard_shape extends CustomPainter {
         size.height * 0.3737500);
     path_0.close();
 
-    canvas.drawPath(path_0, paint_fill_0);
+    canvas.drawPath(path_0, paintFill0);
   }
 
   @override

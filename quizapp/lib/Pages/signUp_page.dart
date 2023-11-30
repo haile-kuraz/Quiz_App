@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../Widgets/DefaultTextformFild.dart';
 import '../Widgets/LargeButtonOfSignIn.dart';
 import '../Widgets/passwordTextformfild.dart';
+import '../Controllers/student_controller.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -18,10 +19,12 @@ class _SignUpState extends State<SignUp> {
   bool isvisible = false;
   bool? isPassword = true;
   late Size size;
+  final _formKey = GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  Future signIn = student_controller.login("haile@gmail.com", "haile1112");
   @override
   @override
   Widget build(BuildContext context) {
@@ -84,6 +87,7 @@ class _SignUpState extends State<SignUp> {
                         )
                       ],
                       child: Form(
+                        key: _formKey,
                         child: SingleChildScrollView(
                           physics: const BouncingScrollPhysics(),
                           child: Column(
@@ -99,11 +103,12 @@ class _SignUpState extends State<SignUp> {
                               ),
                               // This is the plase where in put fields started
                               DefaultTextformWidget(
-                                lableText: "Full Name",
+                                lableText: "Name",
                                 prefixIcon: const Icon(Icons.person),
                                 size: size,
                                 textController: _nameController,
                                 inputType: TextInputType.name,
+                                Expression: RegExp(r'^[a-zA-Z]{1,45}$'),
                               ),
                               DefaultTextformWidget(
                                 lableText: "Emaill",
@@ -111,6 +116,8 @@ class _SignUpState extends State<SignUp> {
                                 size: size,
                                 textController: _emailController,
                                 inputType: TextInputType.emailAddress,
+                                Expression: RegExp(
+                                    r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$'),
                               ),
                               DefaultTextformWidget(
                                 lableText: "Phone Number",
@@ -118,11 +125,21 @@ class _SignUpState extends State<SignUp> {
                                 size: size,
                                 textController: _phoneController,
                                 inputType: TextInputType.phone,
+                                Expression: RegExp(r'^\d{10}$'),
+                              ),
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                  maxHeight: size.height * 0.03,
+                                  maxWidth: size.width,
+                                  minHeight: size.height * 0.01,
+                                  minWidth: size.width,
+                                ),
                               ),
                               PasswordTextField(
                                 isvisible: isvisible,
                                 size: size,
                                 passwordController: _passwordController,
+                                Expression: RegExp(r'^[\w\d]{8,}$'),
                               ),
                               Padding(
                                 padding:
@@ -130,6 +147,14 @@ class _SignUpState extends State<SignUp> {
                                 child: largeButtonWidget(
                                   lable: "SignUp",
                                   size: size,
+                                  formKey: _formKey,
+                                  myFunction: () {
+                                    // Call the login function here
+                                    student_controller.login(
+                                      _emailController.text,
+                                      _passwordController.text,
+                                    );
+                                  },
                                 ),
                               ),
                               Row(

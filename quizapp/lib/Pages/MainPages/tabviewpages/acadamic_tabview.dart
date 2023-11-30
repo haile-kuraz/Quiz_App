@@ -26,8 +26,8 @@ class AcadamicTabview extends StatelessWidget {
                 child: FadeInAnimation(
                   child: Container(
                     decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: const AssetImage(
+                      image: const DecorationImage(
+                        image: AssetImage(
                           "Assets/Images/maths.png",
                         ),
                         fit: BoxFit.cover,
@@ -57,7 +57,7 @@ class AcadamicTabview extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                             color: Theme.of(context).canvasColor,
-                            borderRadius: BorderRadius.only(
+                            borderRadius: const BorderRadius.only(
                               bottomLeft: Radius.circular(10),
                               topRight: Radius.circular(25),
                             )),

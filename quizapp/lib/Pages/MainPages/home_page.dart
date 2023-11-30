@@ -18,7 +18,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   late int _currentIndex;
   final List<Widget> _screens = [
-    MainCategory(),
+    const MainCategory(),
     const Brodcast(),
     const LeaderBoard(),
     const Liberary(),

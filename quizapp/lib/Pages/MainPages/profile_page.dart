@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -43,7 +42,7 @@ class Profile extends StatelessWidget {
                       ),
                 ),
                 snap: true,
-                flexibleSpace: FlexibleSpaceBar(
+                flexibleSpace: const FlexibleSpaceBar(
                     // Flexible space content...
                     ),
               ),
@@ -100,7 +99,7 @@ class Profile extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Text("Medina Nasure"),
+                        const Text("Medina Nasure"),
 
                         // This the place where the point and and ranking starts
                         Container(
@@ -225,11 +224,11 @@ class Profile extends StatelessWidget {
                         style: Theme.of(context).textTheme.bodyMedium,
                       ),
                       subtitle: LinearPercentIndicator(
-                        barRadius: Radius.circular(10),
+                        barRadius: const Radius.circular(10),
                         backgroundColor: Theme.of(context).canvasColor,
                         percent: 0.5,
                         // fillColor: Theme.of(context).colorScheme.primary,
-                        trailing: Text("100"),
+                        trailing: const Text("100"),
                         lineHeight: size.height * 0.015,
                         progressColor:
                             Theme.of(context).colorScheme.onSecondaryContainer,
