@@ -35,148 +35,146 @@ class _SignInState extends State<SignIn> {
     PeriferianceState = Provider.of<Periferance>(context);
     PeriferianceUpdate = Provider.of<Periferance>(context, listen: false);
     size = MediaQuery.of(context).size;
-    return SafeArea(
-      child: Scaffold(
-        body: ModalProgressHUD(
-          inAsyncCall: isProcessing,
+    return Scaffold(
+      body: ModalProgressHUD(
+        inAsyncCall: isProcessing,
 
-          opacity: 0.5,
-          color: Colors.black,
-          progressIndicator: CircularProgressIndicator(),
-          // offset: double
-          dismissible: true,
-          blur: 0.1,
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: CustomPaint(
-              size: Size(size.width,
-                  size.height), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
-              painter: SignInPainter(context: context),
+        opacity: 0.5,
+        color: Colors.black,
+        progressIndicator: CircularProgressIndicator(),
+        // offset: double
+        dismissible: true,
+        blur: 0.1,
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          child: CustomPaint(
+            size: Size(size.width,
+                size.height), //You can Replace [WIDTH] with your desired width for Custom Paint and height will be calculated automatically
+            painter: SignInPainter(context: context),
 
-              child: Column(
-                children: [
-                  Image.asset("Assets/Images/login.png"),
-                  SizedBox(
-                    height: size.height * 0.05,
-                  ),
-                  Animate(
-                    effects: const [
-                      FadeEffect(),
-                      MoveEffect(
-                        begin: Offset(0, 50),
-                        duration: Duration(seconds: 1),
-                      )
-                    ],
-                    child: Form(
-                      key: _formKey,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20.0, vertical: 10),
-                        child: Column(
-                          children: [
-                            // This is the Text form fild of Login page
-                            DefaultTextformWidget(
-                              inputType: TextInputType.emailAddress,
-                              lableText: "Emaill",
-                              prefixIcon: const Icon(Icons.mail),
-                              size: size,
-                              textController: _emailController,
-                              expression: RegExp(
-                                  r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$'),
+            child: Column(
+              children: [
+                Image.asset("Assets/Images/login.png"),
+                SizedBox(
+                  height: size.height * 0.05,
+                ),
+                Animate(
+                  effects: const [
+                    FadeEffect(),
+                    MoveEffect(
+                      begin: Offset(0, 50),
+                      duration: Duration(seconds: 1),
+                    )
+                  ],
+                  child: Form(
+                    key: _formKey,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20.0, vertical: 10),
+                      child: Column(
+                        children: [
+                          // This is the Text form fild of Login page
+                          DefaultTextformWidget(
+                            inputType: TextInputType.emailAddress,
+                            lableText: "Emaill",
+                            prefixIcon: const Icon(Icons.mail),
+                            size: size,
+                            textController: _emailController,
+                            expression: RegExp(
+                                r'^[\w-]+(\.[\w-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,})$'),
+                          ),
+                          ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxHeight: size.height * 0.03,
+                              maxWidth: size.width,
+                              minHeight: size.height * 0.01,
+                              minWidth: size.width,
                             ),
-                            ConstrainedBox(
-                              constraints: BoxConstraints(
-                                maxHeight: size.height * 0.03,
-                                maxWidth: size.width,
-                                minHeight: size.height * 0.01,
-                                minWidth: size.width,
+                          ),
+                          PasswordTextField(
+                            isvisible: isvisible,
+                            passwordController: _passwordController,
+                            size: size,
+                            Expression: RegExp(r'^[\w\d]{8,}$'),
+                          ),
+
+                          // This is the checkBox Area for Keeping Loged in login page
+                          Row(
+                            children: [
+                              Checkbox(
+                                activeColor:
+                                    Theme.of(context).colorScheme.tertiary,
+                                value: isRemember,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isRemember = value;
+                                  });
+                                },
                               ),
-                            ),
-                            PasswordTextField(
-                              isvisible: isvisible,
-                              passwordController: _passwordController,
-                              size: size,
-                              Expression: RegExp(r'^[\w\d]{8,}$'),
-                            ),
+                              Text(
+                                "Keep me Logedin",
+                                style: Theme.of(context).textTheme.bodySmall,
+                              )
+                            ],
+                          ),
 
-                            // This is the checkBox Area for Keeping Loged in login page
-                            Row(
-                              children: [
-                                Checkbox(
-                                  activeColor:
-                                      Theme.of(context).colorScheme.tertiary,
-                                  value: isRemember,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      isRemember = value;
-                                    });
-                                  },
-                                ),
-                                Text(
-                                  "Keep me Logedin",
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                )
-                              ],
+                          // this is the text Button of login
+
+                          largeButtonWidget(
+                            lable: "Signin",
+                            size: size,
+                            formKey: _formKey,
+                            myFunction: () async {
+                              // Call the login function here
+                              setState(() {
+                                isProcessing = true;
+                              });
+                              await student_controller.login(
+                                _emailController.text,
+                                _passwordController.text,
+                              );
+                              setState(() {
+                                isProcessing = false;
+                              });
+                              await PeriferianceUpdate.setOnboardingStatus(
+                                  false);
+                            },
+                          ),
+
+                          // This is the forgotpassword Button
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pushNamed("/home");
+                            },
+                            child: Text(
+                              "Forgot your Password?",
+                              style: Theme.of(context).textTheme.bodySmall,
                             ),
+                          ),
 
-                            // this is the text Button of login
-
-                            largeButtonWidget(
-                              lable: "Signin",
-                              size: size,
-                              formKey: _formKey,
-                              myFunction: () async {
-                                // Call the login function here
-                                setState(() {
-                                  isProcessing = true;
-                                });
-                                await student_controller.login(
-                                  _emailController.text,
-                                  _passwordController.text,
-                                );
-                                setState(() {
-                                  isProcessing = false;
-                                });
-                                await PeriferianceUpdate.setOnboardingStatus(
-                                    false);
-                              },
-                            ),
-
-                            // This is the forgotpassword Button
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pushNamed("/home");
-                              },
-                              child: Text(
-                                "Forgot your Password?",
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Don't have an account yet?",
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
-                            ),
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Don't have an account yet?",
-                                  style: Theme.of(context).textTheme.bodySmall,
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.pushNamed(context, "/SignUp");
+                                },
+                                child: const Text(
+                                  "Register",
                                 ),
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pushNamed(context, "/SignUp");
-                                  },
-                                  child: const Text(
-                                    "Register",
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
+                              ),
+                            ],
+                          )
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
