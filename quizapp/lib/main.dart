@@ -12,6 +12,7 @@ import 'Provider/AuthProvider.dart';
 import 'Provider/PeriferanceProvider.dart';
 // import 'Util/Color.dart';
 import 'Util/Theme._date.dart';
+import 'Controllers/student_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

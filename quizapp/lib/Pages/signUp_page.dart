@@ -26,7 +26,7 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  Future signIn = student_controller.login("haile@gmail.com", "haile1112");
+  final String _imageUrl = "";
   @override
   @override
   Widget build(BuildContext context) {
@@ -165,10 +165,12 @@ class _SignUpState extends State<SignUp> {
                                       formKey: _formKey,
                                       myFunction: () {
                                         // Call the login function here
-                                        student_controller.login(
-                                          _emailController.text,
-                                          _passwordController.text,
-                                        );
+                                        student_controller.signUp(
+                                            _nameController.text,
+                                            _emailController.text,
+                                            _phoneController.text,
+                                            _passwordController.text,
+                                            _imageUrl);
                                       },
                                     ),
                                   ),

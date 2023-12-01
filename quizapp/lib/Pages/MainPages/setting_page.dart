@@ -99,7 +99,7 @@ class SettingPage extends StatelessWidget {
                         color: Theme.of(context).colorScheme.onBackground,
                       ),
                 ),
-                trailing: Icon(FontAwesomeIcons.chevronRight),
+                trailing: const Icon(FontAwesomeIcons.chevronRight),
               ),
               // This is the setting to set difficulty
               ListTile(
@@ -113,7 +113,7 @@ class SettingPage extends StatelessWidget {
                         color: Theme.of(context).colorScheme.onBackground,
                       ),
                 ),
-                trailing: Icon(FontAwesomeIcons.chevronRight),
+                trailing: const Icon(FontAwesomeIcons.chevronRight),
               ),
               // This is the setting to set font
               ListTile(
@@ -127,7 +127,7 @@ class SettingPage extends StatelessWidget {
                         color: Theme.of(context).colorScheme.onBackground,
                       ),
                 ),
-                trailing: Icon(FontAwesomeIcons.chevronRight),
+                trailing: const Icon(FontAwesomeIcons.chevronRight),
               ),
 
               Text(
@@ -148,7 +148,7 @@ class SettingPage extends StatelessWidget {
                         color: Theme.of(context).colorScheme.onBackground,
                       ),
                 ),
-                trailing: Icon(FontAwesomeIcons.chevronRight),
+                trailing: const Icon(FontAwesomeIcons.chevronRight),
               ),
               // This is the setting to get help
               ListTile(
@@ -162,7 +162,7 @@ class SettingPage extends StatelessWidget {
                         color: Theme.of(context).colorScheme.onBackground,
                       ),
                 ),
-                trailing: Icon(FontAwesomeIcons.chevronRight),
+                trailing: const Icon(FontAwesomeIcons.chevronRight),
               ),
               // This is the setting to set Rate for app
               ListTile(
@@ -176,7 +176,7 @@ class SettingPage extends StatelessWidget {
                         color: Theme.of(context).colorScheme.onBackground,
                       ),
                 ),
-                trailing: Icon(FontAwesomeIcons.chevronRight),
+                trailing: const Icon(FontAwesomeIcons.chevronRight),
               ),
               // This is the setting to Delete the account
               ListTile(
@@ -190,7 +190,7 @@ class SettingPage extends StatelessWidget {
                         color: Theme.of(context).colorScheme.onBackground,
                       ),
                 ),
-                trailing: Icon(FontAwesomeIcons.chevronRight),
+                trailing: const Icon(FontAwesomeIcons.chevronRight),
               ),
               // This is the setting to Logout the  account
               ListTile(

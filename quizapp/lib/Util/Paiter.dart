@@ -88,8 +88,8 @@ class LeaderBoard_shape extends CustomPainter {
 
 class SignUpShape extends CustomPainter {
   @override
-  BuildContext context;
   SignUpShape({required this.context});
+  BuildContext context;
   void paint(Canvas canvas, Size size) {
     // Layer 1
 
