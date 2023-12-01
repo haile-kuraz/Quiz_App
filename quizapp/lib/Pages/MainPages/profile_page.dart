@@ -17,15 +17,16 @@ class Profile extends StatelessWidget {
           child: CustomScrollView(
             slivers: <Widget>[
               SliverAppBar(
+                automaticallyImplyLeading: false,
                 pinned: true,
                 floating: true,
                 backgroundColor: Theme.of(context).colorScheme.background,
                 expandedHeight: 0,
-                centerTitle: true,
+                // centerTitle: true,
                 actions: [
                   IconButton(
                     onPressed: () {
-                      print("this is the setting Icon ");
+                      Navigator.pushNamed(context, "/Setting");
                     },
                     icon: Icon(
                       FontAwesomeIcons.gear,
@@ -47,86 +48,123 @@ class Profile extends StatelessWidget {
                     ),
               ),
               SliverToBoxAdapter(
-                child: Container(
-                  // Collapsible/Expandable container properties...
-                  // height: 300, // Initial height of the container
-                  child: ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxHeight: 300,
-                      minHeight: 200,
-                      maxWidth: size.width,
-                      minWidth: size.width,
-                    ),
-                    child: Column(
-                      children: [
-                        AvatarGlow(
-                          glowColor: Theme.of(context).colorScheme.primary,
-                          animate: true,
-                          endRadius: 80.0,
-                          duration: const Duration(milliseconds: 8000),
-                          repeat: true,
-                          showTwoGlows: true,
-                          repeatPauseDuration:
-                              const Duration(milliseconds: 1000),
-                          child: Material(
-                            // Replace this child with your own
-                            elevation: 8.0,
-                            shape: const CircleBorder(),
-                            child: Stack(
-                              alignment: Alignment.bottomRight,
-                              children: [
-                                CircleAvatar(
-                                  backgroundColor: Colors.grey[100],
-                                  radius: 45.0,
-                                  child: Image.asset(
-                                    "Assets/Images/SignUp/ProfileAvatar.png",
-                                    // height: 50,
-                                    fit: BoxFit.cover,
-                                  ),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: 300,
+                    minHeight: 200,
+                    maxWidth: size.width,
+                    minWidth: size.width,
+                  ),
+                  child: Column(
+                    children: [
+                      AvatarGlow(
+                        glowColor: Theme.of(context).colorScheme.primary,
+                        animate: true,
+                        endRadius: 80.0,
+                        duration: const Duration(milliseconds: 8000),
+                        repeat: true,
+                        showTwoGlows: true,
+                        repeatPauseDuration: const Duration(milliseconds: 1000),
+                        child: Material(
+                          // Replace this child with your own
+                          elevation: 8.0,
+                          shape: const CircleBorder(),
+                          child: Stack(
+                            alignment: Alignment.bottomRight,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Colors.grey[100],
+                                radius: 45.0,
+                                child: Image.asset(
+                                  "Assets/Images/SignUp/ProfileAvatar.png",
+                                  // height: 50,
+                                  fit: BoxFit.cover,
                                 ),
-                                CircleAvatar(
-                                  backgroundColor:
-                                      Theme.of(context).canvasColor,
-                                  radius: 15,
-                                  child: Icon(
-                                    FontAwesomeIcons.pencil,
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary,
-                                    size: 20,
-                                  ),
+                              ),
+                              CircleAvatar(
+                                backgroundColor: Theme.of(context).canvasColor,
+                                radius: 15,
+                                child: Icon(
+                                  FontAwesomeIcons.pencil,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                  size: 20,
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
-                        const Text("Medina Nasure"),
+                      ),
+                      const Text("Medina Nasure"),
 
-                        // This the place where the point and and ranking starts
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 10),
-                          width: size.width,
-                          height: size.height * 0.12,
-                          decoration: BoxDecoration(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(20),
-                              ),
-                              // color: Theme.of(context).colorScheme.secondary,
-                              boxShadow: [
-                                BoxShadow(
-                                    blurRadius: 10,
-                                    blurStyle: BlurStyle.outer,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground)
-                              ]),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: Row(
+                      // This the place where the point and and ranking starts
+                      Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        width: size.width,
+                        height: size.height * 0.12,
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                            // color: Theme.of(context).colorScheme.secondary,
+                            boxShadow: [
+                              BoxShadow(
+                                  blurRadius: 10,
+                                  blurStyle: BlurStyle.outer,
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onBackground)
+                            ]),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: Row(
+                              children: [
+                                Image.asset(
+                                  width: 70,
+                                  "Assets/Images/cup_one.png",
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10.0),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Ranking",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall
+                                            ?.copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .tertiaryContainer
+                                                    .withOpacity(0.7)),
+                                      ),
+                                      Text(
+                                        "214",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall
+                                            ?.copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .primary),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            )),
+                            VerticalDivider(
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            Expanded(
+                              child: Row(
                                 children: [
                                   Image.asset(
                                     width: 70,
-                                    "Assets/Images/cup_one.png",
+                                    "Assets/Images/coin.png",
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
@@ -136,7 +174,7 @@ class Profile extends StatelessWidget {
                                           MainAxisAlignment.center,
                                       children: [
                                         Text(
-                                          "Ranking",
+                                          "Points",
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleSmall
@@ -160,78 +198,50 @@ class Profile extends StatelessWidget {
                                     ),
                                   )
                                 ],
-                              )),
-                              VerticalDivider(
-                                color: Theme.of(context).colorScheme.primary,
                               ),
-                              Expanded(
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                      width: 70,
-                                      "Assets/Images/coin.png",
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10.0),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            "Points",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleSmall
-                                                ?.copyWith(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .tertiaryContainer
-                                                        .withOpacity(0.7)),
-                                          ),
-                                          Text(
-                                            "214",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleSmall
-                                                ?.copyWith(
-                                                    color: Theme.of(context)
-                                                        .colorScheme
-                                                        .primary),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
               SliverAnimatedList(
                 itemBuilder: (context, index, animation) {
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: ListTile(
-                      leading: Image.asset("Assets/Images/ch.png"),
-                      title: Text(
-                        'Item $index',
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      subtitle: LinearPercentIndicator(
-                        barRadius: const Radius.circular(10),
-                        backgroundColor: Theme.of(context).canvasColor,
-                        percent: 0.5,
-                        // fillColor: Theme.of(context).colorScheme.primary,
-                        trailing: const Text("100"),
-                        lineHeight: size.height * 0.015,
-                        progressColor:
-                            Theme.of(context).colorScheme.onSecondaryContainer,
+                    padding: const EdgeInsets.only(
+                      bottom: 8.0,
+                    ),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.background,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context).canvasColor,
+                              blurRadius: 2,
+                              offset: Offset(2, 2),
+                              blurStyle: BlurStyle.normal,
+                              spreadRadius: 2,
+                            )
+                          ]),
+                      child: ListTile(
+                        leading: Image.asset("Assets/Images/ch.png"),
+                        title: Text(
+                          'Item $index',
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        subtitle: LinearPercentIndicator(
+                          barRadius: const Radius.circular(10),
+                          backgroundColor: Theme.of(context).canvasColor,
+                          percent: 0.5,
+                          // fillColor: Theme.of(context).colorScheme.primary,
+                          trailing: const Text("100"),
+                          lineHeight: size.height * 0.015,
+                          progressColor: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer,
+                        ),
                       ),
                     ),
                   );

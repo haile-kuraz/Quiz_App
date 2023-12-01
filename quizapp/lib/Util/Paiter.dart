@@ -85,3 +85,48 @@ class LeaderBoard_shape extends CustomPainter {
     return true;
   }
 }
+
+class SignUpShape extends CustomPainter {
+  @override
+  BuildContext context;
+  SignUpShape({required this.context});
+  void paint(Canvas canvas, Size size) {
+    // Layer 1
+
+    Paint paint_fill_0 = Paint()
+      ..color = Theme.of(context).colorScheme.primary
+      ..style = PaintingStyle.fill
+      ..strokeWidth = size.width * 0.00
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.miter;
+
+    Path path_0 = Path();
+    path_0.moveTo(size.width * 0.0018472, size.height * 0.0025000);
+    path_0.lineTo(size.width * 0.9986111, size.height * 0.0025000);
+    path_0.lineTo(size.width * 0.9986111, size.height * 0.6225000);
+    path_0.lineTo(size.width * 0.6263889, size.height * 1.0025000);
+    path_0.lineTo(size.width * 0.5013889, size.height * 0.9975000);
+    path_0.lineTo(size.width * 0.3472222, size.height * 0.9975000);
+    path_0.lineTo(size.width * 0.0013889, size.height * 0.6325000);
+    path_0.lineTo(size.width * 0.0018472, size.height * 0.0025000);
+    path_0.close();
+
+    canvas.drawPath(path_0, paint_fill_0);
+
+    // Layer 1
+
+    /*   Paint paint_stroke_0 = Paint()
+      ..color = const Color.fromARGB(255, 33, 150, 243)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = size.width * 0.00
+      ..strokeCap = StrokeCap.butt
+      ..strokeJoin = StrokeJoin.miter;
+
+    canvas.drawPath(path_0, paint_stroke_0); */
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
+  }
+}

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Pages/MainPages/home_page.dart';
+import 'Pages/MainPages/setting_page.dart';
 import 'Pages/OnbordingScreen.dart';
 import 'Pages/SplashScreen.dart';
 import 'Pages/signIn_Page.dart';
@@ -54,13 +55,14 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
-        initialRoute: "/",
+        initialRoute: "/SignUp",
         routes: {
-          "/": (context) => const SplashScreen(),
+          // "/": (context) => const SplashScreen(),
           "/SignIn": (context) => const SignIn(),
           "/onbording": (context) => const OnbordingPage(),
           "/SignUp": (context) => const SignUp(),
           "/home": (context) => const Home(),
+          "/Setting": (context) => const SettingPage(),
         },
 
         // home: Home(),

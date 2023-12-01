@@ -79,6 +79,7 @@ flutter:
     - Assets/Images/
     - Assets/Images/onbording/
     - Assets/Images/SignUp/
+    - Assets/Images/SettingIcons/
     - Assets/tokens/
     - Assets/Fonts/
     - Assets/Sounds/Effects/

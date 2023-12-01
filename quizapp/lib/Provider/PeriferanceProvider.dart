@@ -7,7 +7,6 @@ class Periferance extends ChangeNotifier {
   }
   final SharedPreferences prefs;
   static bool? isDark;
-
   static bool? isOnboardingShowing;
 
   Future<void> _initializeSettings() async {
