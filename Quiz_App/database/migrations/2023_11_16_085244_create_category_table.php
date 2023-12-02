@@ -11,10 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categorys', function (Blueprint $table) {
-            $table->string('name')->primary();
-            $table->string('Image_url');
-            $table->text('description');
+        $default = "https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/94/74/da/9474da4e-9a1e-d8ac-39b8-818229b05c47/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/1024x1024.jpg";
+
+        Schema::create('categories', function (Blueprint $table) use ($default) {
+            $table->id();
+            $table->string('name')->unique();
+            $table->string('Image_url')->nullable()->default($default);
+            $table->text('description')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('category');
+        Schema::dropIfExists('categories');
     }
 };

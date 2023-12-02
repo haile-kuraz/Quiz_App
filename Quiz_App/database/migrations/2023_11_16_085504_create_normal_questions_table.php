@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('normal_questions', function (Blueprint $table) {
             $table->id();
-            $table->string('subcategory_name');
-            $table->string('category_name');
+            $table->unsignedBigInteger('category_id');
+            $table->unsignedBigInteger('subcategory_id');
             $table->text('question');
             $table->text('solution_description');
             $table->enum('difficulty', ['easy', 'medium', 'hard']);
             $table->timestamps();
 
             //these are the foreign  keys
-            $table->foreign('subcategory_name')->references('name')->on('sub_categorys')->onDelete('cascade');
-            $table->foreign('category_name')->references('name')->on('categorys')->onDelete('cascade');
+
+            $table->foreign('subcategory_id')->references('id')->on('sub_categories')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('normal_question');
+        Schema::dropIfExists('normal_questions');
     }
 };

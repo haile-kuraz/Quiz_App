@@ -18,7 +18,7 @@ class student extends Model
         'Email',
         'password',
         'phone_number',
-        'image_url'
+        'Image_url'
     ];
     public function score()
     {

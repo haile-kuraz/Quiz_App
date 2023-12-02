@@ -8,18 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class normal_question extends Model
 {
 
-    protected $fillable =['question','solution_description','difficulty'];
+    protected $fillable = ['question', 'solution_description', 'difficulty', 'subcategory_id', 'category_id'];
 
-    public function students() {
+    public function students()
+    {
         return $this->belongsToMany(student::class);
     }
-    public function options() {
+    public function options()
+    {
         return $this->hasMany(options::class);
-    } 
-    public function subcategory(){
+    }
+    public function subcategory()
+    {
         return $this->belongsTo(subcategory::class);
     }
-    public function category(){
+    public function category()
+    {
         return $this->belongsTo(category::class);
     }
     use HasFactory;

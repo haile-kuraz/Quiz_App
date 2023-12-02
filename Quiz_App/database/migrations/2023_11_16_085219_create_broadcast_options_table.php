@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('broadcast_options', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('broadcast_id');
-            $table->char('code',1);
+            $table->char('code', 1);
             $table->string('Option_value');
             $table->boolean('Is_correct')->default(0);
             $table->timestamps();
