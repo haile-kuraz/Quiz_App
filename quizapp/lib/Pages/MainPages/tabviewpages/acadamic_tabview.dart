@@ -40,7 +40,17 @@ class AcadamicTabview extends StatelessWidget {
                       child: FadeInAnimation(
                         child: InkWell(
                           onTap: () {
-                            Navigator.pushNamed(context, "/Subcategory");
+                            Navigator.pushNamed(
+                              context,
+                              "/Subcategory",
+                              arguments: {
+                                'Category_Id': AcadamicCategories[index].id,
+                                'Category_Image':
+                                    AcadamicCategories[index].ImageUrl,
+                                "Category_name": AcadamicCategories[index].name,
+                                // Add more parameters as needed
+                              },
+                            );
                           },
                           child: CachedNetworkImage(
                             imageUrl: AcadamicCategories[index].ImageUrl,

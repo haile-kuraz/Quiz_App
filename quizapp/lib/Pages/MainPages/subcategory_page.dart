@@ -1,19 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import '../../Controllers/subCategories_controller.dart';
+import '../../Models/SubCategoriesModel.dart';
+
 class Subcategory_Page extends StatelessWidget {
   const Subcategory_Page({super.key});
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    // Retrieve the arguments
+    final args = ModalRoute.of(context)!.settings.arguments as Map;
+
+    // Access the parameters
+    int? Category_Id = args['Category_Id'];
+    String? Category_name = args['Category_name'];
+    String? Category_Image = args['Category_Image'];
+
+    // Use the parameters in your widget
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 0,
         title: Text(
-          "Maths",
+          "$Category_name",
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: Theme.of(context).colorScheme.onTertiaryContainer,
                 fontWeight: FontWeight.w800,
@@ -27,8 +40,7 @@ class Subcategory_Page extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CachedNetworkImage(
-              imageUrl:
-                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5d7xk5xccg4hiHYEfkKtHN-TaC-isbB7G07Oj5ldzFHkDGkJSiAgkVKtpp6JCVGAlAoo&usqp=CAU",
+              imageUrl: "$Category_Image",
               imageBuilder: (context, imageProvider) => Container(
                 width: size.width,
                 height: size.height * 0.23,
@@ -63,92 +75,110 @@ class Subcategory_Page extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return Container(
-                    width: size.width,
-                    height: size.height * 0.12,
-                    margin: const EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Theme.of(context).canvasColor,
-                        width: 1,
-                        style: BorderStyle.solid,
-                      ),
-                      borderRadius: const BorderRadius.all(Radius.circular(
-                        10,
-                      )),
-                      color: Theme.of(context)
-                          .colorScheme
-                          .background
-                          .withOpacity(0.5),
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 2,
-                          blurStyle: BlurStyle.normal,
-                          spreadRadius: 1,
-                          offset: const Offset(0, 3),
-                          color: Theme.of(context).canvasColor,
-                        )
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: CachedNetworkImage(
-                            imageUrl:
-                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5d7xk5xccg4hiHYEfkKtHN-TaC-isbB7G07Oj5ldzFHkDGkJSiAgkVKtpp6JCVGAlAoo&usqp=CAU",
-                            imageBuilder: (context, imageProvider) => Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.cover,
-                                ),
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(10),
-                                ),
-                              ),
+              child: FutureBuilder<SubcategoriesModel>(
+                future: subCategory_controller.showAllSubCategories(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<Subcategory> DATA = snapshot.data!.subcategory;
+                    List<Subcategory> SubCategories = DATA
+                        .where((category) => category.categoryId == Category_Id)
+                        .toList();
+                    return ListView.builder(
+                      itemBuilder: (context, index) {
+                        return Container(
+                          width: size.width,
+                          height: size.height * 0.12,
+                          margin: const EdgeInsets.only(bottom: 10),
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context).canvasColor,
+                              width: 1,
+                              style: BorderStyle.solid,
                             ),
-                            placeholder: (context, url) => const Center(
-                                child: CircularProgressIndicator()),
-                            errorWidget: (context, url, error) =>
-                                const Icon(Icons.error),
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(
+                              10,
+                            )),
+                            color: Theme.of(context)
+                                .colorScheme
+                                .background
+                                .withOpacity(0.5),
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 2,
+                                blurStyle: BlurStyle.normal,
+                                spreadRadius: 1,
+                                offset: const Offset(0, 3),
+                                color: Theme.of(context).canvasColor,
+                              )
+                            ],
                           ),
-                        ),
-                        Expanded(
-                          flex: 3,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          child: Row(
                             children: [
-                              Text(
-                                "Algebra",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleLarge
-                                    ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiaryContainer,
+                              Expanded(
+                                flex: 2,
+                                child: CachedNetworkImage(
+                                  imageUrl: SubCategories[index].ImageUrl,
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      borderRadius: const BorderRadius.all(
+                                        Radius.circular(10),
+                                      ),
                                     ),
+                                  ),
+                                  placeholder: (context, url) => const Center(
+                                      child: CircularProgressIndicator()),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                ),
                               ),
-                              Text(
-                                "50 Question",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium
-                                    ?.copyWith(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .tertiary,
+                              Expanded(
+                                flex: 3,
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Text(
+                                      "${SubCategories[index].name}",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge
+                                          ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiaryContainer,
+                                          ),
                                     ),
+                                    Text(
+                                      "50 Question",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium
+                                          ?.copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .tertiary,
+                                          ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                  );
+                        );
+                      },
+                      itemCount: SubCategories.length,
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
                 },
               ),
             )

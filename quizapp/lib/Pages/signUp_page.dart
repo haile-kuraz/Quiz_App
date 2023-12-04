@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../Util/Paiter.dart';
 import '../Widgets/DefaultTextformFild.dart';
@@ -17,6 +19,7 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
+  File? _selectedImage;
   bool? isRemember = false;
   bool isvisible = false;
   bool? isPassword = true;
@@ -27,7 +30,7 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final String _imageUrl = "";
-  @override
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -63,26 +66,69 @@ class _SignUpState extends State<SignUp> {
                             duration: Duration(seconds: 2),
                           )
                         ],
-                        child: AvatarGlow(
-                          glowColor: Theme.of(context).colorScheme.primary,
-                          animate: true,
-                          endRadius: 80.0,
-                          duration: const Duration(milliseconds: 4000),
-                          repeat: true,
-                          showTwoGlows: true,
-                          repeatPauseDuration:
-                              const Duration(milliseconds: 500),
-                          child: Material(
-                            // Replace this child with your own
-                            elevation: 8.0,
-                            shape: const CircleBorder(),
-                            child: CircleAvatar(
-                              backgroundColor: Colors.grey[100],
-                              radius: 45.0,
-                              child: Image.asset(
-                                "Assets/Images/SignUp/ProfileAvatar.png",
-                                // height: 50,
-                                fit: BoxFit.cover,
+                        child: InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text("Select an Image from"),
+                                  actionsAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        _pickImageFromGallery();
+                                      },
+                                      child: const Text("Gallary"),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        _pickImageFromCamera();
+                                      },
+                                      child: const Text("Camera"),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                          child: AvatarGlow(
+                            glowColor: Theme.of(context).colorScheme.primary,
+                            animate: true,
+                            endRadius: 80.0,
+                            duration: const Duration(milliseconds: 4000),
+                            repeat: true,
+                            showTwoGlows: true,
+                            repeatPauseDuration:
+                                const Duration(milliseconds: 500),
+                            child: Material(
+                              // Replace this child with your own
+                              elevation: 8.0,
+                              shape: const CircleBorder(),
+                              child: CircleAvatar(
+                                backgroundColor:
+                                    Theme.of(context).colorScheme.onBackground,
+                                radius: 47,
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey[100],
+                                  radius: 45.0,
+                                  child: _selectedImage != null
+                                      ? ClipOval(
+                                          child: Image.file(
+                                            _selectedImage!,
+                                            fit: BoxFit.cover,
+                                            width: 90.0,
+                                            height: 90.0,
+                                          ),
+                                        )
+                                      : Image.asset(
+                                          "Assets/Images/SignUp/ProfileAvatar.png",
+                                          fit: BoxFit.cover,
+                                          width: 90.0,
+                                          height: 90.0,
+                                        ),
+                                ),
                               ),
                             ),
                           ),
@@ -268,5 +314,23 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  Future _pickImageFromGallery() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+    setState(() {
+      _selectedImage = File(returnedImage!.path);
+      Navigator.of(context).pop();
+    });
+  }
+
+  Future _pickImageFromCamera() async {
+    final returnedImage =
+        await ImagePicker().pickImage(source: ImageSource.camera);
+    setState(() {
+      _selectedImage = File(returnedImage!.path);
+      Navigator.of(context).pop();
+    });
   }
 }

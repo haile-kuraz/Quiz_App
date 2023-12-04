@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
-        initialRoute: "/home",
+        initialRoute: "/SignUp",
         routes: {
           // "/": (context) => const SplashScreen(),
           "/SignIn": (context) => const SignIn(),

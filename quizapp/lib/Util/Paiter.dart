@@ -94,7 +94,7 @@ class SignUpShape extends CustomPainter {
     // Layer 1
 
     Paint paint_fill_0 = Paint()
-      ..color = Theme.of(context).colorScheme.primary
+      ..color = Theme.of(context).colorScheme.primary.withOpacity(0.5)
       ..style = PaintingStyle.fill
       ..strokeWidth = size.width * 0.00
       ..strokeCap = StrokeCap.butt
