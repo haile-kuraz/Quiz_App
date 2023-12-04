@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
+import '../../Widgets/RankandPoint.dart';
 import 'tabviewpages/acadamic_tabview.dart';
 import 'tabviewpages/general_tabview.dart';
 import 'tabviewpages/missions_tabview.dart';
@@ -68,108 +69,7 @@ class _MainCategoryState extends State<MainCategory>
                       duration: Duration(milliseconds: 500),
                     ),
                   ],
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(vertical: 10),
-                    width: size.width,
-                    height: size.height * 0.12,
-                    decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(20),
-                        ),
-                        // color: Theme.of(context).colorScheme.secondary,
-                        boxShadow: [
-                          BoxShadow(
-                              blurRadius: 10,
-                              blurStyle: BlurStyle.outer,
-                              color: Theme.of(context).colorScheme.onBackground)
-                        ]),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: Row(
-                          children: [
-                            Image.asset(
-                              width: 70,
-                              "Assets/Images/cup_one.png",
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10.0),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Ranking",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleSmall
-                                        ?.copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .tertiaryContainer
-                                                .withOpacity(0.7)),
-                                  ),
-                                  Text(
-                                    "214",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleSmall
-                                        ?.copyWith(
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .primary),
-                                  ),
-                                ],
-                              ),
-                            )
-                          ],
-                        )),
-                        VerticalDivider(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        Expanded(
-                          child: Row(
-                            children: [
-                              Image.asset(
-                                width: 70,
-                                "Assets/Images/coin.png",
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Points",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleSmall
-                                          ?.copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .tertiaryContainer
-                                                  .withOpacity(0.7)),
-                                    ),
-                                    Text(
-                                      "214",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleSmall
-                                          ?.copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .primary),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  child: RankandPointDashbord(size: size),
                 ),
 
                 Padding(

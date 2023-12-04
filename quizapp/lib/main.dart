@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Pages/MainPages/home_page.dart';
 import 'Pages/MainPages/setting_page.dart';
+import 'Pages/MainPages/subcategory_page.dart';
 import 'Pages/OnbordingScreen.dart';
 import 'Pages/SplashScreen.dart';
 import 'Pages/signIn_Page.dart';
@@ -57,7 +58,7 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: lightTheme,
-        initialRoute: "/SignUp",
+        initialRoute: "/home",
         routes: {
           // "/": (context) => const SplashScreen(),
           "/SignIn": (context) => const SignIn(),
@@ -65,6 +66,7 @@ class _MyAppState extends State<MyApp> {
           "/SignUp": (context) => const SignUp(),
           "/home": (context) => const Home(),
           "/Setting": (context) => const SettingPage(),
+          "/Subcategory": (context) => const Subcategory_Page(),
         },
 
         // home: Home(),

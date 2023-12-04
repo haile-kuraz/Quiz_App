@@ -42,6 +42,7 @@ class _SignInState extends State<SignIn> {
         opacity: 0.5,
         color: Colors.black,
         progressIndicator: CircularProgressIndicator(),
+
         // offset: double
         dismissible: true,
         blur: 0.1,
