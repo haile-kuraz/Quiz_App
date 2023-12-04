@@ -22,10 +22,20 @@ void main() async {
   // Map<String, dynamic> darkData = await colors.getDarkData();
   SharedPreferences pref = await SharedPreferences.getInstance();
 
-  runApp(MyApp(
-    // lightData: lightData,
-    // darkData: darkData,
-    pref: pref,
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<AuthProvider>(
+        create: (context) => AuthProvider(),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => Periferance(prefs: pref),
+      ),
+    ],
+    child: MyApp(
+      // lightData: lightData,
+      // darkData: darkData,
+      pref: pref,
+    ),
   ));
 }
 
@@ -46,31 +56,22 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<AuthProvider>(
-          create: (context) => AuthProvider(),
-        ),
-        ChangeNotifierProvider(
-          create: (context) => Periferance(prefs: widget.pref),
-        ),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: lightTheme,
-        initialRoute: "/SignUp",
-        routes: {
-          // "/": (context) => const SplashScreen(),
-          "/SignIn": (context) => const SignIn(),
-          "/onbording": (context) => const OnbordingPage(),
-          "/SignUp": (context) => const SignUp(),
-          "/home": (context) => const Home(),
-          "/Setting": (context) => const SettingPage(),
-          "/Subcategory": (context) => const Subcategory_Page(),
-        },
+    var PeriferanceState = Provider.of<Periferance>(context);
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: PeriferanceState.getIsDark() == true ? darkTheme : lightTheme,
+      initialRoute: "/",
+      routes: {
+        "/": (context) => const SplashScreen(),
+        "/SignIn": (context) => const SignIn(),
+        "/onbording": (context) => const OnbordingPage(),
+        "/SignUp": (context) => const SignUp(),
+        "/home": (context) => const Home(),
+        "/Setting": (context) => const SettingPage(),
+        "/Subcategory": (context) => const Subcategory_Page(),
+      },
 
-        // home: Home(),
-      ),
+      // home: Home(),
     );
   }
 }

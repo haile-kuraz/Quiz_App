@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:gradient_icon/gradient_icon.dart';
+import 'package:provider/provider.dart';
 
+import '../../Provider/PeriferanceProvider.dart';
 import '../../Widgets/SettingIcons.dart';
 
-class SettingPage extends StatelessWidget {
+class SettingPage extends StatefulWidget {
   const SettingPage({super.key});
 
   @override
+  State<SettingPage> createState() => _SettingPageState();
+}
+
+class _SettingPageState extends State<SettingPage> {
+  bool sound = true;
+  bool timer = true;
+  bool nightmode = false;
+  @override
   Widget build(BuildContext context) {
+    var PeriferanceUpdate = Provider.of<Periferance>(context, listen: false);
+    var PeriferanceState = Provider.of<Periferance>(context);
+
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -43,8 +55,13 @@ class SettingPage extends StatelessWidget {
                 ),
                 trailing: Switch(
                   activeColor: Theme.of(context).colorScheme.primary,
-                  value: false,
-                  onChanged: (value) {},
+                  value: sound,
+                  onChanged: (value) {
+                    setState(() {
+                      sound = value;
+                    });
+                    PeriferanceUpdate.setIsthereSound(sound);
+                  },
                 ),
               ),
               // This is the setting to set timer
@@ -60,8 +77,13 @@ class SettingPage extends StatelessWidget {
                 ),
                 trailing: Switch(
                   activeColor: Theme.of(context).colorScheme.primary,
-                  value: true,
-                  onChanged: (value) {},
+                  value: timer,
+                  onChanged: (value) {
+                    setState(() {
+                      timer = value;
+                    });
+                    PeriferanceUpdate.setIsthereSound(timer);
+                  },
                 ),
               ),
               Text(
@@ -83,8 +105,13 @@ class SettingPage extends StatelessWidget {
                 ),
                 trailing: Switch(
                   activeColor: Theme.of(context).colorScheme.primary,
-                  value: true,
-                  onChanged: (value) {},
+                  value: PeriferanceState.getIsDark() ?? false,
+                  onChanged: (value) {
+                    setState(() {
+                      Periferance.isDark = value;
+                    });
+                    PeriferanceUpdate.setIsDarkStatus(value);
+                  },
                 ),
               ),
               // This is the setting to set Language
