@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('Image_url')->nullable()->default($default);
             $table->text('description')->nullable();
+            $table->enum('categoryType', ['acadamic', 'general', 'missions']);
             $table->timestamps();
         });
     }

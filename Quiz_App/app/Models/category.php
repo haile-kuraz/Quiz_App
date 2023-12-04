@@ -9,7 +9,7 @@ class category extends Model
 {
     protected $table = 'categories';
 
-    protected $fillable = ['name', 'Image_url', 'description'];
+    protected $fillable = ['name', 'Image_url', 'description', 'categoryType'];
     public function normal_questions()
     {
         return $this->hasMany(normal_question::class);

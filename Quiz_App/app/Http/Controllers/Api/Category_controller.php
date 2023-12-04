@@ -7,7 +7,7 @@ use App\Models\category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class Category_controller extends Controller
 {
@@ -40,6 +40,10 @@ class Category_controller extends Controller
             'name' => 'required|string|max:45',
             'Image_url' => 'nullable',
             'description' => 'string',
+            'categoryType' => [
+                'required',
+                Rule::in(['acadamic', 'general', 'missions']),
+            ],
         ]);
         // $hashedPassword = Hash::make($request->password);
         if ($validator->fails()) {
@@ -61,6 +65,7 @@ class Category_controller extends Controller
                     'name' => $request->name,
                     'description' => $request->description,
                     'Image_url' => $request->Image_url,
+                    'categoryType' => $request->categoryType,
                 ]);
                 if ($category) {
 
@@ -103,6 +108,11 @@ class Category_controller extends Controller
                 'name' => 'required|string|max:45',
                 'Image_url' => 'nullable',
                 'description' => 'string',
+                'categoryType' => [
+                    'required',
+
+                    Rule::in(['acadamic', 'general', 'missions']),
+                ],
             ]);
 
             if ($validator->fails()) {
@@ -115,6 +125,7 @@ class Category_controller extends Controller
                     'name' => $request->name,
                     'description' => $request->description,
                     'Image_url' => $request->Image_url,
+                    'categoryType' => $request->categoryType,
                 ]);
                 return response()->json([
                     'status' => 200,
