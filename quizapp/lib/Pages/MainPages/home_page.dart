@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
+import '../../Provider/PeriferanceProvider.dart';
 import 'brodcast_page.dart';
 import 'leaderboard_page.dart';
 import 'library_page.dart';
@@ -27,18 +29,25 @@ class _HomeState extends State<Home> {
   ];
   @override
   void initState() {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.white,
-      statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.white,
-      systemNavigationBarIconBrightness: Brightness.dark,
-    ));
     _currentIndex = 0;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var PeriferanceState = Provider.of<Periferance>(context);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor:
+          PeriferanceState.getIsDark() == true ? Colors.black : Colors.white,
+      statusBarIconBrightness: PeriferanceState.getIsDark() == true
+          ? Brightness.light
+          : Brightness.dark,
+      systemNavigationBarColor:
+          PeriferanceState.getIsDark() == true ? Colors.black : Colors.white,
+      systemNavigationBarIconBrightness: PeriferanceState.getIsDark() == true
+          ? Brightness.light
+          : Brightness.dark,
+    ));
     return Scaffold(
       body: _screens[_currentIndex],
       bottomNavigationBar: GNav(

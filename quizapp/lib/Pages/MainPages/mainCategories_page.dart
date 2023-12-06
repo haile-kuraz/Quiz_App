@@ -1,6 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:provider/provider.dart';
 
+import '../../Provider/PeriferanceProvider.dart';
 import '../../Widgets/RankandPoint.dart';
 import 'tabviewpages/acadamic_tabview.dart';
 import 'tabviewpages/general_tabview.dart';
@@ -17,6 +20,8 @@ class _MainCategoryState extends State<MainCategory>
     with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
+    var PeriferianceState = Provider.of<Periferance>(context);
+    var PeriferianceUpdate = Provider.of<Periferance>(context, listen: false);
     Size size = MediaQuery.of(context).size;
     TabController tabController = TabController(length: 3, vsync: this);
     return Padding(
@@ -36,7 +41,7 @@ class _MainCategoryState extends State<MainCategory>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Hi,medina",
+                          "HI,${PeriferianceState.getName()}",
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         Text(
@@ -51,10 +56,17 @@ class _MainCategoryState extends State<MainCategory>
                         ),
                       ],
                     ),
-                    CircleAvatar(
-                      backgroundColor:
-                          Theme.of(context).colorScheme.onBackground,
-                      radius: 30,
+                    CachedNetworkImage(
+                      imageUrl: "${PeriferianceState.getImage()}",
+                      imageBuilder: (context, imageProvider) {
+                        return CircleAvatar(
+                          backgroundImage: imageProvider,
+                          radius: 30,
+                        );
+                      },
+                      placeholder: (context, url) =>
+                          CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                   ],
                 ),

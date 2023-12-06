@@ -15,9 +15,28 @@ class SettingPage extends StatefulWidget {
 class _SettingPageState extends State<SettingPage> {
   bool sound = true;
   bool timer = true;
-  bool nightmode = false;
+  List<Map> LanguageData = [
+    {
+      "name": "English",
+      "value": "en",
+    },
+    {
+      "name": "አማርኛ",
+      "value": "en",
+    },
+    {
+      "name": "ትግሪኛ",
+      "value": "en",
+    },
+    {
+      "name": "Afaan Oromo",
+      "value": "en",
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     var PeriferanceUpdate = Provider.of<Periferance>(context, listen: false);
     var PeriferanceState = Provider.of<Periferance>(context);
 
@@ -107,16 +126,21 @@ class _SettingPageState extends State<SettingPage> {
                   activeColor: Theme.of(context).colorScheme.primary,
                   value: PeriferanceState.getIsDark() ?? false,
                   onChanged: (value) {
-                    setState(() {
-                      Periferance.isDark = value;
-                    });
                     PeriferanceUpdate.setIsDarkStatus(value);
                   },
                 ),
               ),
               // This is the setting to set Language
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return _LanguagePopUpbuilder(
+                          size: size, LanguageData: LanguageData);
+                    },
+                  );
+                },
                 leading: const SettingIcons(
                   icon: FontAwesomeIcons.language,
                 ),
@@ -179,7 +203,9 @@ class _SettingPageState extends State<SettingPage> {
               ),
               // This is the setting to get help
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pushNamed(context, "/Help");
+                },
                 leading: const SettingIcons(
                   icon: FontAwesomeIcons.solidCircleQuestion,
                 ),
@@ -229,6 +255,48 @@ class _SettingPageState extends State<SettingPage> {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _LanguagePopUpbuilder({size, LanguageData}) {
+    return Dialog(
+      child: SizedBox(
+        height: size.height * 0.37,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(
+                child: Text(
+                  "Select Language",
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: size.height * 0.3,
+              child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    onTap: () {},
+                    leading:
+                        const SettingIcons(icon: FontAwesomeIcons.language),
+                    title: Text(
+                      "${LanguageData[index]["name"]}",
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                    ),
+                  );
+                },
+                itemCount: LanguageData.length,
+              ),
+            ),
+          ],
         ),
       ),
     );

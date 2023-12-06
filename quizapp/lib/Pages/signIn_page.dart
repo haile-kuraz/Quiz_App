@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:http/http.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 
 import '../../Util/Paiter.dart';
+import '../Models/StudentModel.dart';
 import '../Provider/PeriferanceProvider.dart';
 import '../Widgets/DefaultTextformFild.dart';
 import '../Widgets/LargeButtonOfSignIn.dart';
@@ -130,15 +132,28 @@ class _SignInState extends State<SignIn> {
                               setState(() {
                                 isProcessing = true;
                               });
-                              await student_controller.login(
+                              await student_controller
+                                  .login(
                                 _emailController.text,
                                 _passwordController.text,
-                              );
+                              )
+                                  .then(
+                                (response) {
+                                  String Name = response["student"]["Name"];
+                                  String Image_Url =
+                                      response["student"]["Image_url"];
+                                  PeriferianceUpdate.setOnboardingStatus(false);
+                                  PeriferianceUpdate.setName(Name);
+                                  PeriferianceUpdate.setProfilImage(Image_Url);
+                                  Navigator.pushReplacementNamed(
+                                      context, '/home');
+                                },
+                              ).catchError((error) {
+                                print(error);
+                              });
                               setState(() {
                                 isProcessing = false;
                               });
-                              await PeriferianceUpdate.setOnboardingStatus(
-                                  false);
                             },
                           ),
 

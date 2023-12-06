@@ -7,13 +7,17 @@ class Periferance extends ChangeNotifier {
   }
   final SharedPreferences prefs;
   static bool? isthereSound;
-  static bool? isDark = false;
+  static bool? isDark;
   static bool? isOnboardingShowing;
+  static String? name;
+  static String? image;
 
   Future<void> _initializeSettings() async {
     isDark = prefs.getBool('DARK_THEME') ?? false;
     isOnboardingShowing = prefs.getBool('ON_BOARDING') ?? true;
     isthereSound = prefs.getBool('SOUND') ?? true;
+    name = prefs.getString('NAME') ?? "Unknown";
+    image = prefs.getString('IMAGE') ?? "Unknown";
     notifyListeners();
   }
 
@@ -24,11 +28,22 @@ class Periferance extends ChangeNotifier {
 
   Future<void> setIsDarkStatus(bool value) async {
     await prefs.setBool('DARK_THEME', value);
+    isDark = value;
     notifyListeners();
   }
 
   Future<void> setIsthereSound(bool value) async {
     await prefs.setBool('SOUND', value);
+    notifyListeners();
+  }
+
+  Future<void> setName(String value) async {
+    await prefs.setString('NAME', value);
+    notifyListeners();
+  }
+
+  Future<void> setProfilImage(String value) async {
+    await prefs.setString('IMAGE', value);
     notifyListeners();
   }
 
@@ -42,5 +57,13 @@ class Periferance extends ChangeNotifier {
 
   bool? getIsthereSound() {
     return isthereSound;
+  }
+
+  String? getName() {
+    return name;
+  }
+
+  String? getImage() {
+    return image;
   }
 }

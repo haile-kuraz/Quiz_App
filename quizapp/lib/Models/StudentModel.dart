@@ -1,30 +1,32 @@
-class StudentModel {
+class StrudentModel {
   int? status;
-  List<Students>? students;
+  Student? student;
+  String? token;
+  String? message;
 
-  StudentModel({this.status, this.students});
+  StrudentModel({this.status, this.student, this.token, this.message});
 
-  StudentModel.fromJson(Map<String, dynamic> json) {
+  StrudentModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    if (json['students'] != null) {
-      students = <Students>[];
-      json['students'].forEach((v) {
-        students!.add(Students.fromJson(v));
-      });
-    }
+    student =
+        json['student'] != null ? new Student.fromJson(json['student']) : null;
+    token = json['token'];
+    message = json['message'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = status;
-    if (students != null) {
-      data['students'] = students!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    if (this.student != null) {
+      data['student'] = this.student!.toJson();
     }
+    data['token'] = this.token;
+    data['message'] = this.message;
     return data;
   }
 }
 
-class Students {
+class Student {
   int? id;
   String? name;
   String? email;
@@ -34,7 +36,7 @@ class Students {
   String? createdAt;
   String? updatedAt;
 
-  Students(
+  Student(
       {this.id,
       this.name,
       this.email,
@@ -44,7 +46,7 @@ class Students {
       this.createdAt,
       this.updatedAt});
 
-  Students.fromJson(Map<String, dynamic> json) {
+  Student.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['Name'];
     email = json['Email'];
@@ -56,15 +58,15 @@ class Students {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['Name'] = name;
-    data['Email'] = email;
-    data['password'] = password;
-    data['phone_number'] = phoneNumber;
-    data['Image_url'] = imageUrl;
-    data['created_at'] = createdAt;
-    data['updated_at'] = updatedAt;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['Name'] = this.name;
+    data['Email'] = this.email;
+    data['password'] = this.password;
+    data['phone_number'] = this.phoneNumber;
+    data['Image_url'] = this.imageUrl;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }

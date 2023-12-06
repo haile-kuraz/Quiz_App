@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Pages/MainPages/help_page.dart';
 import 'Pages/MainPages/home_page.dart';
 import 'Pages/MainPages/setting_page.dart';
 import 'Pages/MainPages/subcategory_page.dart';
@@ -60,6 +62,8 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: PeriferanceState.getIsDark() == true ? darkTheme : lightTheme,
+      // theme: darkTheme,
+
       initialRoute: "/",
       routes: {
         "/": (context) => const SplashScreen(),
@@ -69,6 +73,7 @@ class _MyAppState extends State<MyApp> {
         "/home": (context) => const Home(),
         "/Setting": (context) => const SettingPage(),
         "/Subcategory": (context) => const Subcategory_Page(),
+        "/Help": (context) => Help_page(),
       },
 
       // home: Home(),
