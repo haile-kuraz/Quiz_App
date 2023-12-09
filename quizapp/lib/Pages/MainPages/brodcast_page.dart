@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
+import 'package:cached_network_image/cached_network_image.dart';
+
+import '../../Controllers/student_controller.dart';
+import '../../Models/StudentScoreModel.dart';
+
 class Brodcast extends StatelessWidget {
   const Brodcast({super.key});
 
@@ -53,75 +58,92 @@ class Brodcast extends StatelessWidget {
                         ),
                   ),
                 ),
-
+                _BestperformerListBuilder()
                 // This is the place where the list of best perfromers shown
-                Expanded(
-                  child: AnimationLimiter(
-                    child: ListView.builder(
-                      itemBuilder: (context, index) {
-                        return AnimationConfiguration.staggeredList(
-                          position: index,
-                          duration: const Duration(milliseconds: 1500),
-                          child: SlideAnimation(
-                            horizontalOffset: 30,
-                            child: FadeInAnimation(
-                              child: ListTile(
-                                leading: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.only(right: 3.0),
-                                      child: Text("${index + 1}"),
-                                    ),
-                                    CircleAvatar(
-                                      radius: 30,
-                                      backgroundColor: Theme.of(context)
-                                          .colorScheme
-                                          .onBackground,
-                                    )
-                                  ],
-                                ),
-                                title: Text(
-                                  "medina nasure",
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
-                                subtitle: Text(
-                                  "Rank: 200",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary,
-                                      ),
-                                ),
-                                trailing: Text(
-                                  "1000 points",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodySmall
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.w700,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimaryContainer,
-                                      ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                      itemCount: 10,
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _BestperformerListBuilder() {
+    return Expanded(
+      child: FutureBuilder<StudentScoreModel>(
+        future: student_controller.getTopTenStudentsByPoints(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<Datum> Data = snapshot.data!.data;
+            return AnimationLimiter(
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return AnimationConfiguration.staggeredList(
+                    position: index,
+                    duration: const Duration(milliseconds: 1500),
+                    child: SlideAnimation(
+                      horizontalOffset: 30,
+                      child: FadeInAnimation(
+                        child: ListTile(
+                          leading: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 3.0),
+                                child: Text("${index + 1}"),
+                              ),
+                              CachedNetworkImage(
+                                imageUrl: "${Data[index].student?.imageUrl}",
+                                imageBuilder: (context, imageProvider) {
+                                  return CircleAvatar(
+                                    backgroundImage: imageProvider,
+                                    radius: 30,
+                                  );
+                                },
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                errorWidget: (context, url, error) =>
+                                    const Icon(Icons.error),
+                              ),
+                            ],
+                          ),
+                          title: Text(
+                            "${Data[index].student?.name}",
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                          subtitle: Text(
+                            "Rank: ${Data[index].broadcastScore}",
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                          ),
+                          trailing: Text(
+                            "${Data[index].points} Point",
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                    ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                itemCount: Data.length,
+              ),
+            );
+          } else if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else {
+            return Text('Error: ${snapshot.error}');
+          }
+        },
       ),
     );
   }

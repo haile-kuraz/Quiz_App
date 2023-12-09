@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Pages/MainPages/help_page.dart';
 import 'Pages/MainPages/home_page.dart';
+import 'Pages/MainPages/question_page.dart';
 import 'Pages/MainPages/setting_page.dart';
 import 'Pages/MainPages/subcategory_page.dart';
 import 'Pages/OnbordingScreen.dart';
@@ -64,9 +65,9 @@ class _MyAppState extends State<MyApp> {
       theme: PeriferanceState.getIsDark() == true ? darkTheme : lightTheme,
       // theme: darkTheme,
 
-      initialRoute: "/",
+      initialRoute: "/home",
       routes: {
-        "/": (context) => const SplashScreen(),
+        // "/": (context) => const SplashScreen(),
         "/SignIn": (context) => const SignIn(),
         "/onbording": (context) => const OnbordingPage(),
         "/SignUp": (context) => const SignUp(),
@@ -74,6 +75,7 @@ class _MyAppState extends State<MyApp> {
         "/Setting": (context) => const SettingPage(),
         "/Subcategory": (context) => const Subcategory_Page(),
         "/Help": (context) => Help_page(),
+        "/Question": (context) => const Question_page(),
       },
 
       // home: Home(),

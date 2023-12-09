@@ -39,11 +39,13 @@ class Periferance extends ChangeNotifier {
 
   Future<void> setName(String value) async {
     await prefs.setString('NAME', value);
+    name = value;
     notifyListeners();
   }
 
   Future<void> setProfilImage(String value) async {
     await prefs.setString('IMAGE', value);
+    image = value;
     notifyListeners();
   }
 

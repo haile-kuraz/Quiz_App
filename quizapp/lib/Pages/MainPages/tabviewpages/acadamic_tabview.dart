@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:quizapp/Provider/AuthProvider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../Controllers/mainCategory_controller.dart';
 import '../../../Models/MainCategryModel.dart';
+import '../../../Util/Shimmer_loading.dart';
 
 class AcadamicTabview extends StatelessWidget {
   const AcadamicTabview({super.key});
@@ -123,7 +125,17 @@ class AcadamicTabview extends StatelessWidget {
           print("there is no data");
           return Container(child: CircularProgressIndicator());
         } else {
-          return Center(child: CircularProgressIndicator());
+          return GridView.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: size.width * 0.03,
+              mainAxisSpacing: size.height * 0.02,
+              childAspectRatio: 1.7,
+            ),
+            itemBuilder: (context, index) {
+              return AllShimmers.MainCategoriesShimmer(context);
+            },
+          );
         }
       },
     );
