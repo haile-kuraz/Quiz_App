@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class score extends Model
 {
-    protected $fillable = ['broadcast_score', 'points'];
+    protected $fillable = ['student_id', 'broadcast_score', 'points'];
 
     public function student()
     {

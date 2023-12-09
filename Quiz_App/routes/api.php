@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\Category_controller;
 use App\Http\Controllers\Api\Subcategory_controller;
 use App\Http\Controllers\Api\NormalQuestion_controller;
 use App\Http\Controllers\Api\Options_controller;
+use App\Http\Controllers\Api\Score_controller;
 
 
 
@@ -49,9 +50,12 @@ Route::put('students/{id}/Update', [Student_controller::class, 'Update']);
 Route::delete('students/{id}/Delete', [Student_controller::class, 'Delete']);
 Route::delete('students/DeleteAll', [Student_controller::class, 'DeleteAll']);
 Route::post('students/login', [Student_controller::class, 'login']);
+Route::get('stdents/getTopTenStudentsByPoints', [Student_controller::class, 'getTopTenStudentsByPoints']);
 // ------------------------category Apis--------------
 Route::get('categories', [Category_controller::class, 'index']);
 Route::get('categories/Showall', [Category_controller::class, 'Showall']);
+Route::get('categories/ShowAcadamicTypeCategories', [Category_controller::class, 'ShowAcadamicTypeCategories']);
+Route::get('categories/ShowGeneralTypeCategories', [Category_controller::class, 'ShowGeneralTypeCategories']);
 Route::post('categories/Addnew', [Category_controller::class, 'Addnew']);
 Route::get('categories/{id}', [Category_controller::class, 'Showone']);
 Route::put('categories/{id}/Update', [Category_controller::class, 'Update']);
@@ -76,8 +80,19 @@ Route::delete('normalQuestions/DeleteAll', [NormalQuestion_controller::class, 'D
 // ------------------------Options Apis--------------
 Route::get('options', [Options_controller::class, 'index']);
 Route::get('options/Showall', [Options_controller::class, 'Showall']);
+
 Route::post('options/Addnew', [Options_controller::class, 'Addnew']);
 Route::get('options/{id}', [Options_controller::class, 'Showone']);
 Route::put('options/{id}/Update', [Options_controller::class, 'Update']);
 Route::delete('options/{id}/Delete', [Options_controller::class, 'Delete']);
 Route::delete('options/DeleteAll', [Options_controller::class, 'DeleteAll']);
+// ------------------------ Score Apis-------------------------------------
+Route::get('scores', [Score_controller::class, 'index']);
+Route::get('scores/Showall', [Score_controller::class, 'Showall']);
+
+Route::post('scores/Addnew', [Score_controller::class, 'Addnew']);
+Route::get('scores/{id}', [Score_controller::class, 'Showone']);
+Route::put('scores/{id}/UpdateScorePoint', [Score_controller::class, 'UpdateScorePoint']);
+Route::put('scores/{id}/UpdateBroadcastScore', [Score_controller::class, 'UpdateBroadcastScore']);
+Route::delete('scores/{id}/Delete', [Score_controller::class, 'Delete']);
+Route::delete('scores/DeleteAll', [Score_controller::class, 'DeleteAll']);

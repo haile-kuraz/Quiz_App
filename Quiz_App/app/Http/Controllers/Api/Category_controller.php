@@ -32,6 +32,26 @@ class Category_controller extends Controller
             ], 404);
         }
     }
+    public function  ShowGeneralTypeCategories()
+    {
+        // Fetch categories where categoryType is "general"
+        $categories = Category::where('categoryType', 'general')->get();
+
+        return response()->json([
+            'status' => 200,
+            'categories' => $categories,
+        ]);
+    }
+    public function   ShowAcadamicTypeCategories()
+    {
+        // Fetch categories where categoryType is "general"
+        $categories = Category::where('categoryType', 'acadamic')->get();
+
+        return response()->json([
+            'status' => 200,
+            'categories' => $categories,
+        ]);
+    }
 
 
     public function Addnew(Request $request)
@@ -64,7 +84,7 @@ class Category_controller extends Controller
                 $category = category::create([
                     'name' => $request->name,
                     'description' => $request->description,
-                    'Image_url' => $request->Image_url,
+                    'Image_url' => $request->input('Image_url', "https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/94/74/da/9474da4e-9a1e-d8ac-39b8-818229b05c47/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/1024x1024.jpg"),
                     'categoryType' => $request->categoryType,
                 ]);
                 if ($category) {

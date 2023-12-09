@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\score;
 use App\Models\student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class Student_controller extends Controller
 {
@@ -175,6 +176,17 @@ class Student_controller extends Controller
         return response()->json([
             'status' => 200,
             'message' => 'All Students deleted successfully',
+        ], 200);
+    }
+    public function getTopTenStudentsByPoints()
+    {
+        $students = score::with('student')
+            ->orderBy('points', 'desc') // Order by points in descending order to get the top scores first
+            ->take(10) // Limit the result to the top ten students
+            ->get();
+        return response()->json([
+            'status' => 200,
+            'data' => $students,
         ], 200);
     }
 
