@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\normal_question;
+use App\Models\options;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -30,6 +31,22 @@ class NormalQuestion_controller extends Controller
             return response()->json([
                 'status' => 404,
                 'message' => 'There is no data recorded'
+            ], 404);
+        }
+    }
+    public function getAllQuestionsWithTheirOptions()
+    {
+        $questions = normal_question::with('options')->get(); // Assuming the model name is Option
+
+        if ($questions->count() > 0) {
+            return response()->json([
+                'status' => 200,
+                'data' => $questions,
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'There is no data recorded',
             ], 404);
         }
     }

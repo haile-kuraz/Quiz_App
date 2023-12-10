@@ -72,6 +72,7 @@ Route::delete('subcategories/DeleteAll', [Subcategory_controller::class, 'Delete
 // ------------------------NormalQuestions Apis--------------
 Route::get('normalQuestions', [NormalQuestion_controller::class, 'index']);
 Route::get('normalQuestions/Showall', [NormalQuestion_controller::class, 'Showall']);
+Route::get('normalQuestions/getAllQuestionsWithTheirOptions', [NormalQuestion_controller::class, 'getAllQuestionsWithTheirOptions']);
 Route::post('normalQuestions/Addnew', [NormalQuestion_controller::class, 'Addnew']);
 Route::get('normalQuestions/{id}', [NormalQuestion_controller::class, 'Showone']);
 Route::put('normalQuestions/{id}/Update', [NormalQuestion_controller::class, 'Update']);
@@ -89,7 +90,6 @@ Route::delete('options/DeleteAll', [Options_controller::class, 'DeleteAll']);
 // ------------------------ Score Apis-------------------------------------
 Route::get('scores', [Score_controller::class, 'index']);
 Route::get('scores/Showall', [Score_controller::class, 'Showall']);
-
 Route::post('scores/Addnew', [Score_controller::class, 'Addnew']);
 Route::get('scores/{id}', [Score_controller::class, 'Showone']);
 Route::put('scores/{id}/UpdateScorePoint', [Score_controller::class, 'UpdateScorePoint']);

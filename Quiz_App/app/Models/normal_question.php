@@ -16,7 +16,7 @@ class normal_question extends Model
     }
     public function options()
     {
-        return $this->hasMany(options::class);
+        return $this->hasMany(options::class, 'Question_id');
     }
     public function subcategory()
     {

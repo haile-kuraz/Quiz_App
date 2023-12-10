@@ -11,7 +11,7 @@ class options extends Model
     protected $fillable = ['code', 'Option_value', 'Is_correct', 'Question_id'];
     public function normal_question()
     {
-        return $this->belongsTo(normal_question::class);
+        return $this->belongsTo(normal_question::class, 'Question_id');
     }
     use HasFactory;
 }
