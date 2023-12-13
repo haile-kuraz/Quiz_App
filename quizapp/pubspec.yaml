@@ -54,6 +54,7 @@ dependencies:
   intl: ^0.18.1
   image_picker: ^1.0.4
   shimmer: ^3.0.0
+  confetti: ^0.7.0
  
 
 dev_dependencies:

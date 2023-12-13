@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Pages/MainPages/help_page.dart';
 import 'Pages/MainPages/home_page.dart';
+import 'Pages/MainPages/mainCategories_page.dart';
 import 'Pages/MainPages/question_page.dart';
 import 'Pages/MainPages/setting_page.dart';
 import 'Pages/MainPages/subcategory_page.dart';
@@ -24,6 +25,9 @@ void main() async {
   // Map<String, dynamic> lightData = await colors.getLightData();
   // Map<String, dynamic> darkData = await colors.getDarkData();
   SharedPreferences pref = await SharedPreferences.getInstance();
+  SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
 
   runApp(MultiProvider(
     providers: [

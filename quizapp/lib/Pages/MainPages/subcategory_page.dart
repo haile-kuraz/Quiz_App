@@ -91,9 +91,11 @@ class Subcategory_Page extends StatelessWidget {
                               context,
                               "/Question",
                               arguments: {
-                                'Category_Id': SubCategories[index].id,
-                                'Category_Image': SubCategories[index].ImageUrl,
-                                "Category_name": SubCategories[index].name,
+                                'Category_Id': Category_Id,
+                                'SubCategory_Id': SubCategories[index].id,
+                                'SubCategory_Image':
+                                    SubCategories[index].ImageUrl,
+
                                 // Add more parameters as needed
                               },
                             );
