@@ -1,11 +1,15 @@
+import 'package:delightful_toast/toast/components/toast_card.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:confetti/confetti.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
+import 'package:provider/provider.dart';
+import 'package:delightful_toast/delight_toast.dart';
 
 import '../../Controllers/normalQuestions_controller.dart';
 import '../../Models/NormalQuestionsModle.dart';
+import '../../Provider/PeriferanceProvider.dart';
 
 class Question_page extends StatefulWidget {
   const Question_page({super.key});
@@ -17,6 +21,8 @@ class Question_page extends StatefulWidget {
 class _Question_pageState extends State<Question_page> {
   PageController pageviewController = PageController(initialPage: 0);
   final ConfettiController confettiController = ConfettiController();
+  var PeriferianceState;
+  var PeriferianceUpdate;
   int pagenumber = 1;
   bool isclicked = false;
   int selectedIndex = -1;
@@ -30,7 +36,14 @@ class _Question_pageState extends State<Question_page> {
   }
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    PeriferianceState = Provider.of<Periferance>(context);
+    PeriferianceUpdate = Provider.of<Periferance>(context, listen: false);
     final args = ModalRoute.of(context)!.settings.arguments as Map;
 
     // Access the parameters
@@ -57,20 +70,22 @@ class _Question_pageState extends State<Question_page> {
               title: Text("$pagenumber of ${questions.length}"),
               centerTitle: true,
               actions: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        "Assets/Images/alarm.png",
-                      ),
-                      Text(
-                        "03:58",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ),
-                    ],
-                  ),
-                )
+                PeriferianceState.getisTimershowing()
+                    ? Padding(
+                        padding: const EdgeInsets.only(right: 10.0),
+                        child: Row(
+                          children: [
+                            Image.asset(
+                              "Assets/Images/alarm.png",
+                            ),
+                            Text(
+                              "03:58",
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ],
+                        ),
+                      )
+                    : const Text(" ")
               ],
             ),
             body: CachedNetworkImage(
@@ -83,7 +98,7 @@ class _Question_pageState extends State<Question_page> {
                         fit: BoxFit.cover,
                         colorFilter: ColorFilter.mode(
                           Theme.of(context).colorScheme.background.withOpacity(
-                              0.9), // Replace with the desired color
+                              0.85), // Replace with the desired color
                           BlendMode
                               .srcOver, // Choose a blend mode that suits your needs
                         ),
@@ -112,10 +127,7 @@ class _Question_pageState extends State<Question_page> {
                                       width: size.width,
                                       height: size.height * 0.2,
                                       decoration: BoxDecoration(
-                                        // color: Theme.of(context).colorScheme.background,
-
                                         color: Theme.of(context).canvasColor,
-
                                         borderRadius: const BorderRadius.all(
                                           Radius.circular(10),
                                         ),
@@ -125,8 +137,7 @@ class _Question_pageState extends State<Question_page> {
                                             blurStyle: BlurStyle.outer,
                                             color: Theme.of(context)
                                                 .colorScheme
-          
-                                                 .onBackground,
+                                                .onBackground,
                                             offset: const Offset(-2, -2),
                                             spreadRadius: 2,
                                           ),
@@ -157,12 +168,22 @@ class _Question_pageState extends State<Question_page> {
                                             decoration: BoxDecoration(
                                               border: Border.all(
                                                 color: isclicked
-                                                    ? questions[pageindex]
-                                                                .options[index]
-                                                                .IsCorrect ==
-                                                            1
-                                                        ? Colors.green
-                                                        : Colors.red
+                                                    ? selectedIndex == index
+                                                        ? questions[pageindex]
+                                                                    .options[
+                                                                        index]
+                                                                    .IsCorrect ==
+                                                                1
+                                                            ? Colors.green
+                                                            : Colors.red
+                                                        : questions[pageindex]
+                                                                    .options[
+                                                                        index]
+                                                                    .IsCorrect ==
+                                                                1
+                                                            ? Colors.green
+                                                            : Theme.of(context)
+                                                                .canvasColor
                                                     : Theme.of(context)
                                                         .canvasColor,
                                                 width: 2,
@@ -191,28 +212,12 @@ class _Question_pageState extends State<Question_page> {
                                                   top: 2.0, bottom: 2),
                                               child: ListTile(
                                                 onTap: isLocked
-                                                    ? () async {
-                                                        setState(() {
-                                                          isclicked = true;
-                                                          isLocked = false;
-                                                        });
-                                                        if (questions[pageindex]
-                                                                .options[index]
-                                                                .IsCorrect ==
-                                                            1) {
-                                                          // This the place to add the audio for correct answer
-                                                          setState(() {
-                                                            correctChoices++;
-                                                          });
-                                                        } else {
-                                                          // This is the place to add an audio for wrong choice we made
-                                                          wrongChoices++;
-                                                        }
-                                                        if (questions.length ==
-                                                            (correctChoices +
-                                                                wrongChoices)) {
-                                                          _ShowingDialog(size);
-                                                        }
+                                                    ? () {
+                                                        onclick(
+                                                            index,
+                                                            questions,
+                                                            pageindex,
+                                                            size);
                                                       }
                                                     : () {},
                                                 leading: Text(
@@ -227,12 +232,24 @@ class _Question_pageState extends State<Question_page> {
                                                     .options[index]
                                                     .OptionValue),
                                                 trailing: isclicked
-                                                    ? questions[pageindex]
-                                                                .options[index]
-                                                                .IsCorrect ==
-                                                            1
-                                                        ? Icon(Icons.check)
-                                                        : Icon(Icons.close)
+                                                    ? selectedIndex == index
+                                                        ? questions[pageindex]
+                                                                    .options[
+                                                                        index]
+                                                                    .IsCorrect ==
+                                                                1
+                                                            ? const Icon(
+                                                                Icons.check)
+                                                            : const Icon(
+                                                                Icons.close)
+                                                        : questions[pageindex]
+                                                                    .options[
+                                                                        index]
+                                                                    .IsCorrect ==
+                                                                1
+                                                            ? const Icon(
+                                                                Icons.check)
+                                                            : null
                                                     : null,
                                               ),
                                             ),
@@ -264,12 +281,62 @@ class _Question_pageState extends State<Question_page> {
     );
   }
 
+  void onclick(int index, questions, int pageindex, Size size) async {
+    setState(() {
+      isclicked = true;
+      isLocked = false;
+      selectedIndex = index;
+    });
+    if (questions[pageindex].options[index].IsCorrect == 1) {
+      if (PeriferianceState.getIsthereSound()) {
+        AssetsAudioPlayer.newPlayer().open(
+          Audio('Assets/Sounds/Quizsounds/correct.mp3'),
+          autoStart: true,
+        );
+      }
+      // This the place to add the audio for correct answer
+      setState(() {
+        correctChoices++;
+      });
+    } else {
+      DelightToastBar(
+        builder: (context) => ToastCard(
+          leading: Image.asset(
+            "Assets/Images/Hint.png",
+          ),
+          title: Text(
+            "${questions[pageindex].solutionDescription}",
+            style: const TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 14,
+            ),
+          ),
+        ),
+      ).show(context);
+
+      if (PeriferianceState.getIsthereSound()) {
+        AssetsAudioPlayer.newPlayer().open(
+          Audio('Assets/Sounds/Quizsounds/error.mp3'),
+          autoStart: true,
+        );
+      }
+      // This is the place to add an audio for wrong choice we made
+      wrongChoices++;
+    }
+    if (questions.length == (correctChoices + wrongChoices)) {
+      await Future.delayed(const Duration(seconds: 1));
+      _ShowingDialog(size);
+    }
+  }
+
   void _ShowingDialog(Size size) async {
     confettiController.play();
-    AssetsAudioPlayer.newPlayer().open(
-      Audio('Assets/Sounds/Effects/clap.mp3'),
-      autoStart: true,
-    );
+    if (PeriferianceState.getIsthereSound()) {
+      AssetsAudioPlayer.newPlayer().open(
+        Audio('Assets/Sounds/Effects/clap.mp3'),
+        autoStart: true,
+      );
+    }
     showGeneralDialog(
       context: context,
       barrierLabel: "Dismiss",
@@ -289,12 +356,12 @@ class _Question_pageState extends State<Question_page> {
               blastDirectionality: BlastDirectionality.directional,
               confettiController: confettiController,
               emissionFrequency: 0.1,
-              colors: const [
+              colors: [
                 Colors.green,
                 Colors.yellow,
                 Colors.red,
               ],
-              child:const  AlertDialog(
+              child: const AlertDialog(
                 title: Text("alert"),
                 content: Text("This is the content"),
               ),
@@ -328,6 +395,7 @@ class _Question_pageState extends State<Question_page> {
                         numberofQuestions != pagenumber
                             ? isLocked = true
                             : null;
+                        selectedIndex = -1;
                       });
 
                       pageviewController.nextPage(

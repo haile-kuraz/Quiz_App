@@ -9,6 +9,7 @@ class Periferance extends ChangeNotifier {
   static bool? isthereSound;
   static bool? isDark;
   static bool? isOnboardingShowing;
+  static bool? isTimershowing;
   static String? name;
   static String? image;
 
@@ -16,6 +17,7 @@ class Periferance extends ChangeNotifier {
     isDark = prefs.getBool('DARK_THEME') ?? false;
     isOnboardingShowing = prefs.getBool('ON_BOARDING') ?? true;
     isthereSound = prefs.getBool('SOUND') ?? true;
+    isTimershowing = prefs.getBool('TIMER') ?? true;
     name = prefs.getString('NAME') ?? "Unknown";
     image = prefs.getString('IMAGE') ?? "Unknown";
     notifyListeners();
@@ -34,6 +36,13 @@ class Periferance extends ChangeNotifier {
 
   Future<void> setIsthereSound(bool value) async {
     await prefs.setBool('SOUND', value);
+    isthereSound = value;
+    notifyListeners();
+  }
+
+  Future<void> setisTimershowing(bool value) async {
+    await prefs.setBool('TIMER', value);
+    isTimershowing = value;
     notifyListeners();
   }
 
@@ -59,6 +68,10 @@ class Periferance extends ChangeNotifier {
 
   bool? getIsthereSound() {
     return isthereSound;
+  }
+
+  bool? getisTimershowing() {
+    return isTimershowing;
   }
 
   String? getName() {

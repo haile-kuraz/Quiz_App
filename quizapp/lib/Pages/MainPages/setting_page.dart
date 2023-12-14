@@ -13,7 +13,6 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
-  bool sound = true;
   bool timer = true;
   List<Map> LanguageData = [
     {
@@ -74,12 +73,9 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 trailing: Switch(
                   activeColor: Theme.of(context).colorScheme.primary,
-                  value: sound,
+                  value: PeriferanceState.getIsthereSound() ?? true,
                   onChanged: (value) {
-                    setState(() {
-                      sound = value;
-                    });
-                    PeriferanceUpdate.setIsthereSound(sound);
+                    PeriferanceUpdate.setIsthereSound(value);
                   },
                 ),
               ),
@@ -96,12 +92,9 @@ class _SettingPageState extends State<SettingPage> {
                 ),
                 trailing: Switch(
                   activeColor: Theme.of(context).colorScheme.primary,
-                  value: timer,
+                  value: PeriferanceState.getisTimershowing() ?? true,
                   onChanged: (value) {
-                    setState(() {
-                      timer = value;
-                    });
-                    PeriferanceUpdate.setIsthereSound(timer);
+                    PeriferanceUpdate.setisTimershowing(value);
                   },
                 ),
               ),
