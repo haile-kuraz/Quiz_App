@@ -134,6 +134,8 @@ class Score_controller extends Controller
                     'student_id' => $request->student_id,
                     'points' =>  $request->points,
                 ]);
+                // Update ranks based on descending order of broadcast_score
+                $this->updateRanks();
                 return response()->json([
                     'status' => 200,
                     'message' => 'points in the Score Table has been Updated Successfully'
@@ -174,6 +176,7 @@ class Score_controller extends Controller
                     'student_id' => $request->student_id,
                     'broadcast_score' => $request->broadcast_score,
                 ]);
+                $this->updateRanks();
 
                 return response()->json([
                     'status' => 200,
