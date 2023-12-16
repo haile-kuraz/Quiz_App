@@ -189,6 +189,22 @@ class Student_controller extends Controller
             'data' => $students,
         ], 200);
     }
+    public function getAllStudentsByRank()
+    {
+        $students = score::with('student')->orderBy('broadcast_score', 'desc')->get();
+
+        if ($students) {
+            return response()->json([
+                'status' => 200,
+                "Students" => $students,
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                "message" => "No record found"
+            ], 404);
+        }
+    }
 
     public function login(Request $request)
     {

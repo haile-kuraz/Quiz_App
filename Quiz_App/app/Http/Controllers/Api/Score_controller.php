@@ -46,29 +46,32 @@ class Score_controller extends Controller
             'points' => 'required|numeric',
         ]);
 
-
         if ($validator->fails()) {
             return response()->json([
                 'status' => 422,
                 'errors' => $validator->messages(),
             ], 422);
         } else {
-            $existScore = score::where('student_id', $request->student_id)->first();
+            $existScore = Score::where('student_id', $request->student_id)->first();
 
             if ($existScore) {
-                // Score  with the given Student Id already exists
+                // Score with the given Student Id already exists
                 return response()->json([
                     'status' => 409,
-                    'message' => 'The Score  already Exists',
+                    'message' => 'The Score already Exists',
                 ], 409);
             } else {
-                $Score = score::create([
+                // Create a new score
+                $score = Score::create([
                     'student_id' => $request->student_id,
                     'broadcast_score' => $request->broadcast_score,
                     'points' => $request->points,
                 ]);
-                if ($Score) {
 
+                // Update ranks based on descending order of broadcast_score
+                $this->updateRanks();
+
+                if ($score) {
                     return response()->json([
                         'status' => 200,
                         'message' => 'Score has been created Successfully'
@@ -76,17 +79,25 @@ class Score_controller extends Controller
                 } else {
                     return response()->json([
                         'status' => 500,
-                        'message' => 'Server Error '
+                        'message' => 'Server Error'
                     ], 500);
                 }
             }
         }
     }
 
+    private function updateRanks()
+    {
+        DB::statement('SET @rank = 0');
+
+        DB::table('scores')
+            ->orderBy('broadcast_score', 'desc')
+            ->update(['rank' => DB::raw('( @rank := @rank + 1 )')]);
+    }
 
     public function Showone($student_id)
     {
-        $Score = Score::where('student_id', $student_id)->first();
+        $Score = Score::where('student_id', $student_id)->select('broadcast_score', 'points')->first();
         if ($Score) {
             return response()->json([
                 'status' => 200,

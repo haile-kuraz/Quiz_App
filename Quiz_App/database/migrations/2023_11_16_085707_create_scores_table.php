@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('student_id');
             $table->double('broadcast_score', 4, 2);
             $table->double('points', 4, 2);
+            $table->integer('rank')->nullable();
             $table->timestamps();
             //this is definng the foreigne key
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
