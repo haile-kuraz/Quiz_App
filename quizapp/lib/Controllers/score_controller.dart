@@ -2,12 +2,11 @@ import 'dart:convert';
 import '../Util/Constants.dart';
 import '../Models/ScoreModle.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 class score_controller {
-  static Future<ScoreModel> featchingScore() async {
+  static Future<ScoreModel> featchingScore(int id) async {
     try {
-      final response = await http.get(Uri.parse("${mainApi}/scores/1"));
+      final response = await http.get(Uri.parse("${mainApi}/scores/$id"));
 
       if (response.statusCode == 200) {
         // If server returns an OK response, parse the JSON

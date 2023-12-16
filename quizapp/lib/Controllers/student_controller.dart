@@ -85,6 +85,7 @@ class student_controller {
       } else {
         // If the server did not return a 200 OK response,
         // throw an exception.
+        print("this is the error pleace check me");
         throw Exception('Failed to load data');
       }
     } catch (e) {

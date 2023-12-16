@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:quizapp/Pages/MainPages/brodcast_page.dart';
+import 'package:provider/provider.dart';
 import '../Controllers/score_controller.dart';
 import '../Models/ScoreModle.dart';
+import '../Provider/PeriferanceProvider.dart';
 
 class RankandPointDashbord extends StatefulWidget {
   const RankandPointDashbord({
@@ -35,9 +36,11 @@ class _RankandPointDashbordState extends State<RankandPointDashbord> {
   }
 
   Future<void> _fetchData() async {
+    var PeriferianceState = Provider.of<Periferance>(context, listen: false);
     try {
       // Fetch data using your score_controller
-      ScoreModel score = await score_controller.featchingScore();
+      ScoreModel score = await score_controller
+          .featchingScore(PeriferianceState.getStudentId() ?? 0);
 
       // Add the fetched data to the stream
       _scoreStreamController.add(score);
@@ -53,7 +56,7 @@ class _RankandPointDashbordState extends State<RankandPointDashbord> {
       stream: _scoreStream,
       initialData: ScoreModel(
         status: 200,
-        score: Score(broadcastScore: 0, points: 10),
+        score: Score(broadcastScore: 0, points: 0, rank: 0),
       ),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
@@ -61,11 +64,11 @@ class _RankandPointDashbordState extends State<RankandPointDashbord> {
           return _buildScoreWidget(0, 0);
         } else if (snapshot.hasData) {
           // Extract data from the snapshot
-          var brodcastScore = snapshot.data!.score.broadcastScore;
+          var rank = snapshot.data!.score.rank;
           var scorePoint = snapshot.data!.score.points;
 
           // Build the widget with the extracted data
-          return _buildScoreWidget(brodcastScore, scorePoint);
+          return _buildScoreWidget(rank, scorePoint);
         } else {
           // Loading state
           return _buildScoreWidget(0, 0);
@@ -74,7 +77,7 @@ class _RankandPointDashbordState extends State<RankandPointDashbord> {
     );
   }
 
-  Widget _buildScoreWidget(double brodcastScore, double scorePoint) {
+  Widget _buildScoreWidget(int brodcastScore, double scorePoint) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       width: widget.size.width,
@@ -170,6 +173,7 @@ class _RankandPointDashbordState extends State<RankandPointDashbord> {
   @override
   void dispose() {
     // Dispose of the StreamController when the widget is disposed
+
     _scoreStreamController.close();
     super.dispose();
   }

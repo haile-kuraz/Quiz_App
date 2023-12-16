@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../Controllers/student_controller.dart';
 import '../../Models/StudentScoreModel.dart';
+import '../../Util/Shimmer_loading.dart';
 
 class Brodcast extends StatelessWidget {
   const Brodcast({super.key});
@@ -74,7 +76,7 @@ class Brodcast extends StatelessWidget {
         future: student_controller.getTopTenStudentsByPoints(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            List<Datum> Data = snapshot.data!.data;
+            List<Data> data = snapshot.data!.data;
             return AnimationLimiter(
               child: ListView.builder(
                 itemBuilder: (context, index) {
@@ -93,7 +95,7 @@ class Brodcast extends StatelessWidget {
                                 child: Text("${index + 1}"),
                               ),
                               CachedNetworkImage(
-                                imageUrl: "${Data[index].student?.imageUrl}",
+                                imageUrl: data[index].student.ImageUrl,
                                 imageBuilder: (context, imageProvider) {
                                   return CircleAvatar(
                                     backgroundImage: imageProvider,
@@ -108,11 +110,11 @@ class Brodcast extends StatelessWidget {
                             ],
                           ),
                           title: Text(
-                            "${Data[index].student?.name}",
+                            data[index].student.Name,
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                           subtitle: Text(
-                            "Rank: ${Data[index].broadcastScore}",
+                            "Rank: ${data[index].rank}",
                             style: Theme.of(context)
                                 .textTheme
                                 .bodySmall
@@ -121,7 +123,7 @@ class Brodcast extends StatelessWidget {
                                 ),
                           ),
                           trailing: Text(
-                            "${Data[index].points} Point",
+                            "${data[index].points} Point",
                             style:
                                 Theme.of(context).textTheme.bodySmall?.copyWith(
                                       fontWeight: FontWeight.w700,
@@ -135,13 +137,11 @@ class Brodcast extends StatelessWidget {
                     ),
                   );
                 },
-                itemCount: Data.length,
+                itemCount: data.length,
               ),
             );
-          } else if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
           } else {
-            return Text('Error: ${snapshot.error}');
+            return AllShimmers.TopTenBestPerformesShimmer(context);
           }
         },
       ),

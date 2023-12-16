@@ -69,9 +69,9 @@ class _MyAppState extends State<MyApp> {
       theme: PeriferanceState.getIsDark() == true ? darkTheme : lightTheme,
       // theme: darkTheme,
 
-      initialRoute: "/home",
+      initialRoute: "/",
       routes: {
-        // "/": (context) => const SplashScreen(),
+        "/": (context) => const SplashScreen(),
         "/SignIn": (context) => const SignIn(),
         "/onbording": (context) => const OnbordingPage(),
         "/SignUp": (context) => const SignUp(),

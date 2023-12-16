@@ -3,84 +3,80 @@ class StudentScoreModel {
     required this.status,
     required this.data,
   });
+  late final int status;
+  late final List<Data> data;
 
-  final int? status;
-  final List<Datum> data;
+  StudentScoreModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    data = List.from(json['data']).map((e) => Data.fromJson(e)).toList();
+  }
 
-  factory StudentScoreModel.fromJson(Map<String, dynamic> json) {
-    return StudentScoreModel(
-      status: json["status"],
-      data: json["data"] == null
-          ? []
-          : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
-    );
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['status'] = status;
+    _data['data'] = data.map((e) => e.toJson()).toList();
+    return _data;
   }
 }
 
-class Datum {
-  Datum({
-    required this.id,
+class Data {
+  Data({
     required this.studentId,
     required this.broadcastScore,
     required this.points,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.rank,
     required this.student,
   });
+  late final int studentId;
+  late final double? broadcastScore;
+  late final double points;
+  late final int rank;
+  late final Student student;
 
-  final int? id;
-  final int? studentId;
-  final double? broadcastScore;
-  final double? points;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
-  final Student? student;
+  Data.fromJson(Map<String, dynamic> json) {
+    studentId = json['student_id'];
+    broadcastScore = json['broadcast_score'];
+    points = json['points'];
+    rank = json['rank'];
+    student = Student.fromJson(json['student']);
+  }
 
-  factory Datum.fromJson(Map<String, dynamic> json) {
-    return Datum(
-      id: json["id"],
-      studentId: json["student_id"],
-      broadcastScore: json["broadcast_score"],
-      points: json["points"],
-      createdAt: DateTime.tryParse(json["created_at"] ?? ""),
-      updatedAt: DateTime.tryParse(json["updated_at"] ?? ""),
-      student:
-          json["student"] == null ? null : Student.fromJson(json["student"]),
-    );
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['student_id'] = studentId;
+    _data['broadcast_score'] = broadcastScore;
+    _data['points'] = points;
+    _data['rank'] = rank;
+    _data['student'] = student.toJson();
+    return _data;
   }
 }
 
 class Student {
   Student({
     required this.id,
-    required this.name,
-    required this.email,
-    required this.password,
-    required this.phoneNumber,
-    required this.imageUrl,
-    required this.createdAt,
-    required this.updatedAt,
+    required this.Name,
+    required this.Email,
+    required this.ImageUrl,
   });
+  late final int id;
+  late final String Name;
+  late final String Email;
+  late final String ImageUrl;
 
-  final int? id;
-  final String? name;
-  final String? email;
-  final String? password;
-  final String? phoneNumber;
-  final String? imageUrl;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  Student.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    Name = json['Name'];
+    Email = json['Email'];
+    ImageUrl = json['Image_url'];
+  }
 
-  factory Student.fromJson(Map<String, dynamic> json) {
-    return Student(
-      id: json["id"],
-      name: json["Name"],
-      email: json["Email"],
-      password: json["password"],
-      phoneNumber: json["phone_number"],
-      imageUrl: json["Image_url"],
-      createdAt: DateTime.tryParse(json["created_at"] ?? ""),
-      updatedAt: DateTime.tryParse(json["updated_at"] ?? ""),
-    );
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['id'] = id;
+    _data['Name'] = Name;
+    _data['Email'] = Email;
+    _data['Image_url'] = ImageUrl;
+    return _data;
   }
 }

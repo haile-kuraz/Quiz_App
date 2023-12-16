@@ -139,17 +139,21 @@ class _SignInState extends State<SignIn> {
                               )
                                   .then(
                                 (response) {
+                                  // print(response["student"]["id"]);
+                                  int Id = response["student"]["id"];
                                   String Name = response["student"]["Name"];
-                                  String Image_Url =
+                                  String image_Url =
                                       response["student"]["Image_url"];
+
                                   PeriferianceUpdate.setOnboardingStatus(false);
                                   PeriferianceUpdate.setName(Name);
-                                  PeriferianceUpdate.setProfilImage(Image_Url);
+                                  PeriferianceUpdate.setProfilImage(image_Url);
+                                  PeriferianceUpdate.setStudentId(Id);
                                   Navigator.pushReplacementNamed(
                                       context, '/home');
                                 },
                               ).catchError((error) {
-                                print(error);
+                                print("hi yoooooooo$error");
                               });
                               setState(() {
                                 isProcessing = false;
