@@ -97,7 +97,7 @@ class Score_controller extends Controller
 
     public function Showone($student_id)
     {
-        $Score = Score::where('student_id', $student_id)->select('broadcast_score', 'points')->first();
+        $Score = Score::where('student_id', $student_id)->select('broadcast_score', 'points', 'rank')->first();
         if ($Score) {
             return response()->json([
                 'status' => 200,

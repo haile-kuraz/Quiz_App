@@ -11,7 +11,7 @@ class score extends Model
 
     public function student()
     {
-        return $this->belongsTo(student::class);
+        return $this->belongsTo(student::class, 'student_id', 'id');
     }
     use HasFactory;
 }
