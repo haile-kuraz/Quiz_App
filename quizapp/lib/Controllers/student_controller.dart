@@ -93,7 +93,31 @@ class student_controller {
       return Future.error(e);
     }
   }
+
+  static Future<StudentScoreModel> getAllStudentsByRank() async {
+    try {
+      final response =
+          await http.get(Uri.parse("$mainApi/stdents/getAllStudentsByRank"));
+
+      if (response.statusCode == 200) {
+        // If server returns an OK response, parse the JSON
+        StudentScoreModel res =
+            StudentScoreModel.fromJson(json.decode(response.body));
+        return res;
+      } else {
+        // If the server did not return a 200 OK response,
+        // throw an exception.
+        print("this is the error pleace check me");
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      Future.error(e);
+      return Future.error(e);
+    }
+  }
 }
+
+// stdents/getAllStudentsByRank
 
 void messageflutterToast(String message) {
   Fluttertoast.showToast(
