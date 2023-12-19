@@ -11,9 +11,11 @@ use App\Http\Controllers\Api\Subcategory_controller;
 use App\Http\Controllers\Api\NormalQuestion_controller;
 use App\Http\Controllers\Api\Options_controller;
 use App\Http\Controllers\Api\Score_controller;
+use App\Http\Controllers\Api\BroadcastQuestions_controller;
+use App\Http\Controllers\Api\BroadcastOptions_controller;
 
 
-
+// 
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -98,3 +100,20 @@ Route::put('scores/{id}/UpdateScorePoint', [Score_controller::class, 'UpdateScor
 Route::put('scores/{id}/UpdateBroadcastScore', [Score_controller::class, 'UpdateBroadcastScore']);
 Route::delete('scores/{id}/Delete', [Score_controller::class, 'Delete']);
 Route::delete('scores/DeleteAll', [Score_controller::class, 'DeleteAll']);
+// ------------------------BroadCastQuestions Apis--------------
+Route::get('broadCastQuestions', [BroadcastQuestions_controller::class, 'index']);
+Route::get('broadCastQuestions/Showall', [BroadcastQuestions_controller::class, 'Showall'])->middleware('quiz.available');
+Route::get('broadCastQuestions/getAllQuestionsWithTheirOptions', [BroadcastQuestions_controller::class, 'getAllQuestionsWithTheirOptions']);
+Route::post('broadCastQuestions/Addnew', [BroadcastQuestions_controller::class, 'Addnew']);
+Route::get('broadCastQuestions/{id}', [BroadcastQuestions_controller::class, 'Showone']);
+Route::put('broadCastQuestions/{id}/Update', [BroadcastQuestions_controller::class, 'Update']);
+Route::delete('broadCastQuestions/{id}/Delete', [BroadcastQuestions_controller::class, 'Delete']);
+Route::delete('broadCastQuestions/DeleteAll', [BroadcastQuestions_controller::class, 'DeleteAll']);
+// ------------------------BroadCast Options Apis--------------
+Route::get('broadCastOptions', [BroadcastOptions_controller::class, 'index']);
+Route::get('broadCastOptions/Showall', [BroadcastOptions_controller::class, 'Showall']);
+Route::post('broadCastOptions/Addnew', [BroadcastOptions_controller::class, 'Addnew']);
+Route::get('broadCastOptions/{id}', [BroadcastOptions_controller::class, 'Showone']);
+Route::put('broadCastOptions/{id}/Update', [BroadcastOptions_controller::class, 'Update']);
+Route::delete('broadCastOptions/{id}/Delete', [BroadcastOptions_controller::class, 'Delete']);
+Route::delete('broadCastOptions/DeleteAll', [BroadcastOptions_controller::class, 'DeleteAll']);

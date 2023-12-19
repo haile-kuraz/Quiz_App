@@ -7,7 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class broadcast_questions extends Model
 {
-    protected $fillable = ['Question', 'description', 'dateofLive', 'timeofLive'];
+    protected $table = 'broadcast_questions';
+    protected $fillable = ['Question', 'description', 'dateofLive', 'start_time', 'end_time'];
+    protected $dates = [
+        'start_time', 'end_time', 'dateofLive'
+    ];
     public function students()
     {
         return $this->belongsToMany(student::class);
