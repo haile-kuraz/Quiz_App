@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:quizapp/Provider/AuthProvider.dart';
 
 import '../Models/StudentScoreModel.dart';
 import '../Util/Constants.dart';
@@ -85,8 +86,8 @@ class student_controller {
       } else {
         // If the server did not return a 200 OK response,
         // throw an exception.
-        print("this is the error pleace check me");
-        throw Exception('Failed to load data');
+
+        throw Exception('Failed to load data  ${response.statusCode}');
       }
     } catch (e) {
       Future.error(e);
@@ -107,8 +108,8 @@ class student_controller {
       } else {
         // If the server did not return a 200 OK response,
         // throw an exception.
-        print("this is the error pleace check me");
-        throw Exception('Failed to load data');
+
+        throw Exception('Failed to load data ${response.statusCode}');
       }
     } catch (e) {
       Future.error(e);

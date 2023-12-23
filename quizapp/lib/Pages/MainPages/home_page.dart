@@ -35,19 +35,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    var PeriferanceState = Provider.of<Periferance>(context);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor:
-          PeriferanceState.getIsDark() == true ? Colors.black : Colors.white,
-      statusBarIconBrightness: PeriferanceState.getIsDark() == true
-          ? Brightness.light
-          : Brightness.dark,
-      systemNavigationBarColor:
-          PeriferanceState.getIsDark() == true ? Colors.black : Colors.white,
-      systemNavigationBarIconBrightness: PeriferanceState.getIsDark() == true
-          ? Brightness.light
-          : Brightness.dark,
-    ));
     return Scaffold(
       body: _screens[_currentIndex],
       bottomNavigationBar: GNav(

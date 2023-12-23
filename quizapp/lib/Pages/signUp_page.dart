@@ -29,7 +29,8 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
-  final String _imageUrl = "";
+  final String _imageUrl =
+      "https://plus.unsplash.com/premium_photo-1682724602143-a77d75d273b1?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8fDB8fHww";
 
   @override
   Widget build(BuildContext context) {

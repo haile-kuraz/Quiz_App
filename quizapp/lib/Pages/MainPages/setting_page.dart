@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -120,6 +121,7 @@ class _SettingPageState extends State<SettingPage> {
                   value: PeriferanceState.getIsDark() ?? false,
                   onChanged: (value) {
                     PeriferanceUpdate.setIsDarkStatus(value);
+                    Taskbarupdater(PeriferanceUpdate);
                   },
                 ),
               ),
@@ -251,6 +253,23 @@ class _SettingPageState extends State<SettingPage> {
         ),
       ),
     );
+  }
+
+  void Taskbarupdater(PeriferanceState) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: PeriferanceState.getIsDark() == false
+          ? const Color(0xff1A1A1A)
+          : Colors.white,
+      statusBarIconBrightness: PeriferanceState.getIsDark() == true
+          ? Brightness.light
+          : Brightness.dark,
+      systemNavigationBarColor: PeriferanceState.getIsDark() == false
+          ? const Color(0xff1A1A1A)
+          : Colors.white,
+      systemNavigationBarIconBrightness: PeriferanceState.getIsDark() == true
+          ? Brightness.light
+          : Brightness.dark,
+    ));
   }
 
   Widget _LanguagePopUpbuilder({size, LanguageData}) {

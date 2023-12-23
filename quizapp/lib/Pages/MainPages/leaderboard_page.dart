@@ -18,6 +18,7 @@ class LeaderBoard extends StatefulWidget {
 class _LeaderBoardState extends State<LeaderBoard> {
   late StreamController<StudentScoreModel> _scoreStreamController;
   late Stream<StudentScoreModel> _scoreStream;
+  late Timer _fetchDataTimer;
 
   @override
   void initState() {
@@ -28,9 +29,17 @@ class _LeaderBoardState extends State<LeaderBoard> {
     _scoreStream = _scoreStreamController.stream;
 
     // Start fetching data periodically
-    Timer.periodic(const Duration(seconds: 5), (Timer t) {
+    _fetchDataTimer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
       _fetchData();
     });
+  }
+
+  @override
+  void dispose() {
+    // Dispose of the StreamController and cancel the timer when the widget is disposed
+    _scoreStreamController.close();
+    _fetchDataTimer.cancel(); // Add this line
+    super.dispose();
   }
 
   Future<void> _fetchData() async {

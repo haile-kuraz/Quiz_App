@@ -16,7 +16,8 @@ class score_controller {
       } else {
         // If the server did not return a 200 OK response,
         // throw an exception.
-        throw Exception('Failed to load data');
+        throw Exception(
+            'Failed to load data with status code of : ${response.statusCode}');
       }
     } catch (error) {
       throw Future.error(error);

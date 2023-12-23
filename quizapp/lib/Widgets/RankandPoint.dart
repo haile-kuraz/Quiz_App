@@ -20,6 +20,7 @@ class RankandPointDashbord extends StatefulWidget {
 class _RankandPointDashbordState extends State<RankandPointDashbord> {
   late StreamController<ScoreModel> _scoreStreamController;
   late Stream<ScoreModel> _scoreStream;
+  late Timer _fetchDataTimer;
 
   @override
   void initState() {
@@ -30,9 +31,17 @@ class _RankandPointDashbordState extends State<RankandPointDashbord> {
     _scoreStream = _scoreStreamController.stream;
 
     // Start fetching data periodically
-    Timer.periodic(const Duration(seconds: 5), (Timer t) {
+    _fetchDataTimer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
       _fetchData();
     });
+  }
+
+  @override
+  void dispose() {
+    // Dispose of the StreamController and cancel the timer when the widget is disposed
+    _scoreStreamController.close();
+    _fetchDataTimer.cancel(); // Add this line
+    super.dispose();
   }
 
   Future<void> _fetchData() async {
@@ -46,7 +55,7 @@ class _RankandPointDashbordState extends State<RankandPointDashbord> {
       _scoreStreamController.add(score);
     } catch (error) {
       // Handle errors
-      print('Error fetching data: $error');
+      print('Error fetching dataaaaaa: $error');
     }
   }
 
@@ -168,13 +177,5 @@ class _RankandPointDashbordState extends State<RankandPointDashbord> {
         ],
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    // Dispose of the StreamController when the widget is disposed
-
-    _scoreStreamController.close();
-    super.dispose();
   }
 }
