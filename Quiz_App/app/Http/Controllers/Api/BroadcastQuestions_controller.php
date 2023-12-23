@@ -59,8 +59,6 @@ class BroadcastQuestions_controller extends Controller
             'dateofLive' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
-
-
         ]);
 
 
@@ -131,6 +129,7 @@ class BroadcastQuestions_controller extends Controller
                 'end_time' => 'required',
             ]);
 
+
             if ($validator->fails()) {
                 return response()->json([
                     'status' => 422,
@@ -138,11 +137,11 @@ class BroadcastQuestions_controller extends Controller
                 ], 422);
             } else {
                 $BroadCastquestion->update([
-                    'Question' => 'required|string|max:45',
-                    'description' => 'required|string|max:100',
-                    'dateofLive' => 'required',
-                    'start_time' => 'required',
-                    'end_time' => 'required',
+                    'Question' => $request->Question,
+                    'description' =>  $request->description,
+                    'dateofLive' =>  $request->dateofLive,
+                    'start_time' =>  $request->start_time,
+                    'end_time' => $request->end_time,
                 ]);
                 return response()->json([
                     'status' => 200,
