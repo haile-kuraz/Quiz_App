@@ -85,7 +85,6 @@ Route::delete('normalQuestions/DeleteAll', [NormalQuestion_controller::class, 'D
 // ------------------------Options Apis--------------
 Route::get('options', [Options_controller::class, 'index']);
 Route::get('options/Showall', [Options_controller::class, 'Showall']);
-
 Route::post('options/Addnew', [Options_controller::class, 'Addnew']);
 Route::get('options/{id}', [Options_controller::class, 'Showone']);
 Route::put('options/{id}/Update', [Options_controller::class, 'Update']);
@@ -102,8 +101,9 @@ Route::delete('scores/{id}/Delete', [Score_controller::class, 'Delete']);
 Route::delete('scores/DeleteAll', [Score_controller::class, 'DeleteAll']);
 // ------------------------BroadCastQuestions Apis--------------
 Route::get('broadCastQuestions', [BroadcastQuestions_controller::class, 'index']);
-Route::get('broadCastQuestions/Showall', [BroadcastQuestions_controller::class, 'Showall'])->middleware('quiz.available');
-Route::get('broadCastQuestions/getAllQuestionsWithTheirOptions', [BroadcastQuestions_controller::class, 'getAllQuestionsWithTheirOptions']);
+Route::get('broadCastQuestions/Showall', [BroadcastQuestions_controller::class, 'Showall']);
+Route::get('broadCastQuestions/getAllQuestionsWithTheirOptions', [BroadcastQuestions_controller::class, 'getAllQuestionsWithTheirOptions'])->middleware('throttle:limiter');
+// ->middleware('quiz.available')
 Route::post('broadCastQuestions/Addnew', [BroadcastQuestions_controller::class, 'Addnew']);
 Route::get('broadCastQuestions/{id}', [BroadcastQuestions_controller::class, 'Showone']);
 Route::put('broadCastQuestions/{id}/Update', [BroadcastQuestions_controller::class, 'Update']);

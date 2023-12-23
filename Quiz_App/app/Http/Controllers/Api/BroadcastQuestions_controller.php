@@ -35,7 +35,7 @@ class BroadcastQuestions_controller extends Controller
     }
     public function getAllQuestionsWithTheirOptions()
     {
-        $questions = broadcast_options::with('options')->get(); // Assuming the model name is Option
+        $questions = broadcast_questions::with('broadcast_options')->get(); // Assuming the model name is Option
 
         if ($questions->count() > 0) {
             return response()->json([
@@ -189,7 +189,7 @@ class BroadcastQuestions_controller extends Controller
             $BroadCastquestion->delete();
         }
         // Reset auto-incremented ID for the table (MySQL example)
-        DB::statement('ALTER TABLE normal_questions AUTO_INCREMENT = 1');
+        DB::statement('ALTER TABLE broadcast_questions AUTO_INCREMENT = 1');
         return response()->json([
             'status' => 200,
             'message' => 'All BroadCastquestions deleted successfully',

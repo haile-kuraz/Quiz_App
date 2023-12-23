@@ -18,7 +18,7 @@ class broadcast_questions extends Model
     }
     public function broadcast_options()
     {
-        return $this->hasMany(broadcast_options::class);
+        return $this->hasMany(broadcast_options::class, 'Question_id');
     }
     use HasFactory;
 }

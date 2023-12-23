@@ -183,16 +183,25 @@ class Student_controller extends Controller
         $students = score::with(['student' => function ($query) {
             $query->select('id', 'Name', 'Email', 'Image_url');
         }])
-            ->orderBy('points', 'desc') // Order by points in descending order to get the top scores first
-            ->take(10) // Limit the result to the top ten students
+            ->orderBy('points', 'desc')
+            ->take(10)
             ->get(['student_id', 'broadcast_score', 'points', 'rank']);
-        if ($students) {
+
+        if ($students->isEmpty()) {
             return response()->json([
-                'status' => 200,
-                'data' => $students,
-            ], 200);
+                'status' => 404,
+                'message' => "No students found",
+            ], 404);
         }
+
+        return response()->json([
+            'status' => 200,
+            'message' => "There are students",
+            'data' => $students,
+        ], 200);
     }
+
+
     public function getAllStudentsByRank()
     {
         $students = Score::with(['student' => function ($query) {
