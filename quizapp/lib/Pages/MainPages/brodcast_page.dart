@@ -3,12 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
+import 'package:bubble/bubble.dart';
+import 'package:provider/provider.dart';
 
 import '../../Controllers/broadcastQuestions_controller.dart';
 import '../../Controllers/student_controller.dart';
 import '../../Models/BroadcastQuestionsModel.dart';
 import '../../Models/StudentScoreModel.dart' as score;
+import '../../Provider/PeriferanceProvider.dart';
 import '../../Util/Shimmer_loading.dart';
+import '../../Widgets/CountDownTimer.dart';
 
 class Brodcast extends StatefulWidget {
   const Brodcast({super.key});
@@ -51,11 +55,11 @@ class _BrodcastState extends State<Brodcast> {
     _broadcastQuestionStream = _broadcastQuestionStreamController.stream;
 
     // Start fetching data periodically
-    _fetchDataTimer = Timer.periodic(const Duration(seconds: 5), (Timer t) {
+    _fetchDataTimer = Timer.periodic(const Duration(seconds: 2), (Timer t) {
       _fetchData();
       setState(() {
         _current_Date = DateFormat("yyyy-MM-dd").format(DateTime.now());
-        _current_Time = DateFormat("HH:mm").format(DateTime.now());
+        _current_Time = DateFormat("HH:mm:ss").format(DateTime.now());
       });
     });
   }
@@ -85,6 +89,8 @@ class _BrodcastState extends State<Brodcast> {
 
   @override
   Widget build(BuildContext context) {
+    // var PeriferianceState = Provider.of<Periferance>(context);
+    var PeriferianceUpdate = Provider.of<Periferance>(context, listen: false);
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
@@ -95,8 +101,10 @@ class _BrodcastState extends State<Brodcast> {
             if (snapshot.hasData) {
               List<Data> Questions = snapshot.data!.data;
               var DateofLive = Questions[0].dateofLive;
-              var starting_Time = Questions[0].startTime;
+              String starting_Time = Questions[0].startTime;
               var ending_Time = Questions[0].endTime;
+
+              PeriferianceUpdate.setQuizStartingTime(starting_Time);
               print(_current_Date);
               print(_current_Time);
               print("here is from data base ${starting_Time}");
@@ -107,67 +115,16 @@ class _BrodcastState extends State<Brodcast> {
                     (ending_Time.compareTo(_current_Time) > 0)) {
                   return _BroadcastQuestionsBuilder(Questions, size);
                 } else {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: Container(
-                      // width: size,
-                      child: Column(
-                        children: [
-                          // This is the place where the broud cast timer shown
-                          Container(
-                            width: size.width,
-                            height: size.height * 0.3,
-                            decoration: BoxDecoration(
-                                color: Theme.of(context).canvasColor,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onBackground,
-                                    blurRadius: 5,
-                                    offset: const Offset(0, 3),
-                                    blurStyle: BlurStyle.normal,
-                                    spreadRadius: 5,
-                                  )
-                                ]),
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Image(
-                                  image: AssetImage(
-                                    "Assets/Images/persone waiting.png",
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Text(
-                              "History of best performers",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleMedium
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onTertiaryContainer,
-                                  ),
-                            ),
-                          ),
-                          _BestperformerListBuilder()
-                          // This is the place where the list of best perfromers shown
-                        ],
-                      ),
-                    ),
-                  );
+                  return _defaultPageBuilder(size, true);
                 }
               } else {
-                return _defaultPageBuilder(size);
+                return _defaultPageBuilder(size, false);
               }
             } else {
-              return _defaultPageBuilder(size);
+              /* return _defaultPageBuilder(size); */
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             }
           },
         ),
@@ -175,7 +132,7 @@ class _BrodcastState extends State<Brodcast> {
     );
   }
 
-  Widget _defaultPageBuilder(Size size) {
+  Widget _defaultPageBuilder(Size size, bool isWaiting) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Container(
@@ -184,30 +141,71 @@ class _BrodcastState extends State<Brodcast> {
           children: [
             // This is the place where the broud cast timer shown
             Container(
-              width: size.width,
-              height: size.height * 0.3,
-              decoration: BoxDecoration(
-                  color: Theme.of(context).canvasColor,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Theme.of(context).colorScheme.onBackground,
-                      blurRadius: 5,
-                      offset: const Offset(0, 3),
-                      blurStyle: BlurStyle.normal,
-                      spreadRadius: 5,
-                    )
-                  ]),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Image(
-                    image: AssetImage(
-                      "Assets/Images/persone waiting.png",
-                    ),
-                  ),
-                ],
-              ),
-            ),
+                width: size.width,
+                height: size.height * 0.3,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).canvasColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Theme.of(context).colorScheme.onBackground,
+                        blurRadius: 5,
+                        offset: const Offset(0, 3),
+                        blurStyle: BlurStyle.inner,
+                        spreadRadius: 5,
+                      )
+                    ]),
+                child: isWaiting
+                    ? const Stack(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Image(
+                                image: AssetImage(
+                                  "Assets/Images/persone waiting.png",
+                                ),
+                              ),
+                            ],
+                          ),
+                          CountDownTimmer()
+                        ],
+                      )
+                    : SingleChildScrollView(
+                        physics: NeverScrollableScrollPhysics(),
+                        child: Stack(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(top: 25.0, left: 20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Image(
+                                    image: const AssetImage(
+                                      "Assets/Images/quiz404.png",
+                                    ),
+                                    height: size.height * 0.3,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              width: size.width * 0.6,
+                              child: Bubble(
+                                margin: BubbleEdges.only(top: 10),
+                                nip: BubbleNip.rightBottom,
+                                color: Color.fromRGBO(225, 255, 199, 1.0)
+                                    .withOpacity(0.3),
+                                child: Text(
+                                  "Quiz is not Available for Today",
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )),
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Text(

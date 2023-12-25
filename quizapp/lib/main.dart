@@ -14,8 +14,10 @@ import 'Pages/OnbordingScreen.dart';
 import 'Pages/SplashScreen.dart';
 import 'Pages/signIn_Page.dart';
 import 'Pages/signUp_page.dart';
+import 'Widgets/CountDownTimer.dart';
 import 'Provider/AuthProvider.dart';
 import 'Provider/PeriferanceProvider.dart';
+
 // import 'Util/Color.dart';
 import 'Util/Theme._date.dart';
 import 'Controllers/student_controller.dart';
@@ -80,6 +82,7 @@ class _MyAppState extends State<MyApp> {
         "/Subcategory": (context) => const Subcategory_Page(),
         "/Help": (context) => Help_page(),
         "/Question": (context) => const Question_page(),
+        "/Timmer": (context) => const CountDownTimmer(),
       },
 
       // home: Home(),
