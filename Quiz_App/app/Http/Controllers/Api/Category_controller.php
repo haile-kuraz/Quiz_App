@@ -18,12 +18,17 @@ class Category_controller extends Controller
     public function Showall()
     {
 
-        $categories = category::all();
+        $categories = category::with(['normal_questions' => function ($query) {
+            $query->select('id', 'category_id', 'question');
+        }])
+
+            ->get(['id', 'name', 'Image_url', 'description', 'categoryType', 'updated_at']);
 
         if ($categories->count() > 0) {
             return response()->json([
                 'status' => 200,
-                'categories' => $categories
+                'categories' => $categories,
+
             ], 200);
         } else {
             return response()->json([

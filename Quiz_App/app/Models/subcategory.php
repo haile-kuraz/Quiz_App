@@ -13,7 +13,7 @@ class subcategory extends Model
     protected $fillable = ['name', 'Image_url', 'category_id'];
     public function normal_questions()
     {
-        return $this->hasMany(normal_question::class);
+        return $this->hasMany(normal_question::class, 'subcategory_id');
     }
     public function category()
     {

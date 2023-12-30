@@ -19,8 +19,12 @@ class Subcategory_controller extends Controller
     }
     public function Showall()
     {
+        $Subcategories = subcategory::with(['normal_questions' => function ($query) {
+            $query->select('id', 'category_id', 'subcategory_id');
+        }])
 
-        $Subcategories = subcategory::all();
+            ->get(['id', 'category_id', 'name', 'Image_url', 'updated_at']);
+        // $Subcategories = subcategory::all();
 
         if ($Subcategories->count() > 0) {
             return response()->json([

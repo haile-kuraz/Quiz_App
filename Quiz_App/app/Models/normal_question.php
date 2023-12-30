@@ -20,11 +20,11 @@ class normal_question extends Model
     }
     public function subcategory()
     {
-        return $this->belongsTo(subcategory::class);
+        return $this->belongsTo(subcategory::class, 'subcategory_id');
     }
     public function category()
     {
-        return $this->belongsTo(category::class);
+        return $this->belongsTo(category::class, 'category_id');
     }
     use HasFactory;
 }

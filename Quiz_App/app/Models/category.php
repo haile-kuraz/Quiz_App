@@ -16,7 +16,7 @@ class category extends Model
     ];
     public function normal_questions()
     {
-        return $this->hasMany(normal_question::class);
+        return $this->hasMany(normal_question::class, 'category_id');
     }
     public function subcategorys()
     {
