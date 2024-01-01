@@ -25,39 +25,66 @@ class Categories {
   Categories({
     required this.id,
     required this.name,
-    required this.ImageUrl,
+    required this.imageUrl, // Change from ImageUrl to imageUrl
     required this.description,
     required this.categoryType,
-    required this.createdAt,
     required this.updatedAt,
+    required this.normalQuestions,
   });
   late final int id;
   late final String name;
-  late final String ImageUrl;
+  late final String imageUrl; // Change from ImageUrl to imageUrl
   late final String description;
   late final String categoryType;
-  late final String createdAt;
   late final String updatedAt;
+  late final List<NormalQuestion> normalQuestions; // Added field
 
   Categories.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    ImageUrl = json['Image_url'];
+    imageUrl = json['Image_url'];
     description = json['description'];
     categoryType = json['categoryType'];
-    createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    normalQuestions = List.from(json['normal_questions'])
+        .map((e) => NormalQuestion.fromJson(e))
+        .toList();
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['id'] = id;
     _data['name'] = name;
-    _data['Image_url'] = ImageUrl;
+    _data['Image_url'] = imageUrl;
     _data['description'] = description;
     _data['categoryType'] = categoryType;
-    _data['created_at'] = createdAt;
     _data['updated_at'] = updatedAt;
+    _data['normal_questions'] = normalQuestions.map((e) => e.toJson()).toList();
+    return _data;
+  }
+}
+
+class NormalQuestion {
+  NormalQuestion({
+    required this.id,
+    required this.categoryId,
+    required this.question,
+  });
+  late final int id;
+  late final int categoryId;
+  late final String question;
+
+  NormalQuestion.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    categoryId = json['category_id'];
+    question = json['question'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final _data = <String, dynamic>{};
+    _data['id'] = id;
+    _data['category_id'] = categoryId;
+    _data['question'] = question;
     return _data;
   }
 }

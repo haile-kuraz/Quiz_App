@@ -38,6 +38,7 @@ class _SignUpState extends State<SignUp> {
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Theme.of(context).colorScheme.background,
         body: SizedBox(
           width: size.width,
           height: size.height,

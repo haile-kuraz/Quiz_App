@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
@@ -34,7 +35,7 @@ class student_controller {
       } else if (response.statusCode == 422) {
         messageflutterToast("please check Inputs");
       } else {
-        messageflutterToast("sever error ${response.statusCode}");
+        messageflutterToast("server error ${response.statusCode}");
 
         return Future.error("Server Error");
       }
@@ -73,8 +74,10 @@ class student_controller {
     }
   }
 
-  static Future<StudentScoreModel> getTopTenStudentsByPoints() async {
-    try {
+  static Future getTopTenStudentsByPoints() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    if (connectivityResult == ConnectivityResult.wifi ||
+        connectivityResult == ConnectivityResult.mobile) {
       final response = await http
           .get(Uri.parse("${mainApi}/stdents/getTopTenStudentsByPoints"));
 
@@ -89,9 +92,8 @@ class student_controller {
 
         throw Exception('Failed to load data  ${response.statusCode}');
       }
-    } catch (e) {
-      Future.error(e);
-      return Future.error(e);
+    } else {
+      return messageflutterToast("Connection problem");
     }
   }
 

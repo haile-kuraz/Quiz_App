@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
 import 'package:bubble/bubble.dart';
 import 'package:provider/provider.dart';
+import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 
 import '../../Controllers/broadcastQuestions_controller.dart';
 import '../../Controllers/student_controller.dart';
@@ -104,13 +105,13 @@ class _BrodcastState extends State<Brodcast> {
               String starting_Time = Questions[0].startTime;
               var ending_Time = Questions[0].endTime;
 
-              PeriferianceUpdate.setQuizStartingTime(starting_Time);
               print(_current_Date);
               print(_current_Time);
               print("here is from data base ${starting_Time}");
               print("here is from data base ${ending_Time}");
 
               if (DateofLive == _current_Date) {
+                PeriferianceUpdate.setQuizStartingTime(starting_Time);
                 if ((starting_Time.compareTo(_current_Time) <= 0) &&
                     (ending_Time.compareTo(_current_Time) > 0)) {
                   return _BroadcastQuestionsBuilder(Questions, size);
@@ -121,10 +122,10 @@ class _BrodcastState extends State<Brodcast> {
                 return _defaultPageBuilder(size, false);
               }
             } else {
-              /* return _defaultPageBuilder(size); */
-              return const Center(
+              return _defaultPageBuilder(size, false);
+              /*  return const Center(
                 child: CircularProgressIndicator(),
-              );
+              ); */
             }
           },
         ),
@@ -377,78 +378,92 @@ class _BrodcastState extends State<Brodcast> {
 
   Widget _BestperformerListBuilder() {
     return Expanded(
-      child: FutureBuilder<score.StudentScoreModel>(
-        future: student_controller.getTopTenStudentsByPoints(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            List<score.Data> data = snapshot.data!.data;
-            return AnimationLimiter(
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  return AnimationConfiguration.staggeredList(
-                    position: index,
-                    duration: const Duration(milliseconds: 1500),
-                    child: SlideAnimation(
-                      horizontalOffset: 30,
-                      child: FadeInAnimation(
-                        child: ListTile(
-                          leading: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(right: 3.0),
-                                child: Text("${index + 1}"),
-                              ),
-                              CachedNetworkImage(
-                                imageUrl: data[index].student.ImageUrl,
-                                imageBuilder: (context, imageProvider) {
-                                  return CircleAvatar(
-                                    backgroundImage: imageProvider,
-                                    radius: 30,
-                                  );
-                                },
-                                placeholder: (context, url) =>
-                                    const CircularProgressIndicator(),
-                                errorWidget: (context, url, error) =>
-                                    const Icon(Icons.error),
-                              ),
-                            ],
-                          ),
-                          title: Text(
-                            data[index].student.Name,
-                            style: Theme.of(context).textTheme.bodySmall,
-                          ),
-                          subtitle: Text(
-                            "Rank: ${data[index].rank}",
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodySmall
-                                ?.copyWith(
-                                  color: Theme.of(context).colorScheme.primary,
+      child: CustomMaterialIndicator(
+        onRefresh: () async {
+          await student_controller.getTopTenStudentsByPoints();
+        },
+        indicatorBuilder: (context, controller) {
+          return const Icon(
+            Icons.donut_large,
+            size: 30,
+          );
+        },
+        child: FutureBuilder(
+          future: student_controller.getTopTenStudentsByPoints(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              List<score.Data> data = snapshot.data!.data;
+              return AnimationLimiter(
+                child: ListView.builder(
+                  itemBuilder: (context, index) {
+                    return AnimationConfiguration.staggeredList(
+                      position: index,
+                      duration: const Duration(milliseconds: 1500),
+                      child: SlideAnimation(
+                        horizontalOffset: 30,
+                        child: FadeInAnimation(
+                          child: ListTile(
+                            leading: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 3.0),
+                                  child: Text("${index + 1}"),
                                 ),
-                          ),
-                          trailing: Text(
-                            "${data[index].points} Point",
-                            style:
-                                Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimaryContainer,
-                                    ),
+                                CachedNetworkImage(
+                                  imageUrl: data[index].student.ImageUrl,
+                                  imageBuilder: (context, imageProvider) {
+                                    return CircleAvatar(
+                                      backgroundImage: imageProvider,
+                                      radius: 30,
+                                    );
+                                  },
+                                  placeholder: (context, url) =>
+                                      const CircularProgressIndicator(),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                ),
+                              ],
+                            ),
+                            title: Text(
+                              data[index].student.Name,
+                              style: Theme.of(context).textTheme.bodySmall,
+                            ),
+                            subtitle: Text(
+                              "Rank: ${data[index].rank}",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                            ),
+                            trailing: Text(
+                              "${data[index].points} Point",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.w700,
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onPrimaryContainer,
+                                  ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
-                itemCount: data.length,
-              ),
-            );
-          } else {
-            return AllShimmers.TopTenBestPerformesShimmer(context);
-          }
-        },
+                    );
+                  },
+                  itemCount: data.length,
+                ),
+              );
+            } else {
+              return AllShimmers.TopTenBestPerformesShimmer(context);
+            }
+          },
+        ),
       ),
     );
   }

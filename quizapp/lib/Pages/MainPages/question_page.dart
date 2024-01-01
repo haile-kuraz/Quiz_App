@@ -350,136 +350,128 @@ class _Question_pageState extends State<Question_page> {
           scale: Tween<double>(begin: 0.5, end: 1).animate(a1),
           child: FadeTransition(
             opacity: Tween<double>(begin: 0.5, end: 1).animate(a1),
-            child: ConfettiWidget(
-                blastDirection: 50,
-                displayTarget: true,
-                blastDirectionality: BlastDirectionality.directional,
-                confettiController: confettiController,
-                emissionFrequency: 0.1,
-                colors: const [
-                  Colors.green,
-                  Colors.yellow,
-                  Colors.red,
-                ],
-                child: Dialog(
-                  child: SizedBox(
-                    height: size.height * 0.3,
-                    child: Stack(
-                      alignment: const Alignment(0, -2),
+            child: Dialog(
+              shape: const BeveledRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(30),
+                ),
+              ),
+              child: SizedBox(
+                height: size.height * 0.24,
+                child: Stack(
+                  alignment: const Alignment(0, -1.7),
+                  children: [
+                    Column(
                       children: [
-                        Column(
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(top: 50.0, bottom: 10),
-                              child: Text(
-                                "Congratulations!",
-                                style:
-                                    Theme.of(context).textTheme.headlineMedium,
-                              ),
-                            ),
-                            Text(
-                              "You have scored ${correctChoices * 10} points",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            const Divider(
-                              color: Colors.black,
-                              thickness: 2,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: IntrinsicHeight(
-                                    child: Row(
-                                      children: [
-                                        Text("Q$totlQuestions \n Total"),
-                                        const VerticalDivider(
-                                          color: Colors.black,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: IntrinsicHeight(
-                                    child: Row(
-                                      children: [
-                                        Text("Q$wrongChoices \n Wrong"),
-                                        const VerticalDivider(
-                                          color: Colors.black,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 1,
-                                  child: Row(
-                                    children: [
-                                      Text("Q$correctChoices \n Correct"),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-
-                            /*  Container(
-                              margin: EdgeInsets.symmetric(vertical: 10),
-                              decoration: const BoxDecoration(
-                                  border: Border(
-                                top: BorderSide(color: Colors.black),
-                              )),
-                              child: Row(
-                                // mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
-                                        right: BorderSide(color: Colors.black),
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Text("Q$totlQuestions \n Total"),
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: const BoxDecoration(
-                                      border: Border(
-                                        right: BorderSide(color: Colors.black),
-                                      ),
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Text("Q$wrongChoices \n Wrong"),
-                                    ),
-                                  ),
-                                  Container(
-                                    decoration: const BoxDecoration(),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child:
-                                          Text("Q$correctChoices \n Correct"),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ) */
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.only(top: 50.0, bottom: 10),
+                          child: Text(
+                            "Congratulations!",
+                            style: Theme.of(context).textTheme.headlineMedium,
+                          ),
                         ),
-                        const CircleAvatar(
-                          backgroundImage: AssetImage("Assets/Images/win.png"),
-                          radius: 50,
-                        )
+                        Text(
+                          "You have scored ${correctChoices * 10} points",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        Expanded(
+                          child: Row(
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      border: Border(
+                                          top: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onBackground,
+                                              width: 2),
+                                          right: BorderSide(
+                                              color: Theme.of(context)
+                                                  .colorScheme
+                                                  .onBackground,
+                                              width: 1))),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0),
+                                    child: Text("Q$totlQuestions \n Total",
+                                        textAlign: TextAlign.center),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      top: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                          width: 2),
+                                      right: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                          width: 1),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0),
+                                    child: Text("Q$wrongChoices \n Wrong",
+                                        textAlign: TextAlign.center),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 1,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      top: BorderSide(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onBackground,
+                                          width: 2),
+                                    ),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 10.0),
+                                    child: Text("Q$correctChoices \n Correct",
+                                        textAlign: TextAlign.center),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                )),
+                    ConfettiWidget(
+                      strokeWidth: 1,
+                      maxBlastForce: 20,
+                      minBlastForce: 15,
+                      // displayTarget: true,
+                      blastDirectionality: BlastDirectionality.explosive,
+                      confettiController: confettiController,
+                      emissionFrequency: 0.2,
+                      colors: const [
+                        Colors.green,
+                        Colors.yellow,
+                        Colors.red,
+                      ],
+                      child: const CircleAvatar(
+                        backgroundImage: AssetImage("Assets/Images/win.png"),
+                        radius: 40,
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
           ),
         );
       },

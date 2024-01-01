@@ -17,6 +17,7 @@ class Subcategory_Page extends StatelessWidget {
     int? Category_Id = args['Category_Id'];
     String? Category_name = args['Category_name'];
     String? Category_Image = args['Category_Image'];
+    int? QuestionInCategory = args['NumberOfQuestions'];
 
     // Use the parameters in your widget
 
@@ -39,38 +40,41 @@ class Subcategory_Page extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CachedNetworkImage(
-              imageUrl: "$Category_Image",
-              imageBuilder: (context, imageProvider) => Container(
-                width: size.width,
-                height: size.height * 0.23,
-                decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(
-                    20,
-                  )),
-                  boxShadow: [
-                    BoxShadow(
-                        blurRadius: 2,
-                        blurStyle: BlurStyle.normal,
-                        spreadRadius: 2,
-                        offset: const Offset(3, 3),
-                        color: Theme.of(context).canvasColor)
-                  ],
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
-                    colorFilter:
-                        ColorFilter.mode(Colors.black12, BlendMode.darken),
+            Hero(
+              tag: "$Category_Image",
+              child: CachedNetworkImage(
+                imageUrl: "$Category_Image",
+                imageBuilder: (context, imageProvider) => Container(
+                  width: size.width,
+                  height: size.height * 0.23,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(Radius.circular(
+                      20,
+                    )),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 2,
+                          blurStyle: BlurStyle.normal,
+                          spreadRadius: 2,
+                          offset: const Offset(3, 3),
+                          color: Theme.of(context).canvasColor)
+                    ],
+                    image: DecorationImage(
+                      image: imageProvider,
+                      fit: BoxFit.cover,
+                      colorFilter:
+                          ColorFilter.mode(Colors.black12, BlendMode.darken),
+                    ),
                   ),
                 ),
+                placeholder: (context, url) => CircularProgressIndicator(),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15.0),
               child: Text(
-                "1000 questions",
+                "$QuestionInCategory questions",
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
@@ -94,7 +98,7 @@ class Subcategory_Page extends StatelessWidget {
                                 'Category_Id': Category_Id,
                                 'SubCategory_Id': SubCategories[index].id,
                                 'SubCategory_Image':
-                                    SubCategories[index].ImageUrl,
+                                    SubCategories[index].imageUrl,
 
                                 // Add more parameters as needed
                               },
@@ -133,7 +137,7 @@ class Subcategory_Page extends StatelessWidget {
                                 Expanded(
                                   flex: 2,
                                   child: CachedNetworkImage(
-                                    imageUrl: SubCategories[index].ImageUrl,
+                                    imageUrl: SubCategories[index].imageUrl,
                                     imageBuilder: (context, imageProvider) =>
                                         Container(
                                       decoration: BoxDecoration(
@@ -159,7 +163,7 @@ class Subcategory_Page extends StatelessWidget {
                                         MainAxisAlignment.spaceEvenly,
                                     children: [
                                       Text(
-                                        "${SubCategories[index].name}",
+                                        SubCategories[index].name,
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleLarge
@@ -170,7 +174,7 @@ class Subcategory_Page extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        "50 Question",
+                                        "${SubCategories[index].normalQuestions.length} Questions",
                                         style: Theme.of(context)
                                             .textTheme
                                             .titleMedium

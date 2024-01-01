@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:provider/provider.dart';
@@ -25,6 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 5), () {
       CheckSignedIn();
     });
+
     super.initState();
   }
 
@@ -48,6 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    Taskbarupdater();
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       body: SizedBox(
@@ -105,4 +108,16 @@ class _SplashScreenState extends State<SplashScreen> {
   // void _playSound(String assetPath) async {
   //   await player.play(AssetSource(assetPath));
   // }
+  void Taskbarupdater() {
+    var PeriferanceState = Provider.of<Periferance>(context);
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+        statusBarColor: Theme.of(context).colorScheme.background,
+        statusBarIconBrightness: PeriferanceState.getIsDark() == false
+            ? Brightness.dark
+            : Brightness.light,
+        systemNavigationBarColor: Theme.of(context).colorScheme.background,
+        systemNavigationBarIconBrightness: PeriferanceState.getIsDark() == false
+            ? Brightness.dark
+            : Brightness.light));
+  }
 }

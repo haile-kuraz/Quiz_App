@@ -38,6 +38,7 @@ class _SignInState extends State<SignIn> {
     PeriferianceUpdate = Provider.of<Periferance>(context, listen: false);
     size = MediaQuery.of(context).size;
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: ModalProgressHUD(
         inAsyncCall: isProcessing,
 

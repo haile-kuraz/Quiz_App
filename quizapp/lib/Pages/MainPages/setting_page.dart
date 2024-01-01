@@ -257,19 +257,18 @@ class _SettingPageState extends State<SettingPage> {
 
   void Taskbarupdater(PeriferanceState) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: PeriferanceState.getIsDark() == false
-          ? const Color(0xff1A1A1A)
-          : Colors.white,
-      statusBarIconBrightness: PeriferanceState.getIsDark() == true
-          ? Brightness.light
-          : Brightness.dark,
-      systemNavigationBarColor: PeriferanceState.getIsDark() == false
-          ? const Color(0xff1A1A1A)
-          : Colors.white,
-      systemNavigationBarIconBrightness: PeriferanceState.getIsDark() == true
-          ? Brightness.light
-          : Brightness.dark,
-    ));
+        statusBarColor: PeriferanceState.getIsDark() == false
+            ? const Color(0xff1A1A1A)
+            : Colors.white,
+        statusBarIconBrightness: PeriferanceState.getIsDark() == true
+            ? Brightness.light
+            : Brightness.dark,
+        systemNavigationBarColor: PeriferanceState.getIsDark() == false
+            ? const Color(0xff1A1A1A)
+            : Colors.white,
+        systemNavigationBarIconBrightness: PeriferanceState.getIsDark() == true
+            ? Brightness.dark
+            : Brightness.light));
   }
 
   Widget _LanguagePopUpbuilder({size, LanguageData}) {
