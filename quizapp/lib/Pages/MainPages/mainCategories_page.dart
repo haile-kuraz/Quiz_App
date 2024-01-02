@@ -41,8 +41,11 @@ class _MainCategoryState extends State<MainCategory>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "HI,${PeriferianceState.getName()}",
-                          style: Theme.of(context).textTheme.headlineSmall,
+                          "Hi,${PeriferianceState.getName()}",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(fontFamily: "wellcome"),
                         ),
                         Text(
                           "practice makes you better!!!",

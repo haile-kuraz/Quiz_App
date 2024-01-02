@@ -14,6 +14,7 @@ class Periferance extends ChangeNotifier {
   static String? image;
   static int? studentId;
   static String? quizStartingTime;
+  static bool? isQuizLive;
 
   Future<void> _initializeSettings() async {
     isDark = prefs.getBool('DARK_THEME') ?? false;
@@ -24,6 +25,13 @@ class Periferance extends ChangeNotifier {
     image = prefs.getString('IMAGE') ?? "Unknown";
     studentId = prefs.getInt('STUDENTID') ?? 0;
     quizStartingTime = prefs.getString('QUIZSTARTINGTIME');
+    isQuizLive = prefs.getBool('ISQUIZLIVE');
+    notifyListeners();
+  }
+
+  Future<void> setIsQuizLive(bool value) async {
+    await prefs.setBool('ISQUIZLIVE', value);
+    isQuizLive = value;
     notifyListeners();
   }
 
@@ -72,6 +80,10 @@ class Periferance extends ChangeNotifier {
     await prefs.setInt('STUDENTID', value);
     studentId = value;
     notifyListeners();
+  }
+
+  bool? getIsQuizLive() {
+    return isQuizLive;
   }
 
   String? getQuizStartingTime() {

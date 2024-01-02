@@ -111,6 +111,66 @@ class AllShimmers {
     );
   }
 
+  static Widget rankDialogShimmer(Size size) {
+    return Container(
+      height: size.height * 0.7,
+      child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return Container(
+            key: Key("{newList[index].rank}"),
+            margin: const EdgeInsets.only(bottom: 10),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.background,
+              boxShadow: [
+                BoxShadow(
+                  color: Theme.of(context).canvasColor,
+                  offset: const Offset(2, 3),
+                ),
+              ],
+            ),
+            child: Shimmer.fromColors(
+              baseColor: Theme.of(context).canvasColor,
+              direction: ShimmerDirection.ltr,
+              highlightColor: Theme.of(context).colorScheme.onBackground,
+              child: ListTile(
+                leading: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(right: 3.0),
+                      child: Text("1"),
+                    ),
+                    Shimmer.fromColors(
+                      baseColor: Theme.of(context).canvasColor,
+                      direction: ShimmerDirection.ltr,
+                      highlightColor:
+                          Theme.of(context).colorScheme.onBackground,
+                      child: CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Theme.of(context).canvasColor),
+                    )
+                  ],
+                ),
+                title: Text(
+                  "newList",
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+                trailing: Text(
+                  "34565",
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                      ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   static Widget LeaderBoardShimmer(BuildContext context, Size size) {
     return SizedBox(
       width: size.width,
