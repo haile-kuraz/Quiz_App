@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import 'package:provider/provider.dart';
+import 'package:quizapp/CloudFunctions_Services/Services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Pages/MainPages/help_page.dart';
@@ -24,8 +26,16 @@ import 'Controllers/student_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Map<String, dynamic> lightData = await colors.getLightData();
-  // Map<String, dynamic> darkData = await colors.getDarkData();
+
+  // Request notification permission if not granted or explicitly denied
+  PermissionStatus notificationStatus = await Permission.notification.status;
+  if (notificationStatus.isDenied || notificationStatus.isRestricted) {
+    await Permission.notification.request();
+  }
+
+  // Initialize background service
+  await initializeService();
+
   SharedPreferences pref = await SharedPreferences.getInstance();
   SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
@@ -41,8 +51,6 @@ void main() async {
       ),
     ],
     child: MyApp(
-      // lightData: lightData,
-      // darkData: darkData,
       pref: pref,
     ),
   ));

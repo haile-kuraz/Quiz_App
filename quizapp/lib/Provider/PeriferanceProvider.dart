@@ -12,9 +12,12 @@ class Periferance extends ChangeNotifier {
   static bool? isTimershowing;
   static String? name;
   static String? image;
+  static String? email;
+  static String? phonenumber;
   static int? studentId;
   static String? quizStartingTime;
   static bool? isQuizLive;
+  static bool? isQuizAvalilableToday;
 
   Future<void> _initializeSettings() async {
     isDark = prefs.getBool('DARK_THEME') ?? false;
@@ -23,9 +26,18 @@ class Periferance extends ChangeNotifier {
     isTimershowing = prefs.getBool('TIMER') ?? true;
     name = prefs.getString('NAME') ?? "Unknown";
     image = prefs.getString('IMAGE') ?? "Unknown";
+    phonenumber = prefs.getString('PHONE') ?? "Unknown";
+    email = prefs.getString('EMAIL') ?? "Unknown";
     studentId = prefs.getInt('STUDENTID') ?? 0;
     quizStartingTime = prefs.getString('QUIZSTARTINGTIME');
     isQuizLive = prefs.getBool('ISQUIZLIVE');
+    isQuizAvalilableToday = prefs.getBool("isQuizAvalilableToday") ?? false;
+    notifyListeners();
+  }
+
+  Future<void> setisQuizAvalilableToday(bool value) async {
+    await prefs.setBool('isQuizAvalilableToday', value);
+    isQuizAvalilableToday = value;
     notifyListeners();
   }
 
@@ -70,6 +82,18 @@ class Periferance extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> setEmail(String value) async {
+    await prefs.setString('EMAIL', value);
+    email = value;
+    notifyListeners();
+  }
+
+  Future<void> setPhone(String value) async {
+    await prefs.setString('PHONE', value);
+    phonenumber = value;
+    notifyListeners();
+  }
+
   Future<void> setProfilImage(String value) async {
     await prefs.setString('IMAGE', value);
     image = value;
@@ -80,6 +104,10 @@ class Periferance extends ChangeNotifier {
     await prefs.setInt('STUDENTID', value);
     studentId = value;
     notifyListeners();
+  }
+
+  bool? getisQuizAvalilableToday() {
+    return isQuizLive;
   }
 
   bool? getIsQuizLive() {
@@ -108,6 +136,14 @@ class Periferance extends ChangeNotifier {
 
   String? getName() {
     return name;
+  }
+
+  String? getEmail() {
+    return email;
+  }
+
+  String? getphone() {
+    return phonenumber;
   }
 
   String? getImage() {

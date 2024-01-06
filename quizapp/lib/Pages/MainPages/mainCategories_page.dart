@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:provider/provider.dart';
 
 import '../../Provider/PeriferanceProvider.dart';
@@ -18,6 +19,12 @@ class MainCategory extends StatefulWidget {
 
 class _MainCategoryState extends State<MainCategory>
     with TickerProviderStateMixin {
+  @override
+  void initState() {
+    FlutterBackgroundService().invoke('setAsBackground');
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var PeriferianceState = Provider.of<Periferance>(context);

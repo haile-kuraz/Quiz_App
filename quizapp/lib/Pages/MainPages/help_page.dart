@@ -197,8 +197,8 @@ class Help_page extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
-              const UnderlinedTextFormfield(),
-              const UnderlinedTextFormfield(),
+              /*   const UnderlinedTextFormfield(),
+              const UnderlinedTextFormfield(), */
               const messageTextAreaforReportProblem(),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),

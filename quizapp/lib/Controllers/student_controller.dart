@@ -74,6 +74,36 @@ class student_controller {
     }
   }
 
+  static Future updateProfile(String studentId, String name, String email,
+      String phone, String password, String imgUrl) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$mainApi/students/$studentId/Update'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: json.encode({
+          'Name': name,
+          'Email': email,
+          'password': password,
+          'phone_number': phone,
+          'Image_url': imgUrl,
+        }),
+      );
+      if (response.statusCode == 200) {
+        messageflutterToast("Updated Successfully");
+
+        return jsonDecode(response.body);
+      } else {
+        messageflutterToast("sever error ${response.statusCode}");
+      }
+    } catch (error) {
+      print("connection error $error");
+      messageflutterToast("Connection Problem");
+      return Future.error(error);
+    }
+  }
+
   static Future getTopTenStudentsByPoints() async {
     final connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult == ConnectivityResult.wifi ||

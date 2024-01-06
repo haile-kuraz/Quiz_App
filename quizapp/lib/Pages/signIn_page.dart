@@ -145,11 +145,16 @@ class _SignInState extends State<SignIn> {
                                   String Name = response["student"]["Name"];
                                   String image_Url =
                                       response["student"]["Image_url"];
+                                  String email = response["student"]["Email"];
+                                  String phone =
+                                      response["student"]["phone_number"];
 
                                   PeriferianceUpdate.setOnboardingStatus(false);
                                   PeriferianceUpdate.setName(Name);
                                   PeriferianceUpdate.setProfilImage(image_Url);
                                   PeriferianceUpdate.setStudentId(Id);
+                                  PeriferianceUpdate.setEmail(email);
+                                  PeriferianceUpdate.setPhone(phone);
                                   Navigator.pushReplacementNamed(
                                       context, '/home');
                                 },

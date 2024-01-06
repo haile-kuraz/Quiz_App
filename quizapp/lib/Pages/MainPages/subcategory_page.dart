@@ -48,27 +48,20 @@ class Subcategory_Page extends StatelessWidget {
                   width: size.width,
                   height: size.height * 0.23,
                   decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(
-                      20,
-                    )),
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 2,
-                          blurStyle: BlurStyle.normal,
-                          spreadRadius: 2,
-                          offset: const Offset(3, 3),
-                          color: Theme.of(context).canvasColor)
-                    ],
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(
+                        20,
+                      ),
+                    ),
                     image: DecorationImage(
                       image: imageProvider,
                       fit: BoxFit.cover,
-                      colorFilter:
-                          ColorFilter.mode(Colors.black12, BlendMode.darken),
                     ),
                   ),
                 ),
-                placeholder: (context, url) => CircularProgressIndicator(),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
             Padding(

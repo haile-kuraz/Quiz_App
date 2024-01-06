@@ -124,6 +124,7 @@ class _BrodcastState extends State<Brodcast> {
 
               if (DateofLive == _current_Date) {
                 PeriferianceUpdate.setQuizStartingTime(starting_Time);
+                PeriferianceUpdate.setisQuizAvalilableToday(true);
                 if ((starting_Time.compareTo(_current_Time) <= 0) &&
                     (ending_Time.compareTo(_current_Time) > 0)) {
                   PeriferianceUpdate.setIsQuizLive(true);

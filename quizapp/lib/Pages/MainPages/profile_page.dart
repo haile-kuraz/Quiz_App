@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
@@ -9,6 +10,7 @@ import '../../Controllers/mainCategory_controller.dart';
 
 import '../../Models/MainCategryModel.dart';
 import '../../Provider/PeriferanceProvider.dart';
+import '../../Widgets/EditProfilePageDialog.dart';
 import '../../Widgets/RankandPoint.dart';
 
 class Profile extends StatelessWidget {
@@ -68,7 +70,14 @@ class Profile extends StatelessWidget {
                             ),
                       ),
                       SliverToBoxAdapter(
-                        child: ConstrainedBox(
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage("Assets/Images/profilebg.png"),
+                              opacity: 0.2,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                           constraints: BoxConstraints(
                             maxHeight: 300,
                             minHeight: 200,
@@ -91,37 +100,71 @@ class Profile extends StatelessWidget {
                                   // Replace this child with your own
                                   elevation: 8.0,
                                   shape: const CircleBorder(),
-                                  child: Stack(
-                                    alignment: Alignment.bottomRight,
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundColor: Colors.grey[100],
-                                        radius: 45.0,
-                                        child: Image.asset(
-                                          "Assets/Images/SignUp/ProfileAvatar.png",
-                                          // height: 50,
-                                          fit: BoxFit.cover,
+                                  child: InkWell(
+                                    onTap: () {
+                                      showGeneralDialog(
+                                        context: context,
+                                        /*  barrierLabel: "Dismiss",
+                                        barrierDismissible: true, */
+                                        transitionDuration:
+                                            const Duration(milliseconds: 400),
+                                        pageBuilder: (context, animation,
+                                            secondaryAnimation) {
+                                          return Container();
+                                        },
+                                        transitionBuilder:
+                                            (context, a1, a2, child) {
+                                          return ScaleTransition(
+                                            scale: Tween<double>(
+                                                    begin: 0.5, end: 1)
+                                                .animate(a1),
+                                            child: FadeTransition(
+                                              opacity: Tween<double>(
+                                                      begin: 0.5, end: 1)
+                                                  .animate(a1),
+                                              child: const Dialog(
+                                                child: EditProfileDialog(),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Stack(
+                                      alignment: Alignment.bottomRight,
+                                      children: [
+                                        CircleAvatar(
+                                          backgroundColor: Colors.grey[100],
+                                          radius: 45.0,
+                                          child: Image.asset(
+                                            "Assets/Images/SignUp/ProfileAvatar.png",
+                                            // height: 50,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
-                                      ),
-                                      CircleAvatar(
-                                        backgroundColor:
-                                            Theme.of(context).canvasColor,
-                                        radius: 15,
-                                        child: Icon(
-                                          FontAwesomeIcons.pencil,
-                                          color: Theme.of(context)
-                                              .colorScheme
-                                              .onPrimary,
-                                          size: 20,
+                                        CircleAvatar(
+                                          backgroundColor:
+                                              Theme.of(context).canvasColor,
+                                          radius: 15,
+                                          child: Icon(
+                                            FontAwesomeIcons.pencil,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary,
+                                            size: 20,
+                                          ),
                                         ),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ),
                               Text(
-                                "${PeriferianceState.getName()}",
-                                style: Theme.of(context).textTheme.titleMedium,
+                                "${PeriferianceState.getName()!.toUpperCase()}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium
+                                    ?.copyWith(fontFamily: "wellcome"),
                               ),
 
                               // This the place where the point and and ranking starts
