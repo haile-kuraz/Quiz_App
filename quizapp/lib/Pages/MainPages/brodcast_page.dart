@@ -536,54 +536,57 @@ class _BrodcastState extends State<Brodcast> {
                       child: SlideAnimation(
                         horizontalOffset: 30,
                         child: FadeInAnimation(
-                          child: ListTile(
-                            leading: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(right: 3.0),
-                                  child: Text("${index + 1}"),
-                                ),
-                                CachedNetworkImage(
-                                  imageUrl: data[index].student.ImageUrl,
-                                  imageBuilder: (context, imageProvider) {
-                                    return CircleAvatar(
-                                      backgroundImage: imageProvider,
-                                      radius: 30,
-                                    );
-                                  },
-                                  placeholder: (context, url) =>
-                                      const CircularProgressIndicator(),
-                                  errorWidget: (context, url, error) =>
-                                      const Icon(Icons.error),
-                                ),
-                              ],
-                            ),
-                            title: Text(
-                              data[index].student.Name,
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            subtitle: Text(
-                              "Rank: ${data[index].rank}",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
+                          child: Card(
+                            elevation: 2,
+                            child: ListTile(
+                              leading: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 3.0),
+                                    child: Text("${index + 1}"),
                                   ),
-                            ),
-                            trailing: Text(
-                              "${data[index].points} Point",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onPrimaryContainer,
+                                  CachedNetworkImage(
+                                    imageUrl: data[index].student.ImageUrl,
+                                    imageBuilder: (context, imageProvider) {
+                                      return CircleAvatar(
+                                        backgroundImage: imageProvider,
+                                        radius: 30,
+                                      );
+                                    },
+                                    placeholder: (context, url) =>
+                                        const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        const Icon(Icons.error),
                                   ),
+                                ],
+                              ),
+                              title: Text(
+                                data[index].student.Name,
+                                style: Theme.of(context).textTheme.bodySmall,
+                              ),
+                              subtitle: Text(
+                                "Rank: ${data[index].rank}",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                              ),
+                              trailing: Text(
+                                "${data[index].points} Point",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall
+                                    ?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                    ),
+                              ),
                             ),
                           ),
                         ),

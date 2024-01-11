@@ -16,6 +16,7 @@ import 'Pages/OnbordingScreen.dart';
 import 'Pages/SplashScreen.dart';
 import 'Pages/signIn_Page.dart';
 import 'Pages/signUp_page.dart';
+import 'Provider/DataProvider.dart';
 import 'Widgets/CountDownTimer.dart';
 import 'Provider/AuthProvider.dart';
 import 'Provider/PeriferanceProvider.dart';
@@ -48,6 +49,9 @@ void main() async {
       ),
       ChangeNotifierProvider(
         create: (context) => Periferance(prefs: pref),
+      ),
+      ChangeNotifierProvider(
+        create: (context) => DataProvider(),
       ),
     ],
     child: MyApp(

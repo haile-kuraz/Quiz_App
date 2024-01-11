@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class messageTextAreaforReportProblem extends StatelessWidget {
   const messageTextAreaforReportProblem({
     super.key,
+    required this.inputController,
   });
-
+  final TextEditingController? inputController;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -18,6 +19,7 @@ class messageTextAreaforReportProblem extends StatelessWidget {
           ),
         ),
         child: TextFormField(
+          controller: inputController,
           maxLines: null, // Allow for multiple lines of input
           decoration: const InputDecoration(
             hintText: 'Enter your Problem...',

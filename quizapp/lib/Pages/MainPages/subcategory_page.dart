@@ -44,18 +44,22 @@ class Subcategory_Page extends StatelessWidget {
               tag: "$Category_Image",
               child: CachedNetworkImage(
                 imageUrl: "$Category_Image",
-                imageBuilder: (context, imageProvider) => Container(
-                  width: size.width,
-                  height: size.height * 0.23,
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(
-                        20,
+                imageBuilder: (context, imageProvider) => Card(
+                  elevation: 5,
+                  shadowColor: Theme.of(context).canvasColor,
+                  child: Container(
+                    width: size.width,
+                    height: size.height * 0.23,
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(
+                          20,
+                        ),
                       ),
-                    ),
-                    image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ),
@@ -67,7 +71,7 @@ class Subcategory_Page extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15.0),
               child: Text(
-                "$QuestionInCategory questions",
+                "$QuestionInCategory Questions",
                 style: Theme.of(context).textTheme.titleMedium,
               ),
             ),
@@ -97,90 +101,94 @@ class Subcategory_Page extends StatelessWidget {
                               },
                             );
                           },
-                          child: Container(
-                            width: size.width,
-                            height: size.height * 0.12,
-                            margin: const EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Theme.of(context).canvasColor,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(
-                                10,
-                              )),
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .background
-                                  .withOpacity(0.5),
-                              boxShadow: [
-                                BoxShadow(
-                                  blurRadius: 2,
-                                  blurStyle: BlurStyle.normal,
-                                  spreadRadius: 1,
-                                  offset: const Offset(0, 3),
+                          child: Card(
+                            elevation: 5,
+                            child: Container(
+                              width: size.width,
+                              height: size.height * 0.12,
+                              decoration: BoxDecoration(
+                                border: Border.all(
                                   color: Theme.of(context).canvasColor,
-                                )
-                              ],
-                            ),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  flex: 2,
-                                  child: CachedNetworkImage(
-                                    imageUrl: SubCategories[index].imageUrl,
-                                    imageBuilder: (context, imageProvider) =>
-                                        Container(
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover,
-                                        ),
-                                        borderRadius: const BorderRadius.all(
-                                          Radius.circular(10),
+                                  width: 1,
+                                  style: BorderStyle.solid,
+                                ),
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(
+                                  10,
+                                )),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .background
+                                    .withOpacity(0.5),
+                                boxShadow: [
+                                  BoxShadow(
+                                    blurRadius: 2,
+                                    blurStyle: BlurStyle.normal,
+                                    spreadRadius: 1,
+                                    offset: const Offset(0, 3),
+                                    color: Theme.of(context).canvasColor,
+                                  )
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 2,
+                                    child: CachedNetworkImage(
+                                      imageUrl: SubCategories[index].imageUrl,
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        decoration: BoxDecoration(
+                                          image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover,
+                                          ),
+                                          borderRadius: const BorderRadius.all(
+                                            Radius.circular(10),
+                                          ),
                                         ),
                                       ),
+                                      placeholder: (context, url) =>
+                                          const Center(
+                                              child:
+                                                  CircularProgressIndicator()),
+                                      errorWidget: (context, url, error) =>
+                                          const Icon(Icons.error),
                                     ),
-                                    placeholder: (context, url) => const Center(
-                                        child: CircularProgressIndicator()),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
                                   ),
-                                ),
-                                Expanded(
-                                  flex: 3,
-                                  child: Column(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Text(
-                                        SubCategories[index].name,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleLarge
-                                            ?.copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .tertiaryContainer,
-                                            ),
-                                      ),
-                                      Text(
-                                        "${SubCategories[index].normalQuestions.length} Questions",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleMedium
-                                            ?.copyWith(
-                                              color: Theme.of(context)
-                                                  .colorScheme
-                                                  .tertiary,
-                                            ),
-                                      ),
-                                    ],
+                                  Expanded(
+                                    flex: 3,
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Text(
+                                          SubCategories[index].name,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleLarge
+                                              ?.copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .tertiaryContainer,
+                                              ),
+                                        ),
+                                        Text(
+                                          "${SubCategories[index].normalQuestions.length} Questions",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleMedium
+                                              ?.copyWith(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .tertiary,
+                                              ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         );

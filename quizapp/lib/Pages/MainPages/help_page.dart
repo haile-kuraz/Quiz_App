@@ -1,64 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+
+import '../../Provider/DataProvider.dart';
 import '../../Widgets/ReportAproblemButton.dart';
 import '../../Widgets/UnderlinedTextFormfield.dart';
 import '../../Widgets/messageTextAreaforReportProblem.dart';
 
 class Help_page extends StatelessWidget {
   Help_page({super.key});
-  List<Map<String, String>> FAQData = [
-    {
-      "Title": "How to Play",
-      "Message":
-          ''' An expansive underworld of hidden wealth lies beneath the everyday economy.
-                       This stealth network of tax havens, secret trusts, and offshore accounts is weakening democratic institutions and fueling our worst enemies.''',
-    },
-    {
-      "Title": "How to start",
-      "Message":
-          ''' An expansive underworld of hidden wealth lies beneath the everyday economy.
-                       This stealth network of tax havens, secret trusts, and offshore accounts is weakening democratic institutions and fueling our worst enemies.''',
-    },
-    {
-      "Title": "How to Play",
-      "Message":
-          ''' An expansive underworld of hidden wealth lies beneath the everyday economy.
-                       This stealth network of tax havens, secret trusts, and offshore accounts is weakening democratic institutions and fueling our worst enemies.''',
-    },
-    {
-      "Title": "How to start",
-      "Message":
-          ''' An expansive underworld of hidden wealth lies beneath the everyday economy.
-                       This stealth network of tax havens, secret trusts, and offshore accounts is weakening democratic institutions and fueling our worst enemies.''',
-    },
-    {
-      "Title": "How to Play",
-      "Message":
-          ''' An expansive underworld of hidden wealth lies beneath the everyday economy.
-                       This stealth network of tax havens, secret trusts, and offshore accounts is weakening democratic institutions and fueling our worst enemies.''',
-    },
-    {
-      "Title": "How to start",
-      "Message":
-          ''' An expansive underworld of hidden wealth lies beneath the everyday economy.
-                       This stealth network of tax havens, secret trusts, and offshore accounts is weakening democratic institutions and fueling our worst enemies.''',
-    },
-    {
-      "Title": "How to Play",
-      "Message":
-          ''' An expansive underworld of hidden wealth lies beneath the everyday economy.
-                       This stealth network of tax havens, secret trusts, and offshore accounts is weakening democratic institutions and fueling our worst enemies.''',
-    },
-    {
-      "Title": "How to start",
-      "Message":
-          ''' An expansive underworld of hidden wealth lies beneath the everyday economy.
-                       This stealth network of tax havens, secret trusts, and offshore accounts is weakening democratic institutions and fueling our worst enemies.''',
-    },
-  ];
+  TextEditingController SubjectController = TextEditingController();
+  TextEditingController messageProblemController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    var DataProviderState = Provider.of<DataProvider>(context);
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
@@ -87,7 +46,7 @@ class Help_page extends StatelessWidget {
                             .onPrimaryContainer
                             .withOpacity(0.4),
                         title: Text(
-                          "${FAQData[index]["Title"]}",
+                          "${DataProviderState.getFAQData()[index]["Title"]}",
                           style:
                               Theme.of(context).textTheme.bodyLarge?.copyWith(
                                     color: Theme.of(context)
@@ -107,7 +66,7 @@ class Help_page extends StatelessWidget {
                               padding: const EdgeInsets.only(
                                   left: 18.0, right: 40, bottom: 10),
                               child: Text(
-                                "${FAQData[index]["Message"]}",
+                                "${DataProviderState.getFAQData()[index]["Message"]}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodySmall
@@ -124,7 +83,7 @@ class Help_page extends StatelessWidget {
                       ),
                     );
                   },
-                  itemCount: FAQData.length,
+                  itemCount: DataProviderState.getFAQData().length,
                 ),
               ),
             ),
@@ -197,13 +156,26 @@ class Help_page extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
-              /*   const UnderlinedTextFormfield(),
-              const UnderlinedTextFormfield(), */
-              const messageTextAreaforReportProblem(),
+              UnderlinedTextFormfield(
+                hint: " ",
+                inputController: SubjectController,
+                lable: "Subject",
+                expression: RegExp(r'^[a-zA-Z]{1,45}$'),
+              ),
+              // const UnderlinedTextFormfield(),
+              messageTextAreaforReportProblem(
+                  inputController: messageProblemController),
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
                 child: ReportAproblemButton(myfunction: () {
-                  print("haha");
+                  if (SubjectController.text != "" &&
+                      SubjectController.text != "") {
+                    sendEmail(
+                      SubjectController.text,
+                      messageProblemController.text,
+                      "hailetechlover@gmail.com",
+                    );
+                  }
                 }),
               ),
             ],
@@ -212,4 +184,36 @@ class Help_page extends StatelessWidget {
       },
     );
   }
+
+  sendEmail(String subject, String body, String recipientemail) async {
+    final Email email = Email(
+      body: body,
+      subject: subject,
+      recipients: [recipientemail],
+      isHTML: false,
+    );
+    await FlutterEmailSender.send(email);
+  }
+
+  // sendEmail(String subject, String body, String recipientemail,
+  //     String useremail) async {
+  //   final message = Message()
+  //     ..from = Address(recipientemail, 'Your name')
+  //     ..recipients.add(useremail)
+  //     // ..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
+  //     // ..bccRecipients.add(Address('bccAddress@example.com'))
+  //     ..subject = 'Test Dart Mailer library :: 😀 :: ${DateTime.now()}'
+  //     ..text = 'This is the plain text.\nThis is line 2 of the text part.';
+  //   // ..html = "<h1>Test</h1>\n<p>Hey! Here's some HTML content</p>";
+
+  //   try {
+  //     final sendReport = await send(message, smtpServer);
+  //     print('Message sent: ' + sendReport.toString());
+  //   } on MailerException catch (e) {
+  //     print('Message not sent.');
+  //     for (var p in e.problems) {
+  //       print('Problem: ${p.code}: ${p.msg}');
+  //     }
+  //   }
+  // }
 }

@@ -6,7 +6,14 @@ import 'package:confetti/confetti.dart';
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:provider/provider.dart';
 import 'package:delightful_toast/delight_toast.dart';
+// --------------------------------this package is fortosting -----
+import 'package:another_flushbar/flushbar.dart';
+import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:another_flushbar/flushbar_route.dart';
 
+// ------------------------------------------------------------
+
+import '../../Controllers/CategoryPoint_controller.dart';
 import '../../Controllers/normalQuestions_controller.dart';
 import '../../Models/NormalQuestionsModle.dart';
 import '../../Provider/PeriferanceProvider.dart';
@@ -214,16 +221,21 @@ class _Question_pageState extends State<Question_page> {
                                                 onTap: isLocked
                                                     ? () {
                                                         onclick(
-                                                            index,
-                                                            questions,
-                                                            pageindex,
-                                                            size);
+                                                          index,
+                                                          questions,
+                                                          pageindex,
+                                                          size,
+                                                          categoryId!.toInt(),
+                                                          PeriferianceState
+                                                              .getStudentId(),
+                                                        );
                                                       }
                                                     : () {},
                                                 leading: Text(
                                                   questions[pageindex]
                                                       .options[index]
-                                                      .code,
+                                                      .code
+                                                      .toUpperCase(),
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .headlineMedium,
@@ -281,7 +293,8 @@ class _Question_pageState extends State<Question_page> {
     );
   }
 
-  void onclick(int index, questions, int pageindex, Size size) async {
+  void onclick(int index, questions, int pageindex, Size size, int categoryId,
+      int studentId) async {
     setState(() {
       isclicked = true;
       isLocked = false;
@@ -299,20 +312,44 @@ class _Question_pageState extends State<Question_page> {
         correctChoices++;
       });
     } else {
-      DelightToastBar(
+      Flushbar(
+        positionOffset: 5.3,
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        margin: const EdgeInsets.all(20),
+        borderRadius: BorderRadius.circular(8),
+        title: "Hint",
+        titleColor: Theme.of(context).colorScheme.primaryContainer,
+        message: "${questions[pageindex].solutionDescription}",
+        flushbarPosition: FlushbarPosition.BOTTOM,
+        flushbarStyle: FlushbarStyle.FLOATING,
+        reverseAnimationCurve: Curves.decelerate,
+        forwardAnimationCurve: Curves.elasticOut,
+        backgroundColor: Colors.red,
+        boxShadows: [
+          BoxShadow(
+              color: Theme.of(context).colorScheme.onBackground,
+              offset: const Offset(0.0, 2.0),
+              blurRadius: 3.0)
+        ],
+        backgroundGradient:
+            const LinearGradient(colors: [Colors.blueGrey, Colors.black]),
+        isDismissible: true,
+        icon: const Icon(FontAwesomeIcons.exclamation),
+      ).show(context);
+
+      /*  DelightToastBar(
         builder: (context) => ToastCard(
           leading: Image.asset(
             "Assets/Images/Hint.png",
           ),
           title: Text(
-            "${questions[pageindex].solutionDescription}",
             style: const TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 14,
             ),
           ),
         ),
-      ).show(context);
+      ).show(context); */
 
       if (PeriferianceState.getIsthereSound()) {
         AssetsAudioPlayer.newPlayer().open(
@@ -326,6 +363,9 @@ class _Question_pageState extends State<Question_page> {
     if (questions.length == (correctChoices + wrongChoices)) {
       await Future.delayed(const Duration(seconds: 1));
       _ShowingDialog(size, questions.length);
+      // here we will entert the points to data base
+      CategoryPoint_controller.AddingPoint(
+          studentId, categoryId, correctChoices);
     }
   }
 
@@ -371,7 +411,7 @@ class _Question_pageState extends State<Question_page> {
                           ),
                         ),
                         Text(
-                          "You have scored ${correctChoices * 10} points",
+                          "You have scored $correctChoices points",
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         Expanded(

@@ -7,10 +7,31 @@ import 'package:path_provider/path_provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
+import '../Models/CategoryPointsModel.dart';
 import '../Models/MainCategryModel.dart';
 import '../Util/Constants.dart';
 
 class mainCategory_controller {
+  static Future getAllcategoiesWithPoint(int studentid) async {
+    try {
+      final response = await http.get(
+          Uri.parse('$mainApi/categories/getAllcategoiesWithPoint/$studentid'));
+      if (response.statusCode == 200) {
+        print("The data has been featched");
+        var jsonResponse = response.body;
+        CategoryPointModel res =
+            CategoryPointModel.fromJson(json.decode(jsonResponse));
+        return res;
+      } else {
+        print("server error with status code of : ${response.statusCode}");
+        throw Exception('Failed to load data');
+      }
+    } catch (e) {
+      print("There is a problem on connection");
+      return Future.error(e);
+    }
+  }
+
   static Future showAllMainCategories() async {
     final connectivityResult = await Connectivity().checkConnectivity();
 

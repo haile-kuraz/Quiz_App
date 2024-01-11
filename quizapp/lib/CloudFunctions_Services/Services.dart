@@ -53,9 +53,9 @@ void onStart(ServiceInstance service) async {
           "$mainApi/broadCastQuestions/getAllQuestionsWithTheirOptions"));
       // var jsonResponse = json.decode(response.body);
 
-      if (response.statusCode == 200) {
-        if (service is AndroidServiceInstance) {
-          if (await service.isForegroundService()) {
+      if (service is AndroidServiceInstance) {
+        if (await service.isForegroundService()) {
+          if (response.statusCode == 200) {
             service.setForegroundNotificationInfo(
                 title: "Quiz App", content: "Today Quiz Is Available at !!! ");
           }
