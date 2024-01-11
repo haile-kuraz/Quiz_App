@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\Options_controller;
 use App\Http\Controllers\Api\Score_controller;
 use App\Http\Controllers\Api\BroadcastQuestions_controller;
 use App\Http\Controllers\Api\BroadcastOptions_controller;
+use App\Http\Controllers\Api\Points_controller;
 
 
 // 
@@ -58,6 +59,7 @@ Route::get('stdents/getAllStudentsByRank', [Student_controller::class, 'getAllSt
 // ------------------------category Apis--------------
 Route::get('categories', [Category_controller::class, 'index']);
 Route::get('categories/Showall', [Category_controller::class, 'Showall']);
+Route::get('categories/getAllcategoiesWithPoint/{student_id}', [Category_controller::class, 'getAllcategoiesWithPoint']);
 Route::get('categories/ShowAcadamicTypeCategories', [Category_controller::class, 'ShowAcadamicTypeCategories']);
 Route::get('categories/ShowGeneralTypeCategories', [Category_controller::class, 'ShowGeneralTypeCategories']);
 Route::post('categories/Addnew', [Category_controller::class, 'Addnew']);
@@ -65,6 +67,7 @@ Route::get('categories/{id}', [Category_controller::class, 'Showone']);
 Route::put('categories/{id}/Update', [Category_controller::class, 'Update']);
 Route::delete('categories/{id}/Delete', [Category_controller::class, 'Delete']);
 Route::delete('categories/DeleteAll', [Category_controller::class, 'DeleteAll']);
+
 // ------------------------Subcategory Apis--------------
 Route::get('subcategories', [Subcategory_controller::class, 'index']);
 Route::get('subcategories/Showall', [Subcategory_controller::class, 'Showall']);
@@ -117,3 +120,11 @@ Route::get('broadCastOptions/{id}', [BroadcastOptions_controller::class, 'Showon
 Route::put('broadCastOptions/{id}/Update', [BroadcastOptions_controller::class, 'Update']);
 Route::delete('broadCastOptions/{id}/Delete', [BroadcastOptions_controller::class, 'Delete']);
 Route::delete('broadCastOptions/DeleteAll', [BroadcastOptions_controller::class, 'DeleteAll']);
+// ------------------------ Points Apis-------------------------------------
+Route::get('points', [Points_controller::class, 'index']);
+Route::get('points/Showall', [Points_controller::class, 'Showall']);
+Route::post('points/Addnew', [Points_controller::class, 'Addnew']);
+Route::get('points/{id}', [Points_controller::class, 'Showone']);
+Route::put('points/{student_id}/{category_id}/UpdatePoint', [Points_controller::class, 'UpdatePoint']);
+Route::delete('points/{id}/Delete', [Points_controller::class, 'Delete']);
+Route::delete('points/DeleteAll', [Points_controller::class, 'DeleteAll']);

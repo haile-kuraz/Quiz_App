@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('scores', function (Blueprint $table) {
+        Schema::create('points', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('student_id');
-            $table->double('broadcast_score', 4, 2);
-            $table->double('points', 4, 2)->default(0);
-            $table->integer('rank')->nullable();
+            $table->unsignedBigInteger('category_id');
+            $table->integer("point")->default(0.0);
             $table->timestamps();
             //this is definng the foreigne key
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('scores');
+        Schema::dropIfExists('points');
     }
 };

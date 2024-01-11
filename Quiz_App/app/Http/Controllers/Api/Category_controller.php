@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
 use App\Models\category;
+use App\Models\points;
+use App\Models\student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 
 class Category_controller extends Controller
 {
@@ -92,8 +94,17 @@ class Category_controller extends Controller
                     'Image_url' => $request->input('Image_url', "https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/94/74/da/9474da4e-9a1e-d8ac-39b8-818229b05c47/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/1024x1024.jpg"),
                     'categoryType' => $request->categoryType,
                 ]);
-                if ($category) {
 
+                if ($category) {
+                    // Automatically add the category to the points table with an initial point value of 0 for all students
+                    $students = student::all();
+                    foreach ($students as $student) {
+                        points::create([
+                            'student_id' => $student->id,
+                            'category_id' => $category->id,
+                            'point' => 0,
+                        ]);
+                    }
                     return response()->json([
                         'status' => 200,
                         'message' => 'Category has been created Successfully'
@@ -109,6 +120,12 @@ class Category_controller extends Controller
     }
 
 
+
+
+
+
+    // this is the place where the category is added when ever new category is added 
+
     public function Showone($id)
     {
         $category = category::find($id);
@@ -121,6 +138,26 @@ class Category_controller extends Controller
             return response()->json([
                 'status' => 404,
                 'message' => "No such Category is found"
+            ], 404);
+        }
+    }
+
+    public function getAllcategoiesWithPoint($student_id)
+    {
+        $categories = Category::whereHas('point', function ($query) use ($student_id) {
+            $query->where('student_id', $student_id);
+        })->with('point')->get();
+
+
+        if ($categories->count() > 0) {
+            return response()->json([
+                'status' => 200,
+                'data' => $categories,
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No data recorded for the given student ID',
             ], 404);
         }
     }

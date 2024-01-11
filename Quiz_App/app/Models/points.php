@@ -2,16 +2,22 @@
 
 namespace App\Models;
 
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class score extends Model
+class points extends Model
 {
-    protected $fillable = ['student_id', 'broadcast_score'];
+    protected $table = 'points';
+    protected $fillable = ['student_id', 'category_id', 'point',];
 
     public function student()
     {
         return $this->belongsTo(student::class, 'student_id', 'id');
+    }
+    public function category()
+    {
+        return $this->belongsTo(category::class, 'category_id', 'id');
     }
     use HasFactory;
 }

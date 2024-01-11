@@ -22,5 +22,9 @@ class category extends Model
     {
         return $this->hasMany(subcategory::class);
     }
+    public function point()
+    {
+        return $this->hasOne(points::class, 'category_id', 'id');
+    }
     use HasFactory;
 }

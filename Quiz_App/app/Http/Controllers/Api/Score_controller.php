@@ -18,8 +18,9 @@ class Score_controller extends Controller
     }
     public function Showall()
     {
-
+        $this->updatePointToAverage();
         $Score = score::all();
+
 
         if ($Score->count() > 0) {
             return response()->json([
@@ -43,7 +44,6 @@ class Score_controller extends Controller
                 Rule::exists('students', 'id'),
             ],
             'broadcast_score' => 'required|numeric',
-            'points' => 'required|numeric',
         ]);
 
         if ($validator->fails()) {
@@ -65,12 +65,11 @@ class Score_controller extends Controller
                 $score = Score::create([
                     'student_id' => $request->student_id,
                     'broadcast_score' => $request->broadcast_score,
-                    'points' => $request->points,
                 ]);
 
                 // Update ranks based on descending order of broadcast_score
                 $this->updateRanks();
-
+                $this->updatePointToAverage();
                 if ($score) {
                     return response()->json([
                         'status' => 200,
@@ -94,10 +93,26 @@ class Score_controller extends Controller
             ->orderBy('broadcast_score', 'desc')
             ->update(['rank' => DB::raw('( @rank := @rank + 1 )')]);
     }
+    private function updatePointToAverage()
+    {
+        // Use raw SQL to calculate the average points for each student
+        $sql = "
+            UPDATE scores
+            SET points = (
+                SELECT AVG(point)
+                FROM points
+                WHERE points.student_id = scores.student_id
+            )
+        ";
 
+        // Execute the raw SQL query
+        DB::statement($sql);
+    }
     public function Showone($student_id)
     {
+
         $Score = Score::where('student_id', $student_id)->select('broadcast_score', 'points', 'rank')->first();
+        $this->updatePointToAverage();
         if ($Score) {
             return response()->json([
                 'status' => 200,
@@ -112,7 +127,7 @@ class Score_controller extends Controller
     }
 
     // This is for Updting the Point value in the Score table
-    public function UpdateScorePoint($student_id, Request $request)
+    /*  public function UpdateScorePoint($student_id, Request $request)
     {
         $Score = Score::where('student_id', $student_id)->first();
         if ($Score) {
@@ -147,7 +162,7 @@ class Score_controller extends Controller
                 'message' =>  'No such Score point Found',
             ], 404);
         }
-    }
+    } */
 
     // This is for Updting the BroadCast value in the Score table
     public function UpdateBroadcastScore($student_id, Request $request)

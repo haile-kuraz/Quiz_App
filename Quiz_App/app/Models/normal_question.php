@@ -10,10 +10,7 @@ class normal_question extends Model
 
     protected $fillable = ['question', 'solution_description', 'difficulty', 'subcategory_id', 'category_id'];
 
-    public function students()
-    {
-        return $this->belongsToMany(student::class);
-    }
+
     public function options()
     {
         return $this->hasMany(options::class, 'Question_id');

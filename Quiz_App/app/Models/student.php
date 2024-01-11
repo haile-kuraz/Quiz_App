@@ -24,13 +24,10 @@ class student extends Model
     {
         return $this->hasOne(score::class);
     }
-    public function normal_questions()
+    public function points()
     {
-        return $this->belongsToMany(normal_question::class);
+        return $this->hasMany(points::class, 'student_id');
     }
-    public function broadcast_questions()
-    {
-        return $this->belongsToMany(broadcast_questions::class);
-    }
+
     use HasFactory;
 }
