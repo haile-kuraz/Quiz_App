@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('scores', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('student_id');
-            $table->double('broadcast_score', 4, 2);
-            $table->double('points', 4, 2)->default(0);
+            $table->integer('broadcast_score')->default(0);
+            $table->integer('points')->default(0);
             $table->integer('rank')->nullable();
             $table->timestamps();
             //this is definng the foreigne key

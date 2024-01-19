@@ -69,6 +69,10 @@ class Student_controller extends Controller
                     'phone_number' => $request->phone_number,
                     'Image_url' => $request->Image_url,
                 ]);
+                $Student->score()->create([
+                    'broadcast_score' => 0,
+                    'rank' => 0,
+                ]);
                 if ($Student) {
 
                     return response()->json([
@@ -107,10 +111,10 @@ class Student_controller extends Controller
         $Student = student::find($id);
         if ($Student) {
             $validator = Validator::make($request->all(), [
-                'name' => 'required|string|max:45',
-                'email' => 'required|email|max:100',
+                'Name' => 'required|string|max:45',
+                'Email' => 'required|email|max:100',
                 'password' => 'required|min:8', // Assuming you want a minimum of 8 characters for the password
-                'phone_number' => 'required|numeric|digits:10',
+                'phone_number' => 'required|numeric|digits:10', // Assuming phone_number is optional, use 'nullable'
                 'Image_url' => 'nullable',
             ]);
             $hashedPassword = Hash::make($request->password);
@@ -121,9 +125,9 @@ class Student_controller extends Controller
                 ], 422);
             } else {
                 $Student->update([
-                    'Name' => $request->name,
-                    'Email' => $request->email,
-                    'password' =>  $hashedPassword,
+                    'Name' => $request->Name,
+                    'Email' => $request->Email,
+                    'password' => $hashedPassword,
                     'phone_number' => $request->phone_number,
                     'Image_url' => $request->Image_url,
                 ]);
@@ -178,29 +182,46 @@ class Student_controller extends Controller
             'message' => 'All Students deleted successfully',
         ], 200);
     }
-    public function getTopTenStudentsByPoints()
+    public function getTopTenStudentsByRank()
     {
         $students = score::with(['student' => function ($query) {
             $query->select('id', 'Name', 'Email', 'Image_url');
         }])
-            ->orderBy('points', 'desc')
+            ->orderBy('rank', 'asc')
             ->take(10)
             ->get(['student_id', 'broadcast_score', 'points', 'rank']);
 
         if ($students->isEmpty()) {
             return response()->json([
                 'status' => 404,
-                'message' => "No students found",
             ], 404);
         }
 
         return response()->json([
             'status' => 200,
-            'message' => "There are students",
             'data' => $students,
         ], 200);
     }
+    public function getAllStudentsByPoint()
+    {
+        $students = Score::with(['student' => function ($query) {
+            $query->select('id', 'Name', 'Email', 'Image_url');
+        }])
+            ->orderBy('points', 'desc')
+            ->get(['student_id', 'broadcast_score', 'points', 'rank']);
 
+        if ($students->isEmpty()) {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No records found'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'data' => $students,
+        ], 200);
+    }
 
     public function getAllStudentsByRank()
     {

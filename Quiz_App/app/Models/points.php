@@ -19,5 +19,10 @@ class points extends Model
     {
         return $this->belongsTo(category::class, 'category_id', 'id');
     }
+    // Define relationship with the Score model
+    public function score()
+    {
+        return $this->belongsTo(score::class, 'student_id', 'student_id');
+    }
     use HasFactory;
 }

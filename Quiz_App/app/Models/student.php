@@ -22,11 +22,11 @@ class student extends Model
     ];
     public function score()
     {
-        return $this->hasOne(score::class);
+        return $this->hasOne(score::class, 'student_id', 'id');
     }
     public function points()
     {
-        return $this->hasMany(points::class, 'student_id');
+        return $this->hasMany(points::class, 'student_id', 'id');
     }
 
     use HasFactory;

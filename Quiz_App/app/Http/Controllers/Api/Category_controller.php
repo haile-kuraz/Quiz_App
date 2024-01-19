@@ -120,10 +120,6 @@ class Category_controller extends Controller
     }
 
 
-
-
-
-
     // this is the place where the category is added when ever new category is added 
 
     public function Showone($id)

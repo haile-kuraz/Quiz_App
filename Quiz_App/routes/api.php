@@ -53,9 +53,11 @@ Route::put('students/{id}/Update', [Student_controller::class, 'Update']);
 Route::delete('students/{id}/Delete', [Student_controller::class, 'Delete']);
 Route::delete('students/DeleteAll', [Student_controller::class, 'DeleteAll']);
 Route::post('students/login', [Student_controller::class, 'login']);
-Route::get('stdents/getTopTenStudentsByPoints', [Student_controller::class, 'getTopTenStudentsByPoints']);
+Route::get('stdents/getTopTenStudentsByRank', [Student_controller::class, 'getTopTenStudentsByRank']);
 Route::get('stdents/getAllStudentsByRank', [Student_controller::class, 'getAllStudentsByRank']);
-// getAllStudentsByRank
+Route::get('stdents/getAllStudentsByPoint', [Student_controller::class, 'getAllStudentsByPoint']);
+// getAllStudentsByPoint
+
 // ------------------------category Apis--------------
 Route::get('categories', [Category_controller::class, 'index']);
 Route::get('categories/Showall', [Category_controller::class, 'Showall']);
