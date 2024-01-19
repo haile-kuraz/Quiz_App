@@ -14,9 +14,9 @@ class Subcategory_Page extends StatelessWidget {
     final args = ModalRoute.of(context)!.settings.arguments as Map;
 
     // Access the parameters
-    int? Category_Id = args['Category_Id'];
-    String? Category_name = args['Category_name'];
-    String? Category_Image = args['Category_Image'];
+    int? categoryId = args['Category_Id'];
+    String? categoryName = args['Category_name'];
+    String? categoryImage = args['Category_Image'];
     int? QuestionInCategory = args['NumberOfQuestions'];
 
     // Use the parameters in your widget
@@ -27,7 +27,7 @@ class Subcategory_Page extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.background,
         elevation: 0,
         title: Text(
-          "$Category_name",
+          "$categoryName",
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 color: Theme.of(context).colorScheme.onTertiaryContainer,
                 fontWeight: FontWeight.w800,
@@ -41,9 +41,9 @@ class Subcategory_Page extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Hero(
-              tag: "$Category_Image",
+              tag: "$categoryName",
               child: CachedNetworkImage(
-                imageUrl: "$Category_Image",
+                imageUrl: "$categoryImage",
                 imageBuilder: (context, imageProvider) => Card(
                   elevation: 5,
                   shadowColor: Theme.of(context).canvasColor,
@@ -82,7 +82,7 @@ class Subcategory_Page extends StatelessWidget {
                   if (snapshot.hasData) {
                     List<Subcategory> DATA = snapshot.data!.subcategory;
                     List<Subcategory> SubCategories = DATA
-                        .where((category) => category.categoryId == Category_Id)
+                        .where((category) => category.categoryId == categoryId)
                         .toList();
                     return ListView.builder(
                       itemBuilder: (context, index) {
@@ -92,7 +92,7 @@ class Subcategory_Page extends StatelessWidget {
                               context,
                               "/Question",
                               arguments: {
-                                'Category_Id': Category_Id,
+                                'Category_Id': categoryId,
                                 'SubCategory_Id': SubCategories[index].id,
                                 'SubCategory_Image':
                                     SubCategories[index].imageUrl,
@@ -196,7 +196,7 @@ class Subcategory_Page extends StatelessWidget {
                       itemCount: SubCategories.length,
                     );
                   } else {
-                    return Center(
+                    return const Center(
                       child: CircularProgressIndicator(),
                     );
                   }

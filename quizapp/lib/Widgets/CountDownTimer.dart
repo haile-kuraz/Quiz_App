@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
-import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:provider/provider.dart';
 
 import '../Provider/PeriferanceProvider.dart';
@@ -19,10 +18,10 @@ class _CountDownTimmerState extends State<CountDownTimmer> {
     DateTime now = DateTime.now();
     List<String> timeComponents =
         PeriferianceUpdate.getQuizStartingTime()!.split(':');
-    int _currenthours = now.hour;
+    int currenthours = now.hour;
 
-    int _currentminutes = now.minute;
-    int _currentseconds = now.second;
+    int currentminutes = now.minute;
+    int currentseconds = now.second;
     int hours = int.parse(timeComponents[0]);
     int minutes = int.parse(timeComponents[1]);
     int seconds = int.parse(timeComponents[2]);
@@ -30,7 +29,7 @@ class _CountDownTimmerState extends State<CountDownTimmer> {
 
     DateTime convertedDateTime = DateTime(0, 0, 0, hours, minutes, seconds);
     DateTime convertedCurentDateTime =
-        DateTime(0, 0, 0, _currenthours, _currentminutes, _currentseconds);
+        DateTime(0, 0, 0, currenthours, currentminutes, currentseconds);
 
     // Duration difference = convertedCurentDateTime.difference(convertedDateTime);
     Duration difference = convertedDateTime.difference(convertedCurentDateTime);

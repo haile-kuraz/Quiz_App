@@ -2,14 +2,12 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:avatar_glow/avatar_glow.dart';
-import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
 import '../../Controllers/mainCategory_controller.dart';
 
 import '../../Models/CategoryPointsModel.dart';
-import '../../Models/MainCategryModel.dart';
 import '../../Provider/PeriferanceProvider.dart';
 import '../../Widgets/EditProfilePageDialog.dart';
 import '../../Widgets/RankandPoint.dart';
@@ -138,7 +136,7 @@ class Profile extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "${PeriferianceState.getName()!.toUpperCase()}",
+                    PeriferianceState.getName()!.toUpperCase(),
                     style: Theme.of(context)
                         .textTheme
                         .titleMedium
@@ -175,7 +173,7 @@ class Profile extends StatelessWidget {
                                   BoxShadow(
                                     color: Theme.of(context).canvasColor,
                                     blurRadius: 2,
-                                    offset: Offset(2, 2),
+                                    offset: const Offset(2, 2),
                                     blurStyle: BlurStyle.normal,
                                     spreadRadius: 2,
                                   )
@@ -185,27 +183,28 @@ class Profile extends StatelessWidget {
                                 width: size.width * 0.2,
                                 height: double.infinity,
                                 child: CachedNetworkImage(
-                                  imageUrl: "${categories[index].ImageUrl}",
+                                  imageUrl: "${categories[index].imageUrl}",
                                   fit: BoxFit.cover,
                                   progressIndicatorBuilder:
                                       (context, url, downloadProgress) =>
                                           CircularProgressIndicator(
                                               value: downloadProgress.progress),
                                   errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
+                                      const Icon(Icons.error),
                                 ),
                               ),
                               title: Text(
-                                "${categories[index].name}",
+                                " ${categories[index].name}",
                                 style: Theme.of(context).textTheme.bodyMedium,
                               ),
                               subtitle: LinearPercentIndicator(
                                 barRadius: const Radius.circular(10),
                                 backgroundColor: Theme.of(context).canvasColor,
-                                percent: (categories[index].point.point) / 100,
+                                percent:
+                                    (categories[index].point!.point)! / 100,
                                 // fillColor: Theme.of(context).colorScheme.primary,
                                 trailing:
-                                    Text("${categories[index].point.point} %"),
+                                    Text("${categories[index].point!.point} %"),
                                 lineHeight: size.height * 0.015,
                                 progressColor: Theme.of(context)
                                     .colorScheme

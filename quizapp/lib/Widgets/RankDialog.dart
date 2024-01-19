@@ -62,66 +62,92 @@ class _RankDialogState extends State<RankDialog> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<Data> originalList = snapshot.data!.data;
-          return ReorderableListView.builder(
-            itemBuilder: (context, index) {
-              return Container(
-                height: size.height * 0.7,
-                key: Key("${originalList[index].rank}"),
-                margin: const EdgeInsets.only(bottom: 10),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.background,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Theme.of(context).canvasColor,
-                      offset: const Offset(2, 3),
-                    ),
-                  ],
+          return SizedBox(
+            height: size.height * 0.7,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  child: Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Text("Your Rank is : 1"),
+                  ),
                 ),
-                child: ListTile(
-                  leading: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(right: 3.0),
-                        child: Text("${originalList[index].rank}"),
-                      ),
-                      CachedNetworkImage(
-                        imageUrl: originalList[index].student.ImageUrl,
-                        imageBuilder: (context, imageProvider) {
-                          return CircleAvatar(
-                            radius: 30,
-                            backgroundImage: imageProvider,
-                          );
-                        },
-                      )
-                    ],
-                  ),
-                  title: Text(
-                    originalList[index].student.Name,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                  trailing: Text(
-                    " ${originalList[index].broadcastScore}",
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color:
-                              Theme.of(context).colorScheme.onPrimaryContainer,
+                Divider(
+                  color: Theme.of(context).colorScheme.onBackground,
+                  thickness: 2,
+                  height: 20,
+                ),
+                Expanded(
+                  child: ReorderableListView.builder(
+                    itemBuilder: (context, index) {
+                      return Container(
+                        key: Key("${originalList[index].rank}"),
+                        margin: const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.background,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Theme.of(context).canvasColor,
+                              offset: const Offset(2, 3),
+                            ),
+                          ],
                         ),
+                        child: ListTile(
+                          leading: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 3.0),
+                                child: Text(
+                                  "${originalList[index].rank}  ",
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                              ),
+                              CachedNetworkImage(
+                                imageUrl: originalList[index].student.ImageUrl,
+                                imageBuilder: (context, imageProvider) {
+                                  return CircleAvatar(
+                                    radius: 30,
+                                    backgroundImage: imageProvider,
+                                  );
+                                },
+                              )
+                            ],
+                          ),
+                          title: Text(
+                            originalList[index].student.Name,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                          trailing: Text(
+                            " ${originalList[index].broadcastScore}",
+                            style:
+                                Theme.of(context).textTheme.bodySmall?.copyWith(
+                                      fontWeight: FontWeight.w700,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimaryContainer,
+                                    ),
+                          ),
+                        ),
+                      );
+                    },
+                    itemCount: originalList.length,
+                    onReorder: (oldIndex, newIndex) {
+                      setState(() {
+                        if (oldIndex > newIndex) {
+                          newIndex -= 1;
+                        }
+                        final Data tmp = originalList[oldIndex];
+                        originalList.remove(oldIndex);
+                        originalList.insert(newIndex, tmp);
+                      });
+                    },
                   ),
                 ),
-              );
-            },
-            itemCount: originalList.length,
-            onReorder: (oldIndex, newIndex) {
-              setState(() {
-                if (oldIndex > newIndex) {
-                  newIndex -= 1;
-                }
-                final Data tmp = originalList[oldIndex];
-                originalList.remove(oldIndex);
-                originalList.insert(newIndex, tmp);
-              });
-            },
+              ],
+            ),
           );
         } else {
           return AllShimmers.rankDialogShimmer(size);

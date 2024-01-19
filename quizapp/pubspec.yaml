@@ -50,7 +50,7 @@ dependencies:
   fluttertoast: ^8.2.4
   modal_progress_hud_nsn: ^0.4.0
   cached_network_image: ^3.3.0
-  intl: ^0.18.0
+  intl: any
   image_picker: ^1.0.4
   shimmer: ^3.0.0
   confetti: ^0.7.0
@@ -70,6 +70,11 @@ dependencies:
   flutter_local_notifications: ^16.3.0
   another_flushbar: ^1.12.30
   flutter_email_sender: ^6.0.2
+  easy_localization: ^3.0.3
+  firebase_core: ^2.24.2
+  flutter_facebook_auth: ^6.0.4
+  
+
 
  
 
@@ -89,7 +94,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  generate: true
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -106,6 +111,8 @@ flutter:
     - Assets/Sounds/Effects/
     - Assets/Sounds/Quizsounds/
     - Assets/lottie/
+    - Assets/translate/
+    - Assets/Illustrations/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

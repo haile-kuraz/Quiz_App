@@ -1,9 +1,8 @@
 import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:quizapp/Provider/AuthProvider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:shimmer/shimmer.dart';
+// for localization
 
 import '../../../Controllers/mainCategory_controller.dart';
 import '../../../Models/MainCategryModel.dart';
@@ -73,7 +72,7 @@ class AcadamicTabview extends StatelessWidget {
                               );
                             },
                             child: Hero(
-                              tag: AcadamicCategories[index].imageUrl,
+                              tag: AcadamicCategories[index].name,
                               child: CachedNetworkImage(
                                 imageUrl: AcadamicCategories[index].imageUrl,
                                 imageBuilder: (context, imageProvider) =>
@@ -131,9 +130,9 @@ class AcadamicTabview extends StatelessWidget {
                                   ),
                                 ),
                                 placeholder: (context, url) =>
-                                    CircularProgressIndicator(),
+                                    const CircularProgressIndicator(),
                                 errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
+                                    const Icon(Icons.error),
                               ),
                             ),
                           ),
@@ -147,7 +146,7 @@ class AcadamicTabview extends StatelessWidget {
             );
           } else if (snapshot.hashCode == 404) {
             print("there is no data");
-            return Container(child: CircularProgressIndicator());
+            return Container(child: const CircularProgressIndicator());
           } else {
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

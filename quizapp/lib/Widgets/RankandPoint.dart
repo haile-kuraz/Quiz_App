@@ -4,6 +4,9 @@ import 'package:provider/provider.dart';
 import '../Controllers/score_controller.dart';
 import '../Models/ScoreModle.dart';
 import '../Provider/PeriferanceProvider.dart';
+// for localization
+import 'package:easy_localization/easy_localization.dart';
+import '../translate/local_keys.g.dart';
 
 class RankandPointDashbord extends StatefulWidget {
   const RankandPointDashbord({
@@ -77,7 +80,7 @@ class _RankandPointDashbordState extends State<RankandPointDashbord> {
           var scorePoint = snapshot.data!.score.points;
 
           // Build the widget with the extracted data
-          return _buildScoreWidget(rank, scorePoint);
+          return _buildScoreWidget(rank ?? 0, scorePoint);
         } else {
           // Loading state
           return _buildScoreWidget(0, 0);
@@ -86,7 +89,7 @@ class _RankandPointDashbordState extends State<RankandPointDashbord> {
     );
   }
 
-  Widget _buildScoreWidget(int brodcastScore, double scorePoint) {
+  Widget _buildScoreWidget(int brodcastScore, int scorePoint) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 10),
       width: widget.size.width,
@@ -118,7 +121,7 @@ class _RankandPointDashbordState extends State<RankandPointDashbord> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Ranking",
+                        LocaleKeys.rank.tr(),
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                               color: Theme.of(context)
                                   .colorScheme
@@ -154,7 +157,7 @@ class _RankandPointDashbordState extends State<RankandPointDashbord> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Points",
+                        LocaleKeys.point.tr(),
                         style: Theme.of(context).textTheme.titleSmall?.copyWith(
                               color: Theme.of(context)
                                   .colorScheme

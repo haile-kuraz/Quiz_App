@@ -8,7 +8,7 @@ class BroadcastQuestion_controller {
   static Future<BroadcastQuestionsModel> gettingAllQuestions() async {
     try {
       final response = await http.get(Uri.parse(
-          "${mainApi}/broadCastQuestions/getAllQuestionsWithTheirOptions"));
+          "$mainApi/broadCastQuestions/getAllQuestionsWithTheirOptions"));
       var jsonResponse = json.decode(response.body);
 
       // Fetch data using your score_controller
@@ -24,7 +24,7 @@ class BroadcastQuestion_controller {
       }
     } catch (error) {
       // Handle other errors
-      throw ("faild to load: ${error}");
+      throw ("faild to load: $error");
     }
   }
 }

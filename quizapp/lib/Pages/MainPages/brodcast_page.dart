@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'package:assets_audio_player/assets_audio_player.dart';
-import 'package:delightful_toast/delight_toast.dart';
-import 'package:delightful_toast/toast/components/toast_card.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:bubble/bubble.dart';
 import 'package:provider/provider.dart';
@@ -13,12 +12,14 @@ import 'package:lottie/lottie.dart';
 
 import '../../Controllers/broadcastQuestions_controller.dart';
 import '../../Controllers/student_controller.dart';
+import '../../Controllers/score_controller.dart';
 import '../../Models/BroadcastQuestionsModel.dart';
-import '../../Models/StudentScoreModel.dart' as score;
+
 import '../../Provider/PeriferanceProvider.dart';
 import '../../Util/Shimmer_loading.dart';
 import '../../Widgets/CountDownTimer.dart';
 import '../../Widgets/RankDialog.dart';
+import 'brodcast_section/History_of_best.dart';
 
 class Brodcast extends StatefulWidget {
   const Brodcast({super.key});
@@ -37,7 +38,6 @@ class _BrodcastState extends State<Brodcast> {
 
   // These  are some data filds to checked latter
 
-  late int pagenumber;
   late bool isclicked;
   late int selectedIndex;
   late int correctChoices;
@@ -55,7 +55,6 @@ class _BrodcastState extends State<Brodcast> {
 
   @override
   void initState() {
-    pagenumber = 1;
     isclicked = false;
     correctChoices = 0;
     wrongChoices = 0;
@@ -116,25 +115,32 @@ class _BrodcastState extends State<Brodcast> {
             if (snapshot.hasData) {
               List<Data> Questions = snapshot.data!.data;
               var DateofLive = Questions[0].dateofLive;
-              String starting_Time = Questions[0].startTime;
-              var ending_Time = Questions[0].endTime;
+              String startingTime = Questions[0].startTime;
+              var endingTime = Questions[0].endTime;
 
-              print("here is from data base ${starting_Time}");
-              print("here is from data base ${ending_Time}");
+              print("here is from data base $startingTime");
+              print("here is from data base $endingTime");
 
               if (DateofLive == _current_Date) {
-                PeriferianceUpdate.setQuizStartingTime(starting_Time);
+                PeriferianceUpdate.setQuizStartingTime(startingTime);
                 PeriferianceUpdate.setisQuizAvalilableToday(true);
-                if ((starting_Time.compareTo(_current_Time) <= 0) &&
-                    (ending_Time.compareTo(_current_Time) > 0)) {
-                  PeriferianceUpdate.setIsQuizLive(true);
-                  return _BroadcastQuestionsBuilder(Questions, size);
+                if ((startingTime.compareTo(_current_Time) <= 0) &&
+                    (endingTime.compareTo(_current_Time) > 0)) {
+                  if (!PeriferianceState.getdowefinishedQuiz()) {
+                    PeriferianceUpdate.setIsQuizLive(true);
+                    return _BroadcastQuestionsBuilder(Questions, size);
+                  } else {
+                    return _defaultPageBuilder(size, false);
+                  }
                 } else {
+                  PeriferianceUpdate.setdowefinishedQuiz(false);
                   PeriferianceUpdate.setIsQuizLive(false);
+                  PeriferianceUpdate.setbroadcastQuestionNumber(0);
                   return _defaultPageBuilder(size, true);
                 }
               } else {
                 PeriferianceUpdate.setIsQuizLive(false);
+
                 return _defaultPageBuilder(size, false);
               }
             } else {
@@ -153,7 +159,7 @@ class _BrodcastState extends State<Brodcast> {
     );
   }
 
-  Widget _defaultPageBuilder(Size size, bool isWaiting) {
+  Widget _defaultPageBuilder(Size size, bool iswaiting) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Container(
@@ -179,7 +185,7 @@ class _BrodcastState extends State<Brodcast> {
                         spreadRadius: 5,
                       )
                     ]),
-                child: isWaiting
+                child: iswaiting
                     ? const Stack(
                         children: [
                           Row(
@@ -196,7 +202,7 @@ class _BrodcastState extends State<Brodcast> {
                         ],
                       )
                     : SingleChildScrollView(
-                        physics: NeverScrollableScrollPhysics(),
+                        physics: const NeverScrollableScrollPhysics(),
                         child: Stack(
                           children: [
                             Padding(
@@ -217,9 +223,9 @@ class _BrodcastState extends State<Brodcast> {
                             SizedBox(
                               width: size.width * 0.6,
                               child: Bubble(
-                                margin: BubbleEdges.only(top: 10),
+                                margin: const BubbleEdges.only(top: 10),
                                 nip: BubbleNip.rightBottom,
-                                color: Color.fromRGBO(225, 255, 199, 1.0)
+                                color: const Color.fromRGBO(225, 255, 199, 1.0)
                                     .withOpacity(0.3),
                                 child: Text(
                                   "Quiz is not Available for Today",
@@ -241,7 +247,7 @@ class _BrodcastState extends State<Brodcast> {
                     ),
               ),
             ),
-            _BestperformerListBuilder()
+            const BestPerformaers()
             // This is the place where the list of best perfromers shown
           ],
         ),
@@ -251,6 +257,7 @@ class _BrodcastState extends State<Brodcast> {
 
   Widget _BroadcastQuestionsBuilder(Questions, Size size) {
     List<Data> AllQuestions = Questions;
+    int QuestionNumber = PeriferianceState.getbroadcastQuestionNumber();
     // print("here is question bro ${questions[0]["Question"]}");
     return Container(
       decoration: const BoxDecoration(
@@ -294,7 +301,7 @@ class _BrodcastState extends State<Brodcast> {
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 4),
                           child: Text(
-                            "$pagenumber of ${AllQuestions.length}",
+                            "${QuestionNumber + 1} of ${AllQuestions.length}",
                             style: Theme.of(context).textTheme.headlineMedium,
                           ),
                         ),
@@ -305,9 +312,8 @@ class _BrodcastState extends State<Brodcast> {
                 Expanded(
                   child: PageView.builder(
                     onPageChanged: (value) {
-                      setState(() {
-                        pagenumber++;
-                      });
+                      isclicked = false;
+                      PeriferianceUpdate.setbroadcastQuestionNumber(value);
                     },
                     physics: const NeverScrollableScrollPhysics(),
                     controller: pageviewController,
@@ -350,7 +356,7 @@ class _BrodcastState extends State<Brodcast> {
                                     child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Text(
-                                          AllQuestions[pageindex].Question,
+                                          AllQuestions[QuestionNumber].Question,
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleLarge,
@@ -373,14 +379,14 @@ class _BrodcastState extends State<Brodcast> {
                                             border: Border.all(
                                               color: isclicked
                                                   ? selectedIndex == index
-                                                      ? AllQuestions[pageindex]
+                                                      ? AllQuestions[QuestionNumber]
                                                                   .broadcastOptions[
                                                                       index]
                                                                   .IsCorrect ==
                                                               1
                                                           ? Colors.green
                                                           : Colors.red
-                                                      : AllQuestions[pageindex]
+                                                      : AllQuestions[QuestionNumber]
                                                                   .broadcastOptions[
                                                                       index]
                                                                   .IsCorrect ==
@@ -415,32 +421,78 @@ class _BrodcastState extends State<Brodcast> {
                                             padding: const EdgeInsets.only(
                                                 top: 2.0, bottom: 2),
                                             child: ListTile(
-                                              onTap: () {
-                                                setState(() {
-                                                  pagenumber++;
-                                                  selectedIndex = index;
-                                                  isclicked = true;
-                                                });
-                                                pageviewController.nextPage(
-                                                  curve: Curves.fastOutSlowIn,
-                                                  duration: const Duration(
-                                                      seconds: 1),
-                                                );
-                                                if (AllQuestions[pageindex]
-                                                        .broadcastOptions[index]
-                                                        .IsCorrect ==
-                                                    1) {
-                                                  setState(() {
-                                                    correctChoices++;
-                                                  });
-                                                } else {
-                                                  setState(() {
-                                                    wrongChoices++;
-                                                  });
-                                                }
-                                              },
+                                              onTap: isclicked
+                                                  ? () {}
+                                                  : () async {
+                                                      setState(() {
+                                                        selectedIndex = index;
+                                                        isclicked = true;
+                                                      });
+                                                      pageviewController
+                                                          .nextPage(
+                                                        curve: Curves
+                                                            .fastOutSlowIn,
+                                                        duration:
+                                                            const Duration(
+                                                                seconds: 1),
+                                                      );
+                                                      if (AllQuestions[
+                                                                  QuestionNumber]
+                                                              .broadcastOptions[
+                                                                  index]
+                                                              .IsCorrect ==
+                                                          1) {
+                                                        setState(() {
+                                                          correctChoices++;
+                                                        });
+                                                      } else {
+                                                        setState(() {
+                                                          wrongChoices++;
+                                                        });
+                                                      }
+                                                      if (AllQuestions.length ==
+                                                          correctChoices +
+                                                              wrongChoices) {
+                                                        await score_controller
+                                                                .UpdatingBroadcastScore(
+                                                                    PeriferianceState
+                                                                        .getStudentId(),
+                                                                    correctChoices *
+                                                                        5.1)
+                                                            .then(
+                                                          (value) => showDialog(
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return Dialog(
+                                                                child: SizedBox(
+                                                                  height:
+                                                                      size.height *
+                                                                          0.5,
+                                                                  width:
+                                                                      size.width *
+                                                                          0.7,
+                                                                  child: Column(
+                                                                    children: [
+                                                                      const Text(
+                                                                          "you have completed the quiz Thank you"),
+                                                                      TextButton(
+                                                                          onPressed:
+                                                                              () async {
+                                                                            await PeriferianceUpdate.setdowefinishedQuiz(true);
+                                                                          },
+                                                                          child:
+                                                                              const Text("Continue"))
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                              );
+                                                            },
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
                                               leading: Text(
-                                                AllQuestions[pageindex]
+                                                AllQuestions[QuestionNumber]
                                                     .broadcastOptions[index]
                                                     .code
                                                     .toUpperCase(),
@@ -449,14 +501,14 @@ class _BrodcastState extends State<Brodcast> {
                                                     .headlineMedium,
                                               ),
                                               title: Text(
-                                                  AllQuestions[pageindex]
+                                                  AllQuestions[QuestionNumber]
                                                       .broadcastOptions[index]
                                                       .OptionValue),
                                             ),
                                           ),
                                         );
                                       },
-                                      itemCount: AllQuestions[pageindex]
+                                      itemCount: AllQuestions[QuestionNumber]
                                           .broadcastOptions
                                           .length,
                                     ),
@@ -505,101 +557,6 @@ class _BrodcastState extends State<Brodcast> {
               ),
             )
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget _BestperformerListBuilder() {
-    return Expanded(
-      child: CustomMaterialIndicator(
-        onRefresh: () async {
-          await student_controller.getTopTenStudentsByPoints();
-        },
-        indicatorBuilder: (context, controller) {
-          return const Icon(
-            Icons.donut_large,
-            size: 30,
-          );
-        },
-        child: FutureBuilder(
-          future: student_controller.getTopTenStudentsByPoints(),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              List<score.Data> data = snapshot.data!.data;
-              return AnimationLimiter(
-                child: ListView.builder(
-                  itemBuilder: (context, index) {
-                    return AnimationConfiguration.staggeredList(
-                      position: index,
-                      duration: const Duration(milliseconds: 1500),
-                      child: SlideAnimation(
-                        horizontalOffset: 30,
-                        child: FadeInAnimation(
-                          child: Card(
-                            elevation: 2,
-                            child: ListTile(
-                              leading: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 3.0),
-                                    child: Text("${index + 1}"),
-                                  ),
-                                  CachedNetworkImage(
-                                    imageUrl: data[index].student.ImageUrl,
-                                    imageBuilder: (context, imageProvider) {
-                                      return CircleAvatar(
-                                        backgroundImage: imageProvider,
-                                        radius: 30,
-                                      );
-                                    },
-                                    placeholder: (context, url) =>
-                                        const CircularProgressIndicator(),
-                                    errorWidget: (context, url, error) =>
-                                        const Icon(Icons.error),
-                                  ),
-                                ],
-                              ),
-                              title: Text(
-                                data[index].student.Name,
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                              subtitle: Text(
-                                "Rank: ${data[index].rank}",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    ),
-                              ),
-                              trailing: Text(
-                                "${data[index].points} Point",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodySmall
-                                    ?.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimaryContainer,
-                                    ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  itemCount: data.length,
-                ),
-              );
-            } else {
-              return AllShimmers.TopTenBestPerformesShimmer(context);
-            }
-          },
         ),
       ),
     );

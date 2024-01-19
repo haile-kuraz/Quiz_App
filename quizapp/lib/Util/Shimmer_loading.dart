@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:badges/badges.dart' as badges;
 
 import 'Paiter.dart';
 
@@ -112,13 +111,13 @@ class AllShimmers {
   }
 
   static Widget rankDialogShimmer(Size size) {
-    return Container(
+    return SizedBox(
       height: size.height * 0.7,
       child: ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) {
           return Container(
-            key: Key("{newList[index].rank}"),
+            key: const Key("{newList[index].rank}"),
             margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.background,
@@ -365,7 +364,7 @@ class AllShimmers {
                   child: ListView.builder(
                     itemBuilder: (context, index) {
                       return Container(
-                        key: Key("{newList[index].rank}"),
+                        key: const Key("{newList[index].rank}"),
                         margin: const EdgeInsets.only(bottom: 10),
                         decoration: BoxDecoration(
                           color: Theme.of(context).colorScheme.background,

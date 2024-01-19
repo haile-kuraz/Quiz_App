@@ -1,10 +1,8 @@
 import 'dart:convert';
 
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:quizapp/Provider/AuthProvider.dart';
 
 import '../Models/StudentScoreModel.dart';
 import '../Util/Constants.dart';
@@ -74,10 +72,10 @@ class student_controller {
     }
   }
 
-  static Future updateProfile(String studentId, String name, String email,
-      String phone, String password, String imgUrl) async {
+  static Future updateProfile(int studentId, String name, String email,
+      String password, String phone, String imgUrl) async {
     try {
-      final response = await http.post(
+      final response = await http.put(
         Uri.parse('$mainApi/students/$studentId/Update'),
         headers: {
           'Content-Type': 'application/json',
@@ -99,17 +97,15 @@ class student_controller {
       }
     } catch (error) {
       print("connection error $error");
-      messageflutterToast("Connection Problem");
+      messageflutterToast("Connection Problem : $error");
       return Future.error(error);
     }
   }
 
-  static Future getTopTenStudentsByPoints() async {
-    final connectivityResult = await Connectivity().checkConnectivity();
-    if (connectivityResult == ConnectivityResult.wifi ||
-        connectivityResult == ConnectivityResult.mobile) {
-      final response = await http
-          .get(Uri.parse("${mainApi}/stdents/getTopTenStudentsByPoints"));
+  static Future getTopTenStudentsByRank() async {
+    try {
+      final response =
+          await http.get(Uri.parse("$mainApi/stdents/getTopTenStudentsByRank"));
 
       if (response.statusCode == 200) {
         // If server returns an OK response, parse the JSON
@@ -117,20 +113,18 @@ class student_controller {
             StudentScoreModel.fromJson(json.decode(response.body));
         return res;
       } else {
-        // If the server did not return a 200 OK response,
-        // throw an exception.
-
         throw Exception('Failed to load data  ${response.statusCode}');
       }
-    } else {
-      return messageflutterToast("Connection problem");
+    } catch (e) {
+      Future.error(e);
+      return Future.error(e);
     }
   }
 
   static Future<StudentScoreModel> getAllStudentsByRank() async {
     try {
       final response =
-          await http.get(Uri.parse("$mainApi/stdents/getAllStudentsByRank"));
+          await http.get(Uri.parse("$mainApi/stdents/getAllStudentsByPoint"));
 
       if (response.statusCode == 200) {
         // If server returns an OK response, parse the JSON

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:permission_handler/permission_handler.dart';
-
 import 'package:provider/provider.dart';
-import 'package:quizapp/CloudFunctions_Services/Services.dart';
+import 'package:quizapp/translate/codegen_loader.g.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 import 'Pages/MainPages/help_page.dart';
 import 'Pages/MainPages/home_page.dart';
-import 'Pages/MainPages/mainCategories_page.dart';
 import 'Pages/MainPages/question_page.dart';
 import 'Pages/MainPages/setting_page.dart';
 import 'Pages/MainPages/subcategory_page.dart';
@@ -20,44 +19,59 @@ import 'Provider/DataProvider.dart';
 import 'Widgets/CountDownTimer.dart';
 import 'Provider/AuthProvider.dart';
 import 'Provider/PeriferanceProvider.dart';
+import './firebase_options.dart';
 
 // import 'Util/Color.dart';
 import 'Util/Theme._date.dart';
-import 'Controllers/student_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // Request notification permission if not granted or explicitly denied
-  PermissionStatus notificationStatus = await Permission.notification.status;
-  if (notificationStatus.isDenied || notificationStatus.isRestricted) {
-    await Permission.notification.request();
-  }
+  // PermissionStatus notificationStatus = await Permission.notification.status;
+  // if (notificationStatus.isDenied || notificationStatus.isRestricted) {
+  //   await Permission.notification.request();
+  // }
 
-  // Initialize background service
-  await initializeService();
+  // // Initialize background service
+  // await initializeService();
 
   SharedPreferences pref = await SharedPreferences.getInstance();
   SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
 
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider<AuthProvider>(
-        create: (context) => AuthProvider(),
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        Locale('en'),
+        Locale('am'),
+        Locale('ti'),
+        Locale('om')
+      ],
+      path: 'Assets/translate',
+      assetLoader: const CodegenLoader(),
+      fallbackLocale: const Locale('en'),
+      child: MultiProvider(
+        providers: [
+          ChangeNotifierProvider<AuthProvider>(
+            create: (context) => AuthProvider(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => Periferance(prefs: pref),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => DataProvider(),
+          ),
+        ],
+        child: MyApp(
+          pref: pref,
+        ),
       ),
-      ChangeNotifierProvider(
-        create: (context) => Periferance(prefs: pref),
-      ),
-      ChangeNotifierProvider(
-        create: (context) => DataProvider(),
-      ),
-    ],
-    child: MyApp(
-      pref: pref,
     ),
-  ));
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -80,8 +94,12 @@ class _MyAppState extends State<MyApp> {
     var PeriferanceState = Provider.of<Periferance>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      //  onGenerateTitle: (context) => AppLocalizations.of(context).title,
       theme: PeriferanceState.getIsDark() == true ? darkTheme : lightTheme,
       // theme: darkTheme,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
 
       initialRoute: "/",
       routes: {

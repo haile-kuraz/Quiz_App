@@ -18,7 +18,9 @@ class Periferance extends ChangeNotifier {
   static String? quizStartingTime;
   static bool? isQuizLive;
   static bool? isQuizAvalilableToday;
-
+  static bool? dowefinishedQuiz;
+  static String? difficulty;
+  static int? broadcastQuestionNumber;
   Future<void> _initializeSettings() async {
     isDark = prefs.getBool('DARK_THEME') ?? false;
     isOnboardingShowing = prefs.getBool('ON_BOARDING') ?? true;
@@ -30,8 +32,30 @@ class Periferance extends ChangeNotifier {
     email = prefs.getString('EMAIL') ?? "Unknown";
     studentId = prefs.getInt('STUDENTID') ?? 0;
     quizStartingTime = prefs.getString('QUIZSTARTINGTIME');
-    isQuizLive = prefs.getBool('ISQUIZLIVE');
+    isQuizLive = prefs.getBool('ISQUIZLIVE') ?? false;
+    dowefinishedQuiz = prefs.getBool('DOWEFINISHED') ?? false;
     isQuizAvalilableToday = prefs.getBool("isQuizAvalilableToday") ?? false;
+    difficulty = prefs.getString('DIFFICULTY') ?? "easy";
+    broadcastQuestionNumber = prefs.getInt('BroadcastQuestionNo') ?? 0;
+
+    notifyListeners();
+  }
+
+  Future<void> setdowefinishedQuiz(bool value) async {
+    await prefs.setBool('DOWEFINISHED', value);
+    dowefinishedQuiz = value;
+    notifyListeners();
+  }
+
+  Future<void> setbroadcastQuestionNumber(int value) async {
+    await prefs.setInt('BroadcastQuestionNo', value);
+    broadcastQuestionNumber = value;
+    notifyListeners();
+  }
+
+  Future<void> setdifficulty(String value) async {
+    await prefs.setString('DIFFICULTY', value);
+    difficulty = value;
     notifyListeners();
   }
 
@@ -106,8 +130,39 @@ class Periferance extends ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> resetSharedPreferences(
+    String name,
+    String email,
+    String phone,
+    String image,
+  ) async {
+    await prefs.remove('NAME');
+    await prefs.remove('EMAIL');
+    await prefs.remove('PHONE');
+    await prefs.remove('IMAGE');
+
+    await setName(name);
+    await setEmail(email);
+    await setPhone(phone);
+    await setProfilImage(image);
+
+    notifyListeners();
+  }
+
+  bool? getdowefinishedQuiz() {
+    return dowefinishedQuiz;
+  }
+
   bool? getisQuizAvalilableToday() {
-    return isQuizLive;
+    return isQuizAvalilableToday;
+  }
+
+  int? getbroadcastQuestionNumber() {
+    return broadcastQuestionNumber;
+  }
+
+  String? getdifficulty() {
+    return difficulty;
   }
 
   bool? getIsQuizLive() {

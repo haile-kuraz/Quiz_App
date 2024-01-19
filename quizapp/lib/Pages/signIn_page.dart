@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:http/http.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
+// for localization
+import 'package:easy_localization/easy_localization.dart';
+import '../translate/local_keys.g.dart';
 
 import '../../Util/Paiter.dart';
 // import '../Models/StudentModel.dart';
@@ -44,7 +46,7 @@ class _SignInState extends State<SignIn> {
 
         opacity: 0.5,
         color: Colors.black,
-        progressIndicator: CircularProgressIndicator(),
+        progressIndicator: const CircularProgressIndicator(),
 
         // offset: double
         dismissible: true,
@@ -80,7 +82,7 @@ class _SignInState extends State<SignIn> {
                           // This is the Text form fild of Login page
                           DefaultTextformWidget(
                             inputType: TextInputType.emailAddress,
-                            lableText: "Emaill",
+                            lableText: LocaleKeys.email.tr(),
                             prefixIcon: const Icon(Icons.mail),
                             size: size,
                             textController: _emailController,
@@ -96,6 +98,7 @@ class _SignInState extends State<SignIn> {
                             ),
                           ),
                           PasswordTextField(
+                            lable: "Password",
                             isvisible: isvisible,
                             passwordController: _passwordController,
                             size: size,
@@ -143,7 +146,7 @@ class _SignInState extends State<SignIn> {
                                   // print(response["student"]["id"]);
                                   int Id = response["student"]["id"];
                                   String Name = response["student"]["Name"];
-                                  String image_Url =
+                                  String imageUrl =
                                       response["student"]["Image_url"];
                                   String email = response["student"]["Email"];
                                   String phone =
@@ -151,7 +154,7 @@ class _SignInState extends State<SignIn> {
 
                                   PeriferianceUpdate.setOnboardingStatus(false);
                                   PeriferianceUpdate.setName(Name);
-                                  PeriferianceUpdate.setProfilImage(image_Url);
+                                  PeriferianceUpdate.setProfilImage(imageUrl);
                                   PeriferianceUpdate.setStudentId(Id);
                                   PeriferianceUpdate.setEmail(email);
                                   PeriferianceUpdate.setPhone(phone);

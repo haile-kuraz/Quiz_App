@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
-import '../../Provider/PeriferanceProvider.dart';
 import 'brodcast_page.dart';
 import 'leaderboard_page.dart';
 import 'library_page.dart';

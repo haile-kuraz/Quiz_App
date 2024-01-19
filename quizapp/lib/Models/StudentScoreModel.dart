@@ -28,9 +28,9 @@ class Data {
     required this.student,
   });
   late final int studentId;
-  late final double? broadcastScore;
-  late final double points;
-  late final int rank;
+  late final int broadcastScore;
+  late final int points;
+  late final int? rank;
   late final Student student;
 
   Data.fromJson(Map<String, dynamic> json) {

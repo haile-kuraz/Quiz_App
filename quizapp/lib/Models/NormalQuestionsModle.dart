@@ -5,16 +5,16 @@ class QuestionModel {
   });
   late final int status;
   late final List<Data> data;
-  
-  QuestionModel.fromJson(Map<String, dynamic> json){
+
+  QuestionModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = List.from(json['data']).map((e)=>Data.fromJson(e)).toList();
+    data = List.from(json['data']).map((e) => Data.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
     final _data = <String, dynamic>{};
     _data['status'] = status;
-    _data['data'] = data.map((e)=>e.toJson()).toList();
+    _data['data'] = data.map((e) => e.toJson()).toList();
     return _data;
   }
 }
@@ -40,8 +40,8 @@ class Data {
   late final String createdAt;
   late final String updatedAt;
   late final List<Options> options;
-  
-  Data.fromJson(Map<String, dynamic> json){
+
+  Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     categoryId = json['category_id'];
     subcategoryId = json['subcategory_id'];
@@ -50,7 +50,8 @@ class Data {
     difficulty = json['difficulty'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    options = List.from(json['options']).map((e)=>Options.fromJson(e)).toList();
+    options =
+        List.from(json['options']).map((e) => Options.fromJson(e)).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -63,7 +64,7 @@ class Data {
     _data['difficulty'] = difficulty;
     _data['created_at'] = createdAt;
     _data['updated_at'] = updatedAt;
-    _data['options'] = options.map((e)=>e.toJson()).toList();
+    _data['options'] = options.map((e) => e.toJson()).toList();
     return _data;
   }
 }
@@ -85,8 +86,8 @@ class Options {
   late final int IsCorrect;
   late final String createdAt;
   late final String updatedAt;
-  
-  Options.fromJson(Map<String, dynamic> json){
+
+  Options.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     QuestionId = json['Question_id'];
     code = json['code'];

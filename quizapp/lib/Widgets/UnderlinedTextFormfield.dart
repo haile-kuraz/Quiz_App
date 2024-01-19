@@ -16,7 +16,7 @@ class UnderlinedTextFormfield extends StatelessWidget {
   String? validateFunction(String? value, String lable) {
     if (value!.isEmpty) {
       return 'Please enter A $lable';
-    } else if (expression.hasMatch(value)) {
+    } else if (!expression.hasMatch(value)) {
       return 'Please enter a valid $lable';
     }
     // Return null if the input is valid

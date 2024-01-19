@@ -14,10 +14,10 @@ class SubcategoriesModel {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['status'] = status;
-    _data['Subcategory'] = subcategory.map((e) => e.toJson()).toList();
-    return _data;
+    final data = <String, dynamic>{};
+    data['status'] = status;
+    data['Subcategory'] = subcategory.map((e) => e.toJson()).toList();
+    return data;
   }
 }
 
@@ -49,14 +49,14 @@ class Subcategory {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['category_id'] = categoryId;
-    _data['name'] = name;
-    _data['Image_url'] = imageUrl;
-    _data['updated_at'] = updatedAt;
-    _data['normal_questions'] = normalQuestions.map((e) => e.toJson()).toList();
-    return _data;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['category_id'] = categoryId;
+    data['name'] = name;
+    data['Image_url'] = imageUrl;
+    data['updated_at'] = updatedAt;
+    data['normal_questions'] = normalQuestions.map((e) => e.toJson()).toList();
+    return data;
   }
 }
 
@@ -77,10 +77,10 @@ class NormalQuestion {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['id'] = id;
-    _data['category_id'] = categoryId;
-    _data['subcategory_id'] = subcategoryId;
-    return _data;
+    final data = <String, dynamic>{};
+    data['id'] = id;
+    data['category_id'] = categoryId;
+    data['subcategory_id'] = subcategoryId;
+    return data;
   }
 }

@@ -1,8 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:provider/provider.dart';
+// for localization
+import 'package:easy_localization/easy_localization.dart';
+
+import '../../translate/local_keys.g.dart';
 
 import '../../Provider/PeriferanceProvider.dart';
 import '../../Widgets/RankandPoint.dart';
@@ -21,7 +24,7 @@ class _MainCategoryState extends State<MainCategory>
     with TickerProviderStateMixin {
   @override
   void initState() {
-    FlutterBackgroundService().invoke('setAsBackground');
+    // FlutterBackgroundService().invoke('setAsBackground');
     super.initState();
   }
 
@@ -48,14 +51,14 @@ class _MainCategoryState extends State<MainCategory>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Hi,${PeriferianceState.getName()}",
+                          "${LocaleKeys.hi.tr()},${PeriferianceState.getName()}",
                           style: Theme.of(context)
                               .textTheme
                               .titleMedium
                               ?.copyWith(fontFamily: "wellcome"),
                         ),
                         Text(
-                          "practice makes you better!!!",
+                          LocaleKeys.practice.tr(),
                           style:
                               Theme.of(context).textTheme.bodyMedium?.copyWith(
                                     color: Theme.of(context)
@@ -75,8 +78,8 @@ class _MainCategoryState extends State<MainCategory>
                         );
                       },
                       placeholder: (context, url) =>
-                          CircularProgressIndicator(),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
+                          const CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => const Icon(Icons.error),
                     ),
                   ],
                 ),
@@ -138,15 +141,15 @@ class _MainCategoryState extends State<MainCategory>
                             onTap: (value) {
                               print(value);
                             },
-                            tabs: const [
+                            tabs: [
                               Tab(
-                                text: "Acadamic",
+                                text: LocaleKeys.acadamic.tr(),
                               ),
                               Tab(
-                                text: "General",
+                                text: LocaleKeys.general.tr(),
                               ),
                               Tab(
-                                text: "Missions",
+                                text: LocaleKeys.Missions.tr(),
                               ),
                             ],
                           ),

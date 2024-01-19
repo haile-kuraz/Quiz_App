@@ -7,11 +7,13 @@ class PasswordTextField extends StatefulWidget {
       required this.size,
       required this.isvisible,
       required this.passwordController,
-      required this.Expression});
+      required this.Expression,
+      required this.lable});
   final Size size;
   bool isvisible;
   final TextEditingController? passwordController;
   final RegExp Expression;
+  final String lable;
   @override
   State<PasswordTextField> createState() => _PasswordTextFieldState();
 }
@@ -41,7 +43,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         controller: widget.passwordController,
         obscureText: !widget.isvisible,
         decoration: InputDecoration(
-          label: const Text("password"),
+          label: Text(widget.lable),
           prefixIcon: const Icon(Icons.lock),
           suffix: IconButton(
             onPressed: () {

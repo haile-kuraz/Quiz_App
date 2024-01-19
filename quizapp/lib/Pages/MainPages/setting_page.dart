@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+// for localization
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../Provider/PeriferanceProvider.dart';
 import '../../Widgets/SettingIcons.dart';
@@ -15,6 +17,8 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   bool timer = true;
+  String selectedOption = 'Option 1';
+
   List<Map> LanguageData = [
     {
       "name": "English",
@@ -22,15 +26,15 @@ class _SettingPageState extends State<SettingPage> {
     },
     {
       "name": "አማርኛ",
-      "value": "en",
+      "value": "am",
     },
     {
       "name": "ትግሪኛ",
-      "value": "en",
+      "value": "ti",
     },
     {
       "name": "Afaan Oromo",
-      "value": "en",
+      "value": "om",
     },
   ];
 
@@ -51,8 +55,9 @@ class _SettingPageState extends State<SettingPage> {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
@@ -149,26 +154,69 @@ class _SettingPageState extends State<SettingPage> {
               ),
               // This is the setting to set difficulty
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Dialog(
+                        shape: const ContinuousRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(25),
+                          ),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              RadioListTile(
+                                fillColor: MaterialStatePropertyAll(
+                                  Theme.of(context).colorScheme.primary,
+                                ),
+                                title: const Text("Easy"),
+                                value: 'easy',
+                                groupValue: PeriferanceState.getdifficulty(),
+                                onChanged: (value) {
+                                  PeriferanceState.setdifficulty(
+                                      value ?? 'easy');
+                                },
+                              ),
+                              RadioListTile(
+                                fillColor: MaterialStatePropertyAll(
+                                  Theme.of(context).colorScheme.primary,
+                                ),
+                                title: const Text('Medium'),
+                                value: 'medium',
+                                groupValue: PeriferanceState.getdifficulty(),
+                                onChanged: (value) {
+                                  PeriferanceState.setdifficulty(
+                                      value ?? 'medium');
+                                },
+                              ),
+                              RadioListTile(
+                                fillColor: MaterialStatePropertyAll(
+                                  Theme.of(context).colorScheme.primary,
+                                ),
+                                title: const Text('Hard'),
+                                value: 'hard',
+                                groupValue: PeriferanceState.getdifficulty(),
+                                onChanged: (value) {
+                                  PeriferanceState.setdifficulty(
+                                      value ?? 'hard');
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
                 leading: const SettingIcons(
                   icon: Icons.signal_cellular_alt,
                 ),
                 title: Text(
                   "Difficulty",
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onBackground,
-                      ),
-                ),
-                trailing: const Icon(FontAwesomeIcons.chevronRight),
-              ),
-              // This is the setting to set font
-              ListTile(
-                onTap: () {},
-                leading: const SettingIcons(
-                  icon: FontAwesomeIcons.font,
-                ),
-                title: Text(
-                  "Font",
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Theme.of(context).colorScheme.onBackground,
                       ),
@@ -242,7 +290,49 @@ class _SettingPageState extends State<SettingPage> {
               ),
               // This is the setting to Logout the  account
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: const Text("Are you sure,\nyou want to Logout"),
+                        actions: [
+                          TextButton(
+                            onPressed: () {},
+                            style: ButtonStyle(
+                                elevation: const MaterialStatePropertyAll(5),
+                                backgroundColor: MaterialStatePropertyAll(
+                                  Theme.of(context).colorScheme.background,
+                                )),
+                            child: const Text("Cancel"),
+                          ),
+                          SizedBox(
+                            width: size.width * 0.002,
+                          ),
+                          TextButton(
+                            onPressed: () {},
+                            style: ButtonStyle(
+                                elevation: const MaterialStatePropertyAll(5),
+                                backgroundColor: MaterialStatePropertyAll(
+                                  Theme.of(context).colorScheme.primary,
+                                )),
+                            child: Text(
+                              "Logout",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium
+                                  ?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onBackground,
+                                  ),
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                  );
+                },
                 leading: const SettingIcons(
                   icon: FontAwesomeIcons.rightFromBracket,
                 ),
@@ -290,10 +380,16 @@ class _SettingPageState extends State<SettingPage> {
             SizedBox(
               height: size.height * 0.3,
               child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
+                physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return ListTile(
-                    onTap: () {},
+                    onTap: () async {
+                      await context.setLocale(
+                        Locale(
+                          LanguageData[index]["value"],
+                        ),
+                      );
+                    },
                     leading:
                         const SettingIcons(icon: FontAwesomeIcons.language),
                     title: Text(

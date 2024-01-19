@@ -6,10 +6,10 @@ import 'package:flutter/material.dart';
 import '../Util/Constants.dart';
 
 class CategoryPoint_controller {
-  static Future AddingPoint(int student_id, int category_id, int point) async {
+  static Future AddingPoint(int studentId, int categoryId, int point) async {
     try {
       final response = await http.put(
-        Uri.parse('$mainApi/points/$student_id/$category_id/UpdatePoint'),
+        Uri.parse('$mainApi/points/$studentId/$categoryId/UpdatePoint'),
         headers: {
           'Content-Type': 'application/json',
         },

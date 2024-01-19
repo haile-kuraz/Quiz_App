@@ -90,10 +90,11 @@ class SignUpShape extends CustomPainter {
   @override
   SignUpShape({required this.context});
   BuildContext context;
+  @override
   void paint(Canvas canvas, Size size) {
     // Layer 1
 
-    Paint paint_fill_0 = Paint()
+    Paint paintFill0 = Paint()
       ..color = Theme.of(context).colorScheme.primary.withOpacity(0.5)
       ..style = PaintingStyle.fill
       ..strokeWidth = size.width * 0.00
@@ -111,7 +112,7 @@ class SignUpShape extends CustomPainter {
     path_0.lineTo(size.width * 0.0018472, size.height * 0.0025000);
     path_0.close();
 
-    canvas.drawPath(path_0, paint_fill_0);
+    canvas.drawPath(path_0, paintFill0);
 
     // Layer 1
 

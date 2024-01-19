@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -199,6 +198,7 @@ class _SignUpState extends State<SignUp> {
                                     ),
                                   ),
                                   PasswordTextField(
+                                    lable: "Password",
                                     isvisible: isvisible,
                                     size: size,
                                     passwordController: _passwordController,

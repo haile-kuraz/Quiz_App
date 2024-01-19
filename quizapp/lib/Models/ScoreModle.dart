@@ -12,10 +12,10 @@ class ScoreModel {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['status'] = status;
-    _data['Score'] = score.toJson();
-    return _data;
+    final data = <String, dynamic>{};
+    data['status'] = status;
+    data['Score'] = score.toJson();
+    return data;
   }
 }
 
@@ -25,9 +25,9 @@ class Score {
     required this.points,
     required this.rank,
   });
-  late final double broadcastScore;
-  late final double points;
-  late final int rank;
+  late final int broadcastScore;
+  late final int points;
+  late final int? rank;
 
   Score.fromJson(Map<String, dynamic> json) {
     broadcastScore = json['broadcast_score'];
@@ -36,10 +36,10 @@ class Score {
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['broadcast_score'] = broadcastScore;
-    _data['points'] = points;
-    _data['rank'] = rank;
-    return _data;
+    final data = <String, dynamic>{};
+    data['broadcast_score'] = broadcastScore;
+    data['points'] = points;
+    data['rank'] = rank;
+    return data;
   }
 }

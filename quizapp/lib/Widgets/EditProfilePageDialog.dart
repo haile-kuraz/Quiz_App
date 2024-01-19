@@ -21,6 +21,7 @@ class EditProfileDialog extends StatefulWidget {
 class _EditProfileDialogState extends State<EditProfileDialog> {
   final String sampleimage =
       "https://plus.unsplash.com/premium_photo-1682724602143-a77d75d273b1?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8fDB8fHww";
+  // final String sampleimage = " ";
   File? _selectedImage;
   var PeriferianceState;
   var PeriferianceUpdate;
@@ -104,12 +105,6 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                   expression: RegExp(r'^[a-zA-Z]{1,45}$'),
                 ),
                 UnderlinedTextFormfield(
-                  inputController: _phoneController,
-                  hint: "${PeriferianceState.getphone()}",
-                  lable: "Phone",
-                  expression: RegExp(r'^\d{10}$'),
-                ),
-                UnderlinedTextFormfield(
                   inputController: _emailController,
                   hint: "${PeriferianceState.getEmail()}",
                   lable: "Email",
@@ -122,10 +117,17 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                   lable: "Password",
                   expression: RegExp(r'^[\w\d]{8,}$'),
                 ),
+                UnderlinedTextFormfield(
+                  inputController: _phoneController,
+                  hint: "${PeriferianceState.getphone()}",
+                  lable: "Phone",
+                  expression: RegExp(r'^\d{10}$'),
+                ),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      student_controller.updateProfile(
+                      Navigator.of(context).pop();
+                      await student_controller.updateProfile(
                         PeriferianceState.getStudentId(),
                         _nameController.text,
                         _emailController.text,
@@ -133,7 +135,11 @@ class _EditProfileDialogState extends State<EditProfileDialog> {
                         _phoneController.text,
                         sampleimage,
                       );
-                      Navigator.of(context).pop();
+                      await PeriferianceState.resetSharedPreferences(
+                          _nameController.text,
+                          _emailController.text,
+                          _phoneController.text,
+                          sampleimage);
                     }
                   },
                   style: ButtonStyle(
