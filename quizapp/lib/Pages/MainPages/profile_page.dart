@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:avatar_glow/avatar_glow.dart';
+import 'package:lottie/lottie.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
 
@@ -21,39 +22,37 @@ class Profile extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          elevation: 0,
-          backgroundColor: Theme.of(context).colorScheme.background,
-
-          // centerTitle: true,
-          actions: [
-            IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/Setting");
-              },
-              icon: Icon(
-                FontAwesomeIcons.gear,
-                color: Theme.of(context).colorScheme.onPrimaryContainer,
-                size: 30,
-              ),
-            )
-          ],
-          title: Text(
-            "Profile",
-            style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onTertiaryContainer,
-                ),
-          ),
-
-          flexibleSpace: const FlexibleSpaceBar(
-              // Flexible space content...
-              ),
-        ),
         backgroundColor: Theme.of(context).colorScheme.background,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0),
           child: Column(children: [
+            Consumer(builder: (context, LanguageProvider, child) {
+              return SizedBox(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Profile",
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onTertiaryContainer,
+                          ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, "/Setting");
+                      },
+                      icon: Icon(
+                        FontAwesomeIcons.gear,
+                        color: Theme.of(context).colorScheme.onPrimaryContainer,
+                        size: 30,
+                      ),
+                    )
+                  ],
+                ),
+              );
+            }),
             Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
@@ -219,8 +218,9 @@ class Profile extends StatelessWidget {
                     ),
                   );
                 } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
+                  return Center(
+                    child: Lottie.asset('Assets/lottie/noconnection.json'),
+                    
                   );
                 }
               },

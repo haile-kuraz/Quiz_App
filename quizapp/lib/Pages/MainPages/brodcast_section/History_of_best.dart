@@ -4,6 +4,7 @@ import 'package:custom_refresh_indicator/custom_refresh_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:lottie/lottie.dart';
 import '../../../Controllers/student_controller.dart';
 import '../../../Util/Shimmer_loading.dart';
 import '../../../Models/StudentScoreModel.dart' as score;
@@ -48,7 +49,8 @@ class BestPerformaers extends StatelessWidget {
                     context); // 4. Loading state
               case ConnectionState.done:
                 if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}'); // 5. Error state
+                  return Center(
+                      child: Lottie.asset('Assets/lottie/noconnection.json'));
                 } else {
                   // 6. Success state
                   // Access your data using snapshot.data

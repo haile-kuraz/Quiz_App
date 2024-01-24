@@ -409,7 +409,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
                                   ? ReorderableListView.builder(
                                       itemBuilder: (context, index) {
                                         return Container(
-                                          key: Key("${newList[index].rank}"),
+                                          key: Key("$index"),
                                           margin:
                                               const EdgeInsets.only(bottom: 10),
                                           decoration: BoxDecoration(
@@ -456,7 +456,7 @@ class _LeaderBoardState extends State<LeaderBoard> {
                                                   .bodySmall,
                                             ),
                                             trailing: Text(
-                                              " ${newList[index].broadcastScore}",
+                                              "${newList[index].broadcastScore}",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall

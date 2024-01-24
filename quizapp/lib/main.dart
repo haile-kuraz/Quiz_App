@@ -16,6 +16,7 @@ import 'Pages/SplashScreen.dart';
 import 'Pages/signIn_Page.dart';
 import 'Pages/signUp_page.dart';
 import 'Provider/DataProvider.dart';
+import 'Provider/LanguageProvider.dart';
 import 'Widgets/CountDownTimer.dart';
 import 'Provider/AuthProvider.dart';
 import 'Provider/PeriferanceProvider.dart';
@@ -59,6 +60,9 @@ void main() async {
           ChangeNotifierProvider<AuthProvider>(
             create: (context) => AuthProvider(),
           ),
+          ChangeNotifierProvider<LanguageProvider>(
+            create: (context) => LanguageProvider(),
+          ),
           ChangeNotifierProvider(
             create: (context) => Periferance(prefs: pref),
           ),
@@ -92,6 +96,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     var PeriferanceState = Provider.of<Periferance>(context);
+    var languageProvider = Provider.of<LanguageProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       //  onGenerateTitle: (context) => AppLocalizations.of(context).title,
@@ -99,7 +104,7 @@ class _MyAppState extends State<MyApp> {
       // theme: darkTheme,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
-      locale: context.locale,
+      locale: languageProvider.currentLocale,
 
       initialRoute: "/",
       routes: {
