@@ -15,6 +15,7 @@ class Options_controller extends Controller
     {
         return "hellow it is  options Api Bro";
     }
+
     public function Showall()
     {
 
