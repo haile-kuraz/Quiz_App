@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import 'brodcast_page.dart';
 import 'leaderboard_page.dart';
@@ -17,6 +21,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   late int _currentIndex;
+
   final List<Widget> _screens = [
     const MainCategory(),
     const Brodcast(),

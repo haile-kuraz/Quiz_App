@@ -177,14 +177,13 @@ class MissionTabview extends StatelessWidget {
                                                                 "Assets/Images/coin.png",
                                                                 width: 50,
                                                               ),
-                                                              Padding(
+                                                              const Padding(
                                                                 padding:
-                                                                    const EdgeInsets
+                                                                    EdgeInsets
                                                                         .all(
-                                                                        8.0),
+                                                                            8.0),
                                                                 child:
-                                                                    const Text(
-                                                                        "50"),
+                                                                    Text("50"),
                                                               )
                                                             ],
                                                           ),

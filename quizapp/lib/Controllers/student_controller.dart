@@ -6,6 +6,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../Models/StudentScoreModel.dart';
 import '../Util/Constants.dart';
+import '../Widgets/PopUps.dart';
 
 class student_controller {
   static Future signUp(String name, String email, String phone, String password,
@@ -74,31 +75,26 @@ class student_controller {
 
   static Future updateProfile(int studentId, String name, String email,
       String password, String phone, String imgUrl) async {
-    try {
-      final response = await http.put(
-        Uri.parse('$mainApi/students/$studentId/Update'),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: json.encode({
-          'Name': name,
-          'Email': email,
-          'password': password,
-          'phone_number': phone,
-          'Image_url': imgUrl,
-        }),
-      );
-      if (response.statusCode == 200) {
-        messageflutterToast("Updated Successfully");
+    final response = await http.put(
+      Uri.parse('$mainApi/students/$studentId/Update'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({
+        'Name': name,
+        'Email': email,
+        'password': password,
+        'phone_number': phone,
+        'Image_url': imgUrl,
+      }),
+    );
+    if (response.statusCode == 200) {
+      AllPopUps.messageflutterToast("Updated Successfully");
 
-        return jsonDecode(response.body);
-      } else {
-        messageflutterToast("sever error ${response.statusCode}");
-      }
-    } catch (error) {
-      print("connection error $error");
-      messageflutterToast("Connection Problem : $error");
-      return Future.error(error);
+      return jsonDecode(response.body);
+    } else {
+      AllPopUps.messageflutterToast(
+          "Server Error Code: ${response.statusCode}");
     }
   }
 
@@ -116,7 +112,7 @@ class student_controller {
         throw Exception('Failed to load data  ${response.statusCode}');
       }
     } catch (e) {
-      Future.error(e);
+      print("The problem is ${e}");
       return Future.error(e);
     }
   }

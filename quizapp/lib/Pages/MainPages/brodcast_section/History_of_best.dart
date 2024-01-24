@@ -8,27 +8,41 @@ import 'package:lottie/lottie.dart';
 import '../../../Controllers/student_controller.dart';
 import '../../../Util/Shimmer_loading.dart';
 import '../../../Models/StudentScoreModel.dart' as score;
+import '../../../Widgets/PopUps.dart';
 
-class BestPerformaers extends StatelessWidget {
+class BestPerformaers extends StatefulWidget {
   const BestPerformaers({super.key});
+
+  @override
+  State<BestPerformaers> createState() => _BestPerformaersState();
+}
+
+class _BestPerformaersState extends State<BestPerformaers> {
+  final Connectivity _connectivity = Connectivity();
+  ConnectivityResult _connectivityResult = ConnectivityResult.none;
+
+  @override
+  void initState() {
+    _connectivity.onConnectivityChanged.listen(_updateConnectivityStatus);
+    super.initState();
+  }
+
+  Future<void> _updateConnectivityStatus(ConnectivityResult result) async {
+    setState(() {
+      _connectivityResult = result;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: CustomMaterialIndicator(
         onRefresh: () async {
-          final connectivityResult = await Connectivity().checkConnectivity();
-          if (connectivityResult == ConnectivityResult.wifi ||
-              connectivityResult == ConnectivityResult.mobile) {
+          if (_connectivityResult == ConnectivityResult.wifi ||
+              _connectivityResult == ConnectivityResult.mobile) {
             await student_controller.getTopTenStudentsByRank();
           } else {
-            Fluttertoast.showToast(
-                msg: "Connection Problem",
-                toastLength: Toast.LENGTH_SHORT,
-                timeInSecForIosWeb: 1,
-                backgroundColor: Colors.red,
-                textColor: Colors.white,
-                fontSize: 16.0);
+            AllPopUps.messageflutterToast("Connection Problem");
           }
         },
         indicatorBuilder: (context, controller) {
@@ -49,8 +63,15 @@ class BestPerformaers extends StatelessWidget {
                     context); // 4. Loading state
               case ConnectionState.done:
                 if (snapshot.hasError) {
-                  return Center(
-                      child: Lottie.asset('Assets/lottie/noconnection.json'));
+                  if (_connectivityResult.name == "none") {
+                    AllPopUps.messageflutterToast("Connection Problem");
+                    AllPopUps.messageflutterToast("Connection Problem");
+                    AllPopUps.messageflutterToast("Connection Problem");
+                    return Center(
+                        child: Lottie.asset('Assets/lottie/noconnection.json'));
+                  } else {
+                    return Text("server is the problem");
+                  }
                 } else {
                   // 6. Success state
                   // Access your data using snapshot.data
